@@ -1,8 +1,8 @@
-# SmartDeviceLink iOS Tester v1.0.0
+# RPC Builder v1.0.0
 
 ## Introduction
 
-The SmartDeviceLink iOS Tester is designed to allow free testing of the SDL Interface during development. It will allow sending all Remote Procedure Calls (RPCs) to SDL Core. The user has to ensure the right sequence of commands to be send. (E.g. a performInteraction cannot be successful if the user did not send a createInteractionChoiceSet before. Please familiarize yourself with the SDL App Developer documentation.)
+The SmartDeviceLink RPC Builder is designed to allow free testing of the SDL Interface during development. It will allow sending all Remote Procedure Calls (RPCs) to SDL Core. The user has to ensure the right sequence of commands to be send. (E.g. a performInteraction cannot be successful if the user did not send a createInteractionChoiceSet before. Please familiarize yourself with the SDL App Developer documentation.)
 
 ## Getting Started
 In order to begin using RPC Builder, we must first gather [SDL_iOS](http://www.github.com/smartdevicelink/sdl_ios) and add it to the project. There is already support for cocoapods in this project, so all that is needed is to navigate to the directory and install:
