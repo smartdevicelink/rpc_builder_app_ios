@@ -89,6 +89,7 @@
                 _createParamTextField.elements = enumObj.elements;
                 _createParamTextField.inputView = self.pickerView;
                 _createParamTextField.inputAccessoryView = self.doneToolbar;
+                self.navigationItem.rightBarButtonItem.enabled = _createParamTextField.text.length;
             }
             [_createParamTextField becomeFirstResponder];
         }];
@@ -170,6 +171,10 @@
     
     self.navigationItem.rightBarButtonItem.enabled = (newString.length > 0);
     return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    self.navigationItem.rightBarButtonItem.enabled = textField.text.length;
 }
 
 #pragma mark RBStructDelegate
