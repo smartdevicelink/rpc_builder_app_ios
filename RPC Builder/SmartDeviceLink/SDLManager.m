@@ -103,6 +103,7 @@ static NSString* const SDLRequestKey = @"request";
 }
 
 - (void)onProxyOpened {
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
     if (self.registerAppDictionary) {
         [self sendRequestDictionary:self.registerAppDictionary
                            bulkData:nil];
@@ -128,6 +129,7 @@ static NSString* const SDLRequestKey = @"request";
 }
 
 - (void)sdl_stopProxy {
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
     [_proxy dispose];
     _proxy = nil;
 }
