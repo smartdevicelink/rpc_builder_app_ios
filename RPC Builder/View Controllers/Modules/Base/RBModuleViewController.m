@@ -26,7 +26,7 @@ static UIStoryboard* moduleStoryboard = nil;
 }
 
 + (NSString*)moduleImageName {
-    return @"RPCs";
+    return nil;
 }
 
 + (UIImage*)moduleImage {
