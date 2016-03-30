@@ -13,6 +13,12 @@ static NSInteger const RBLayoutConstraintPriorityShow = 501;
 
 static CGFloat const RBAnimationDuration = 0.3f;
 
+static NSString* const RBVideoStreamingConnectedKeyPath = @"videoSessionConnected";
+static void* RBVideoStreamingConnectedContext = &RBVideoStreamingConnectedContext;
+
+static NSString* const RBAudioStreamingConnectedKeyPath = @"audioSessionConnected";
+static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContext;
+
 @interface RBStreamingModuleViewController ()
 
 @property (nonatomic, weak) SDLStreamingMediaManager* streamingManager;
@@ -23,12 +29,16 @@ static CGFloat const RBAnimationDuration = 0.3f;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* visibleAudioStreamingFileConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* hiddenAudioStreamingFileConstraint;
 
+@property (nonatomic, weak) IBOutlet UILabel* audioStreamingStatusLabel;
+
 @property (nonatomic, weak) IBOutlet UISegmentedControl* videoStreamingTypeSegmentedControl;
 
 @property (nonatomic, weak) IBOutlet UIView* videoStreamingCameraContainer;
 @property (nonatomic, weak) IBOutlet UIView* videoStreamingFileContainer;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* videoStreamingCameraConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* videoStreamingFileConstraint;
+
+@property (nonatomic, weak) IBOutlet UILabel* videoStreamingStatusLabel;
 
 @end
 
@@ -55,6 +65,15 @@ static CGFloat const RBAnimationDuration = 0.3f;
 - (void)setProxy:(SDLProxy *)proxy {
     [super setProxy:proxy];
     self.streamingManager = proxy.streamingMediaManager;
+    NSKeyValueObservingOptions observations = (NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew);
+    [self.streamingManager addObserver:self
+                            forKeyPath:RBVideoStreamingConnectedKeyPath
+                               options:observations
+                               context:&RBVideoStreamingConnectedContext];
+    [self.streamingManager addObserver:self
+                            forKeyPath:RBAudioStreamingConnectedKeyPath
+                               options:observations
+                               context:&RBAudioStreamingConnectedContext];
 }
 
 #pragma mark - Actions
@@ -132,6 +151,16 @@ static CGFloat const RBAnimationDuration = 0.3f;
         _videoStreamingFileContainer.alpha = 1.0f;
         _videoStreamingCameraContainer.alpha = 0.0f;
     }];
+}
+
+#pragma mark - KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if (context == RBVideoStreamingConnectedContext) {
+        self.videoStreamingStatusLabel.text = self.streamingManager.videoSessionConnected ? @"Connected" : @"Disconnected";
+        self.audioStreamingStatusLabel.text = self.streamingManager.audioSessionConnected ? @"Connected" : @"Disconnected";
+    } else if (context == RBAudioStreamingConnectedContext) {
+        
+    }
 }
 
 @end

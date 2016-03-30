@@ -388,6 +388,7 @@
                     <size key="freeformSize" width="600" height="568"/>
                     <connections>
                         <outlet property="audioStreamingFileContainer" destination="P0i-xK-tHJ" id="q3U-sR-e1M"/>
+                        <outlet property="audioStreamingStatusLabel" destination="4DT-7t-0Bf" id="Uz2-rz-Obq"/>
                         <outlet property="audioStreamingTypeSegmentedControl" destination="0tr-i1-b8o" id="Whj-o4-Krs"/>
                         <outlet property="hiddenAudioStreamingFileConstraint" destination="qce-jQ-P0H" id="2Mx-9u-6aG"/>
                         <outlet property="scrollView" destination="wOU-uN-cXZ" id="bmo-Go-XrI"/>
@@ -396,6 +397,7 @@
                         <outlet property="videoStreamingCameraContainer" destination="cD9-Yj-VuA" id="Gv4-AB-UeJ"/>
                         <outlet property="videoStreamingFileConstraint" destination="k1z-EP-Bjt" id="7K1-Tv-7Pz"/>
                         <outlet property="videoStreamingFileContainer" destination="2rT-bi-tv3" id="Ljr-T4-kjA"/>
+                        <outlet property="videoStreamingStatusLabel" destination="7Xs-UM-zq4" id="PEW-Kw-BJ9"/>
                         <outlet property="videoStreamingTypeSegmentedControl" destination="tAS-gm-Db9" id="0Mg-mA-W71"/>
                         <outlet property="visibleAudioStreamingFileConstraint" destination="KpW-dw-tD2" id="KVm-6n-jBb"/>
                     </connections>
