@@ -17,7 +17,7 @@
 + (NSString*)moduleTitle;
 
 /*
- *  Description of the module. Will be shown in list of modules.
+ *  Description of the module. Will be shown in list of modules if provided.
  */
 + (NSString*)moduleDescription;
 
@@ -37,8 +37,7 @@
 + (NSArray*)moduleClassNames;
 
 /*
- *  Static reference to subclasses' view controller. Will only construct view controller
- *  once.
+ *  Subclasses' view controller. Will only construct view controller once.
  */
 + (RBModuleViewController*)viewController;
 
