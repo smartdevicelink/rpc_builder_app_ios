@@ -21,7 +21,27 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="btL-3r-Kot" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="330" y="284"/>
+            <point key="canvasLocation" x="114" y="178"/>
+        </scene>
+        <!--Streaming Module View Controller-->
+        <scene sceneID="yri-pR-IXq">
+            <objects>
+                <viewController storyboardIdentifier="RBStreamingModuleViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Gmn-Ky-Qx2" customClass="RBStreamingModuleViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3NF-Ci-G4r"/>
+                        <viewControllerLayoutGuide type="bottom" id="fXs-rP-VFE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Utx-X4-ess">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sAb-qy-30v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="114" y="865"/>
         </scene>
     </scenes>
 </document>

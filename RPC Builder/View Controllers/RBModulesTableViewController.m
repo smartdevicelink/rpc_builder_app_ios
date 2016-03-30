@@ -7,8 +7,9 @@
 //
 
 #import "RBModulesTableViewController.h"
-#import "RBModuleViewController.h"
+#import "RBStreamingModuleViewController.h"
 #import "RBModuleTableViewCell.h"
+#import "UIAlertController+Minimal.h"
 
 @interface RBModulesTableViewController ()
 
@@ -20,7 +21,7 @@
 
 - (void)viewDidLoad {
     self.modules = @[
-                     NSStringFromClass([RBModuleViewController class])
+                     NSStringFromClass([RBStreamingModuleViewController class])
                      ];
     
     [self.tableView registerClass:[RBModuleTableViewCell class]
@@ -33,8 +34,6 @@
     return self.modules.count;
 }
 
-#pragma mark - Delegates
-#pragma mark UITableView
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RBModuleTableViewCell* cell = (RBModuleTableViewCell*)[tableView dequeueReusableCellWithIdentifier:[RBModuleTableViewCell cellIdentifier]];
     
@@ -43,7 +42,8 @@
     return cell;
 }
 
-
+#pragma mark - Delegates
+#pragma mark UITableView
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString* classString = self.modules[indexPath.row];
     Class moduleClass = NSClassFromString(classString);
@@ -51,9 +51,25 @@
     if ([moduleClass isSubclassOfClass:[RBModuleViewController class]]) {
         UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Modules"
                                                              bundle:nil];
-        RBModuleViewController* moduleViewController = [storyboard instantiateViewControllerWithIdentifier:classString];
-        [self.navigationController pushViewController:moduleViewController
+        UIViewController* viewController = [storyboard instantiateViewControllerWithIdentifier:classString];
+        [self.navigationController pushViewController:viewController
                                              animated:YES];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    NSString* classString = self.modules[indexPath.row];
+    Class moduleClass = NSClassFromString(classString);
+    
+    if ([moduleClass isSubclassOfClass:[RBModuleViewController class]]) {
+        NSString* moduleDescription = [moduleClass description];
+        if (moduleDescription) {
+            UIAlertController* alertController = [UIAlertController simpleAlertWithTitle:@"Module Description"
+                                                                                 message:[moduleClass moduleDescription]];
+            [self presentViewController:alertController
+                               animated:YES
+                             completion:nil];
+        }
     }
 }
 

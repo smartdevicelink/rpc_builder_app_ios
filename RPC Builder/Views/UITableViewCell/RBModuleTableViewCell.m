@@ -16,7 +16,9 @@
         Class moduleClass = NSClassFromString(object);
         
         if ([moduleClass isSubclassOfClass:[RBModuleViewController class]]) {
-            self.textLabel.text = [moduleClass title];
+            self.textLabel.text = [moduleClass moduleTitle];
+            self.accessoryType = [moduleClass moduleDescription] ?  UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
+            self.imageView.image = [moduleClass moduleImage];
         }
     } else {
         NSLog(@"error");
