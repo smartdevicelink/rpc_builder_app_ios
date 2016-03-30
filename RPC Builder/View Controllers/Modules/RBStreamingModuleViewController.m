@@ -8,9 +8,6 @@
 
 #import "RBStreamingModuleViewController.h"
 
-#import "SmartDeviceLink.h"
-
-
 static NSInteger const RBLayoutConstraintPriorityHide = 500;
 static NSInteger const RBLayoutConstraintPriorityShow = 501;
 
@@ -46,6 +43,10 @@ static CGFloat const RBAnimationDuration = 0.3f;
 
 + (NSString*)moduleImageName {
     return nil;
+}
+
++ (NSString*)minimumSupportedVersion {
+    return @"8.0";
 }
 
 - (void)viewDidLoad {

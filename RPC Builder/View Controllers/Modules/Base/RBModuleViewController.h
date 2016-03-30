@@ -7,6 +7,7 @@
 //
 
 #import "RBScrollViewController.h"
+#import "SmartDeviceLink.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:(v) options:NSNumericSearch] != NSOrderedAscending)
 
@@ -47,5 +48,10 @@
  *  Subclasses' view controller. Will only construct view controller once.
  */
 + (RBModuleViewController*)viewController;
+
+/*
+ *  Proxy given by SDLManager. Logic relating to proxy should be contained with module.
+ */
+@property (nonatomic, weak) SDLProxy* proxy;
 
 @end

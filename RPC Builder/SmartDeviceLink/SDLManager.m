@@ -19,8 +19,6 @@ static NSString* const SDLRequestKey = @"request";
 @property (nonatomic) NSUInteger correlationID;
 @property (nonatomic, readonly) NSNumber* nextCorrelationID;
 
-@property (nonatomic, strong) SDLProxy* proxy;
-
 @end
 
 @implementation SDLManager
@@ -33,12 +31,6 @@ static NSString* const SDLRequestKey = @"request";
     });
     
     return sharedManager;
-}
-
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
 }
 
 #pragma mark - Public

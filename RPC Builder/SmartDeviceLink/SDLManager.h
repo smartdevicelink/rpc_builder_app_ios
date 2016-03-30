@@ -7,9 +7,13 @@
 
 #import "SDLConfiguration.h"
 
+@class SDLProxy;
+
 extern NSString* const SDLManagerRegisterAppInterfaceResponseNotification;
 
 @interface SDLManager : NSObject
+
+@property (nonatomic, readonly) SDLProxy* proxy;
 
 @property (nonatomic, readonly) BOOL isConnected;
 

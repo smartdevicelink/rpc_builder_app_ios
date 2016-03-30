@@ -11,6 +11,8 @@
 #import "RBModuleTableViewCell.h"
 #import "UIAlertController+Minimal.h"
 
+#import "SDLManager.h"
+
 @interface RBModulesTableViewController ()
 
 @property (nonatomic, strong) NSArray* modules;
@@ -48,6 +50,7 @@
 
     if ([moduleClass isSubclassOfClass:[RBModuleViewController class]]) {
         RBModuleViewController* viewController = [moduleClass viewController];
+        viewController.proxy = [[SDLManager sharedManager] proxy];
         [self.navigationController pushViewController:viewController
                                              animated:YES];
     }
