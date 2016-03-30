@@ -11,12 +11,20 @@
 
 @implementation RBModuleTableViewCell
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier]) {
+        
+    }
+    return self;
+}
+
 - (void)updateWithObject:(id)object {
     if ([object isKindOfClass:[NSString class]]) {
         Class moduleClass = NSClassFromString(object);
         
         if ([moduleClass isSubclassOfClass:[RBModuleViewController class]]) {
             self.textLabel.text = [moduleClass moduleTitle];
+            self.detailTextLabel.text = [NSString stringWithFormat:@"Requires OS %@", [moduleClass minimumSupportedVersion]];
             self.accessoryType = [moduleClass moduleDescription] ?  UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
             self.imageView.image = [moduleClass moduleImage];
         }

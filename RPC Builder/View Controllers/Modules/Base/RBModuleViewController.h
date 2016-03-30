@@ -37,6 +37,11 @@
 + (NSArray*)moduleClassNames;
 
 /*
+ *  The minimum required OS version for this module. Defaults to 6.0.
+ */
++ (NSString*)minimumSupportedVersion;
+
+/*
  *  Subclasses' view controller. Will only construct view controller once.
  */
 + (RBModuleViewController*)viewController;

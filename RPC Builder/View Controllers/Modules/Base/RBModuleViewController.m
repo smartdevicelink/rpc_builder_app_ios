@@ -53,6 +53,10 @@ static UIStoryboard* moduleStoryboard = nil;
     return moduleClassNames;
 }
 
++ (NSString*)minimumSupportedVersion {
+    return @"6.0";
+}
+
 + (RBModuleViewController*)viewController {
     if (!moduleViewControllers) {
         moduleViewControllers = [NSMutableDictionary dictionary];
