@@ -64,8 +64,12 @@ static UIStoryboard* moduleStoryboard = nil;
             moduleStoryboard = [UIStoryboard storyboardWithName:@"Modules"
                                                          bundle:nil];
         }
-        viewController = [moduleStoryboard instantiateViewControllerWithIdentifier:classString];
-        moduleViewControllers[classString] = viewController;
+        @try {
+            viewController = [moduleStoryboard instantiateViewControllerWithIdentifier:classString];
+            moduleViewControllers[classString] = viewController;
+        } @catch (NSException *exception) {
+            NSAssert(NO, @"Modules Storyboard does not contain a UIViewController with identifier %@", classString);
+        }
     }
     
     return viewController;
