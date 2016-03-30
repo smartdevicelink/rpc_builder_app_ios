@@ -14,6 +14,18 @@
  *  Name of the module. Will be shown in list of modules, as well as module's view 
  *  controller.
  */
-+ (NSString*)title;
++ (NSString*)moduleTitle;
+
+/*
+ *  Description of the module. Will be shown in list of modules.
+ */
++ (NSString*)moduleDescription;
+
+/*
+ *  Name of an image that will represent the module. It will be used in the list of modules.
+ */
++ (NSString*)moduleImageName;
+
++ (UIImage*)moduleImage;
 
 @end
