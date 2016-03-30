@@ -15,6 +15,8 @@ static CGFloat const RBAnimationDuration = 0.3f;
 
 @interface RBStreamingModuleViewController ()
 
+@property (nonatomic, weak) SDLStreamingMediaManager* streamingManager;
+
 @property (nonatomic, weak) IBOutlet UISegmentedControl* audioStreamingTypeSegmentedControl;
 
 @property (nonatomic, weak) IBOutlet UIView* audioStreamingFileContainer;
@@ -49,8 +51,10 @@ static CGFloat const RBAnimationDuration = 0.3f;
     return @"8.0";
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+#pragma mark - Setters
+- (void)setProxy:(SDLProxy *)proxy {
+    [super setProxy:proxy];
+    self.streamingManager = proxy.streamingMediaManager;
 }
 
 #pragma mark - Actions
