@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA75A3281CAB494A00E563B4 /* RBModulesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA75A3271CAB494A00E563B4 /* RBModulesTableViewController.m */; };
+		DA75A32B1CAB4E1C00E563B4 /* RBModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA75A32A1CAB4E1C00E563B4 /* RBModuleViewController.m */; };
+		DA75A32D1CAB50DA00E563B4 /* Modules.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA75A32C1CAB50DA00E563B4 /* Modules.storyboard */; };
+		DA75A3301CAB524900E563B4 /* RBModuleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA75A32F1CAB524900E563B4 /* RBModuleTableViewCell.m */; };
 		DA8F6CFF1C8CB2FF00417741 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8F6CAB1C8CB2FF00417741 /* AppDelegate.m */; };
 		DA8F6D001C8CB2FF00417741 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA8F6CAC1C8CB2FF00417741 /* Assets.xcassets */; };
 		DA8F6D011C8CB2FF00417741 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA8F6CAD1C8CB2FF00417741 /* LaunchScreen.storyboard */; };
@@ -75,6 +79,13 @@
 		99253F9DD499293B590C1297 /* Pods-RPC Builder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPC Builder.release.xcconfig"; path = "Pods/Target Support Files/Pods-RPC Builder/Pods-RPC Builder.release.xcconfig"; sourceTree = "<group>"; };
 		99B189C21B03EC45FA0CE6AE /* libPods-RPC Builder.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPC Builder.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA55B48D1C8CB519007DB8DD /* RPC Builder-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RPC Builder-Info.plist"; sourceTree = "<group>"; };
+		DA75A3261CAB494A00E563B4 /* RBModulesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBModulesTableViewController.h; sourceTree = "<group>"; };
+		DA75A3271CAB494A00E563B4 /* RBModulesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBModulesTableViewController.m; sourceTree = "<group>"; };
+		DA75A3291CAB4E1C00E563B4 /* RBModuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBModuleViewController.h; sourceTree = "<group>"; };
+		DA75A32A1CAB4E1C00E563B4 /* RBModuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBModuleViewController.m; sourceTree = "<group>"; };
+		DA75A32C1CAB50DA00E563B4 /* Modules.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Modules.storyboard; sourceTree = "<group>"; };
+		DA75A32E1CAB524900E563B4 /* RBModuleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBModuleTableViewCell.h; sourceTree = "<group>"; };
+		DA75A32F1CAB524900E563B4 /* RBModuleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBModuleTableViewCell.m; sourceTree = "<group>"; };
 		DA8F6CAA1C8CB2FF00417741 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DA8F6CAB1C8CB2FF00417741 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DA8F6CAC1C8CB2FF00417741 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -189,6 +200,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		DA75A31F1CAB48E700E563B4 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				DA75A3261CAB494A00E563B4 /* RBModulesTableViewController.h */,
+				DA75A3271CAB494A00E563B4 /* RBModulesTableViewController.m */,
+				DA75A3291CAB4E1C00E563B4 /* RBModuleViewController.h */,
+				DA75A32A1CAB4E1C00E563B4 /* RBModuleViewController.m */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
 		DA8F6CA91C8CB2FF00417741 /* RPC Builder */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +224,7 @@
 				DA8F6CAC1C8CB2FF00417741 /* Assets.xcassets */,
 				DA8F6CAD1C8CB2FF00417741 /* LaunchScreen.storyboard */,
 				DA8F6CAF1C8CB2FF00417741 /* Main.storyboard */,
+				DA75A32C1CAB50DA00E563B4 /* Modules.storyboard */,
 				DA8F6CB11C8CB2FF00417741 /* Mobile_API.xml */,
 				DA8F6CB41C8CB2FF00417741 /* Info.plist */,
 				DA8F6CB51C8CB2FF00417741 /* main.m */,
@@ -277,6 +300,7 @@
 		DAE0334C1C8F9D1B00B64BB8 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				DA75A31F1CAB48E700E563B4 /* Modules */,
 				DAE0334D1C8F9D1B00B64BB8 /* RBAppRegistrationViewController.h */,
 				DAE0334E1C8F9D1B00B64BB8 /* RBAppRegistrationViewController.m */,
 				DAE0334F1C8F9D1B00B64BB8 /* RBArrayViewController.h */,
@@ -367,6 +391,8 @@
 				DAEDFC221C97BC84001C3ADB /* RBBaseTableViewCell.m */,
 				DAEDFC1E1C97BC74001C3ADB /* RBLogInfoTableViewCell.h */,
 				DAEDFC1F1C97BC74001C3ADB /* RBLogInfoTableViewCell.m */,
+				DA75A32E1CAB524900E563B4 /* RBModuleTableViewCell.h */,
+				DA75A32F1CAB524900E563B4 /* RBModuleTableViewCell.m */,
 			);
 			path = UITableViewCell;
 			sourceTree = "<group>";
@@ -467,6 +493,7 @@
 			files = (
 				DA8F6D021C8CB2FF00417741 /* Main.storyboard in Resources */,
 				DA8F6D001C8CB2FF00417741 /* Assets.xcassets in Resources */,
+				DA75A32D1CAB50DA00E563B4 /* Modules.storyboard in Resources */,
 				DA8F6D031C8CB2FF00417741 /* Mobile_API.xml in Resources */,
 				DAE0338E1C8F9D1B00B64BB8 /* RBBaseViewController.xib in Resources */,
 				DA8F6D011C8CB2FF00417741 /* LaunchScreen.storyboard in Resources */,
@@ -535,16 +562,19 @@
 				DAE0339B1C8F9D1B00B64BB8 /* RBParamTextField.m in Sources */,
 				DAE033851C8F9D1B00B64BB8 /* NSFileWrapper+Extensions.m in Sources */,
 				DAE0338D1C8F9D1B00B64BB8 /* RBBaseViewController.m in Sources */,
+				DA75A3281CAB494A00E563B4 /* RBModulesTableViewController.m in Sources */,
 				DAE033971C8F9D1B00B64BB8 /* RBStructViewController.m in Sources */,
 				DAE0338F1C8F9D1B00B64BB8 /* RBConsoleViewController.m in Sources */,
 				DAE0338B1C8F9D1B00B64BB8 /* RBAppRegistrationViewController.m in Sources */,
 				DAE033931C8F9D1B00B64BB8 /* RBScrollViewController.m in Sources */,
+				DA75A32B1CAB4E1C00E563B4 /* RBModuleViewController.m in Sources */,
 				DAE033881C8F9D1B00B64BB8 /* UIAlertController+Minimal.m in Sources */,
 				DAE0339F1C8F9D1B00B64BB8 /* RBView.m in Sources */,
 				DAE033991C8F9D1B00B64BB8 /* RBSwitch.m in Sources */,
 				DAE0339C1C8F9D1B00B64BB8 /* RBTextField.m in Sources */,
 				DAE0339D1C8F9D1B00B64BB8 /* RBFileView.m in Sources */,
 				DAE0337C1C8F9D1B00B64BB8 /* RBElement.m in Sources */,
+				DA75A3301CAB524900E563B4 /* RBModuleTableViewCell.m in Sources */,
 				DAE0338A1C8F9D1B00B64BB8 /* RBDeviceInformation.m in Sources */,
 				DAEDFC231C97BC84001C3ADB /* RBBaseTableViewCell.m in Sources */,
 				DAE033961C8F9D1B00B64BB8 /* RBSpecFilesViewController.m in Sources */,
