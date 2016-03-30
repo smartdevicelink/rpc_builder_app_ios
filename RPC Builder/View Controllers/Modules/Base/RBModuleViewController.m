@@ -12,6 +12,8 @@
 
 static NSMutableDictionary* moduleImages = nil;
 static NSArray* moduleClassNames = nil;
+static NSMutableDictionary* moduleViewControllers = nil;
+static UIStoryboard* moduleStoryboard = nil;
 
 @implementation RBModuleViewController
 
@@ -49,6 +51,24 @@ static NSArray* moduleClassNames = nil;
                              ];
     }
     return moduleClassNames;
+}
+
++ (RBModuleViewController*)viewController {
+    if (!moduleViewControllers) {
+        moduleViewControllers = [NSMutableDictionary dictionary];
+    }
+    NSString* classString = NSStringFromClass(self.class);
+    RBModuleViewController* viewController = moduleViewControllers[classString];
+    if (!viewController) {
+        if (!moduleStoryboard) {
+            moduleStoryboard = [UIStoryboard storyboardWithName:@"Modules"
+                                                         bundle:nil];
+        }
+        viewController = [moduleStoryboard instantiateViewControllerWithIdentifier:classString];
+        moduleViewControllers[classString] = viewController;
+    }
+    
+    return viewController;
 }
 
 - (NSString*)title {

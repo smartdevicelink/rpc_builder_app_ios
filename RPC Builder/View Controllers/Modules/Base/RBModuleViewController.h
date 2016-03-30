@@ -36,4 +36,10 @@
  */
 + (NSArray*)moduleClassNames;
 
+/*
+ *  Static reference to subclasses' view controller. Will only construct view controller
+ *  once.
+ */
++ (RBModuleViewController*)viewController;
+
 @end

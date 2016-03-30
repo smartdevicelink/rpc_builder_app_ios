@@ -47,9 +47,7 @@
     Class moduleClass = NSClassFromString(classString);
 
     if ([moduleClass isSubclassOfClass:[RBModuleViewController class]]) {
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Modules"
-                                                             bundle:nil];
-        UIViewController* viewController = [storyboard instantiateViewControllerWithIdentifier:classString];
+        RBModuleViewController* viewController = [moduleClass viewController];
         [self.navigationController pushViewController:viewController
                                              animated:YES];
     }
