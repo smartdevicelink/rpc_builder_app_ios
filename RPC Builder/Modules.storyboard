@@ -32,13 +32,13 @@
                         <viewControllerLayoutGuide type="bottom" id="fXs-rP-VFE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Utx-X4-ess">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="700"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wOU-uN-cXZ">
-                                <rect key="frame" x="0.0" y="64" width="600" height="587"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="455"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="coi-vu-l8Y">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="coi-vu-l8Y">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="455"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio Streaming" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wHO-bA-kwU">
@@ -48,7 +48,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Streaming Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7x0-rN-TVK">
-                                                <rect key="frame" x="8" y="49" width="584" height="19.5"/>
+                                                <rect key="frame" x="8" y="49" width="584" height="20"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -240,7 +240,7 @@
                                                     </mask>
                                                 </variation>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cD9-Yj-VuA">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cD9-Yj-VuA">
                                                 <rect key="frame" x="8" y="257" width="584" height="123"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minimum Frame Rate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QA4-lE-Vsm">
@@ -258,12 +258,12 @@
                                                         </connections>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Maximum Frame Rate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KHX-Dy-rGB">
-                                                        <rect key="frame" x="0.0" y="66" width="584" height="19.5"/>
+                                                        <rect key="frame" x="0.0" y="66" width="584" height="20"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7jp-dV-q3e">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7jp-dV-q3e">
                                                         <rect key="frame" x="0.0" y="93" width="584" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
@@ -289,7 +289,7 @@
                                                     <constraint firstItem="7jp-dV-q3e" firstAttribute="top" secondItem="KHX-Dy-rGB" secondAttribute="bottom" constant="8" id="rPC-ca-A2S"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwP-MY-Z9a">
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fwP-MY-Z9a">
                                                 <rect key="frame" x="8" y="388" width="584" height="21"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o3T-Cm-8rl">
@@ -316,7 +316,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="7Xs-UM-zq4" secondAttribute="trailing" id="aEo-Oa-Uqt"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-91-BtA">
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-91-BtA">
                                                 <rect key="frame" x="8" y="417" width="584" height="30"/>
                                                 <state key="normal" title="Start Video Streaming"/>
                                             </button>
@@ -325,7 +325,6 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="0tr-i1-b8o" secondAttribute="trailing" constant="8" id="0as-R1-9Io"/>
                                             <constraint firstAttribute="trailing" secondItem="cD9-Yj-VuA" secondAttribute="trailing" constant="8" id="26A-FO-YXj"/>
-                                            <constraint firstItem="yo1-Re-6oX" firstAttribute="top" secondItem="7x0-rN-TVK" secondAttribute="bottom" constant="8" id="3YI-c2-Mrx"/>
                                             <constraint firstAttribute="trailing" secondItem="wHO-bA-kwU" secondAttribute="trailing" constant="8" id="4Xy-8O-5o0"/>
                                             <constraint firstItem="yo1-Re-6oX" firstAttribute="top" secondItem="P0i-xK-tHJ" secondAttribute="bottom" constant="8" id="4fA-Vr-3dv"/>
                                             <constraint firstItem="fwP-MY-Z9a" firstAttribute="top" secondItem="cD9-Yj-VuA" secondAttribute="bottom" priority="501" constant="8" id="4oK-9S-b0N"/>
@@ -364,11 +363,6 @@
                                             <constraint firstAttribute="trailing" secondItem="7x0-rN-TVK" secondAttribute="trailing" constant="8" id="sTt-mm-VG6"/>
                                             <constraint firstAttribute="trailing" secondItem="tAS-gm-Db9" secondAttribute="trailing" constant="8" id="xSy-jO-SSi"/>
                                         </constraints>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="3YI-c2-Mrx"/>
-                                            </mask>
-                                        </variation>
                                     </view>
                                 </subviews>
                                 <constraints>
@@ -391,7 +385,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="600" height="700"/>
+                    <size key="freeformSize" width="600" height="568"/>
                     <connections>
                         <outlet property="audioStreamingFileContainer" destination="P0i-xK-tHJ" id="q3U-sR-e1M"/>
                         <outlet property="audioStreamingTypeSegmentedControl" destination="0tr-i1-b8o" id="Whj-o4-Krs"/>
