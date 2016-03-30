@@ -6,9 +6,9 @@
 //  Copyright © 2016 Ford Motor Company. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "RBScrollViewController.h"
 
-@interface RBModuleViewController : UIViewController
+@interface RBModuleViewController : RBScrollViewController
 
 /*
  *  Name of the module. Will be shown in list of modules, as well as module's view 
