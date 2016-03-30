@@ -8,7 +8,10 @@
 
 #import "RBModuleViewController.h"
 
+#import "RBStreamingModuleViewController.h"
+
 static NSMutableDictionary* moduleImages = nil;
+static NSArray* moduleClassNames = nil;
 
 @implementation RBModuleViewController
 
@@ -37,6 +40,15 @@ static NSMutableDictionary* moduleImages = nil;
         moduleImages[self.moduleImageName] = moduleImage;
     }
     return moduleImage;
+}
+
++ (NSArray*)moduleClassNames {
+    if (!moduleClassNames) {
+        moduleClassNames = @[
+                             NSStringFromClass([RBStreamingModuleViewController class])
+                             ];
+    }
+    return moduleClassNames;
 }
 
 - (NSString*)title {

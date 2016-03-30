@@ -7,7 +7,7 @@
 //
 
 #import "RBModulesTableViewController.h"
-#import "RBStreamingModuleViewController.h"
+#import "RBModuleViewController.h"
 #import "RBModuleTableViewCell.h"
 #import "UIAlertController+Minimal.h"
 
@@ -20,9 +20,7 @@
 @implementation RBModulesTableViewController
 
 - (void)viewDidLoad {
-    self.modules = @[
-                     NSStringFromClass([RBStreamingModuleViewController class])
-                     ];
+    self.modules = [RBModuleViewController moduleClassNames];
     
     [self.tableView registerClass:[RBModuleTableViewCell class]
            forCellReuseIdentifier:[RBModuleTableViewCell cellIdentifier]];

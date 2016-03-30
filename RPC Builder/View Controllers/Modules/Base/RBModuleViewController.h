@@ -26,6 +26,14 @@
  */
 + (NSString*)moduleImageName;
 
+/*
+ *  Image used to represent module in a list.
+ */
 + (UIImage*)moduleImage;
+
+/*
+ *  Array of all available module class names.
+ */
++ (NSArray*)moduleClassNames;
 
 @end
