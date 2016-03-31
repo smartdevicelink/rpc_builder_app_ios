@@ -38,8 +38,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wOU-uN-cXZ">
                                 <rect key="frame" x="0.0" y="64" width="600" height="455"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="coi-vu-l8Y">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="455"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="coi-vu-l8Y">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="456"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio Streaming" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wHO-bA-kwU">
                                                 <rect key="frame" x="8" y="8" width="584" height="33"/>
@@ -160,6 +160,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Np8-Ft-3xe">
                                                 <rect key="frame" x="8" y="142" width="584" height="30"/>
                                                 <state key="normal" title="Start Audio Streaming"/>
+                                                <connections>
+                                                    <action selector="audioStreamingAction:" destination="Gmn-Ky-Qx2" eventType="touchUpInside" id="Mhv-mE-CAT"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Streaming" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eju-AH-7OK">
                                                 <rect key="frame" x="8" y="180" width="584" height="33"/>
@@ -177,7 +180,7 @@
                                                     <action selector="segmentedControlIndexDidChange:" destination="Gmn-Ky-Qx2" eventType="valueChanged" id="grd-Nx-Ocb"/>
                                                 </connections>
                                             </segmentedControl>
-                                            <view contentMode="scaleToFill" verticalHuggingPriority="999" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="2rT-bi-tv3">
+                                            <view alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="999" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="2rT-bi-tv3">
                                                 <rect key="frame" x="8" y="257" width="584" height="58"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X0y-Fc-XZ6">
@@ -240,8 +243,8 @@
                                                     </mask>
                                                 </variation>
                                             </view>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cD9-Yj-VuA">
-                                                <rect key="frame" x="8" y="257" width="584" height="123"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cD9-Yj-VuA">
+                                                <rect key="frame" x="8" y="257" width="584" height="124"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minimum Frame Rate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QA4-lE-Vsm">
                                                         <rect key="frame" x="0.0" y="0.0" width="584" height="20"/>
@@ -263,8 +266,8 @@
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7jp-dV-q3e">
-                                                        <rect key="frame" x="0.0" y="93" width="584" height="30"/>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7jp-dV-q3e">
+                                                        <rect key="frame" x="0.0" y="94" width="584" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
@@ -289,8 +292,8 @@
                                                     <constraint firstItem="7jp-dV-q3e" firstAttribute="top" secondItem="KHX-Dy-rGB" secondAttribute="bottom" constant="8" id="rPC-ca-A2S"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fwP-MY-Z9a">
-                                                <rect key="frame" x="8" y="388" width="584" height="21"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwP-MY-Z9a">
+                                                <rect key="frame" x="8" y="389" width="584" height="21"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o3T-Cm-8rl">
                                                         <rect key="frame" x="0.0" y="0.0" width="470" height="21"/>
@@ -316,9 +319,12 @@
                                                     <constraint firstAttribute="trailing" secondItem="7Xs-UM-zq4" secondAttribute="trailing" id="aEo-Oa-Uqt"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-91-BtA">
-                                                <rect key="frame" x="8" y="417" width="584" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-91-BtA">
+                                                <rect key="frame" x="8" y="418" width="584" height="30"/>
                                                 <state key="normal" title="Start Video Streaming"/>
+                                                <connections>
+                                                    <action selector="videoStreamingAction:" destination="Gmn-Ky-Qx2" eventType="touchUpInside" id="Z19-Mo-OCS"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

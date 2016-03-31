@@ -24,7 +24,7 @@
         
         if ([moduleClass isSubclassOfClass:[RBModuleViewController class]]) {
             self.textLabel.text = [moduleClass moduleTitle];
-            self.detailTextLabel.text = [NSString stringWithFormat:@"Requires OS %@", [moduleClass minimumSupportedVersion]];
+            self.detailTextLabel.text = [NSString stringWithFormat:@"Requires iOS %@", [moduleClass minimumSupportedVersion]];
             self.accessoryType = [moduleClass moduleDescription] ?  UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
             self.imageView.image = [moduleClass moduleImage];
         }

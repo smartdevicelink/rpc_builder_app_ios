@@ -22,6 +22,8 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 @interface RBStreamingModuleViewController ()
 
 @property (nonatomic, weak) SDLStreamingMediaManager* streamingManager;
+@property (nonatomic, readonly) BOOL isVideoSessionConnected;
+@property (nonatomic, readonly) BOOL isAudioSessionConnected;
 
 @property (nonatomic, weak) IBOutlet UISegmentedControl* audioStreamingTypeSegmentedControl;
 
@@ -61,6 +63,15 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     return @"8.0";
 }
 
+#pragma mark - Getters
+- (BOOL)isAudioSessionConnected {
+    return self.streamingManager.audioSessionConnected;
+}
+
+- (BOOL)isVideoSessionConnected {
+    return self.streamingManager.videoSessionConnected;
+}
+
 #pragma mark - Setters
 - (void)setProxy:(SDLProxy *)proxy {
     [super setProxy:proxy];
@@ -91,6 +102,34 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
         } else {
             [self sdl_showVideoStreamingFileContainer];
         }
+    }
+}
+
+- (IBAction)videoStreamingAction:(id)sender {
+    if (self.streamingManager.videoSessionConnected) {
+        [self.streamingManager stopVideoSession];
+    } else {
+        [self.streamingManager startVideoSessionWithStartBlock:^(BOOL success, NSError * _Nullable error) {
+            if (success) {
+                NSLog(@"success!");
+            } else {
+                NSLog(@"error! %@", error);
+            }
+        }];
+    }
+}
+
+- (IBAction)audioStreamingAction:(id)sender {
+    if (self.streamingManager.audioSessionConnected) {
+        [self.streamingManager stopAudioSession];
+    } else {
+        [self.streamingManager startAudioStreamingWithStartBlock:^(BOOL success, NSError * _Nullable error) {
+            if (success) {
+                NSLog(@"success!");
+            } else {
+                NSLog(@"error! %@", error);
+            }
+        }];
     }
 }
 
@@ -153,13 +192,28 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     }];
 }
 
+- (void)sdl_updateView:(UIView*)view withEnabledState:(BOOL)enabled {
+    view.userInteractionEnabled = enabled;
+    if (view.alpha > 0.0) {
+        view.alpha = enabled ? 1.0 : 0.5;
+    }
+}
+
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if (context == RBVideoStreamingConnectedContext) {
-        self.videoStreamingStatusLabel.text = self.streamingManager.videoSessionConnected ? @"Connected" : @"Disconnected";
-        self.audioStreamingStatusLabel.text = self.streamingManager.audioSessionConnected ? @"Connected" : @"Disconnected";
-    } else if (context == RBAudioStreamingConnectedContext) {
-        
+    if (context == RBAudioStreamingConnectedContext) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.audioStreamingStatusLabel.text = self.isAudioSessionConnected ? @"Connected" : @"Disconnected";
+        });
+    } else if (context == RBVideoStreamingConnectedContext) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.videoStreamingStatusLabel.text = self.isVideoSessionConnected ? @"Connected" : @"Disconnected";
+            self.videoStreamingTypeSegmentedControl.enabled = !self.isVideoSessionConnected;
+            [self sdl_updateView:self.videoStreamingFileContainer
+                withEnabledState:!self.isVideoSessionConnected];
+            [self sdl_updateView:self.videoStreamingCameraContainer
+                withEnabledState:!self.isVideoSessionConnected];
+        });
     }
 }
 
