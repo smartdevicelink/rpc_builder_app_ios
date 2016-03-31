@@ -1,11 +1,11 @@
 PODS:
-  - SmartDeviceLink-iOS (4.0.3)
+  - SmartDeviceLink-iOS (4.1.0)
 
 DEPENDENCIES:
   - SmartDeviceLink-iOS
 
 SPEC CHECKSUMS:
-  SmartDeviceLink-iOS: 7202f0ea32ec4315b888d8c93796046bcf2309e5
+  SmartDeviceLink-iOS: 4958aa8e92133dfd47932f5df1669c630c12ac3e
 
 PODFILE CHECKSUM: 382e1d8da4dab20954ad9ca1a215db92a8f25ccb
 
