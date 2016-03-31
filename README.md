@@ -1,4 +1,4 @@
-# RPC Builder v1.0.1
+# RPC Builder v1.0.2
 
 ## Introduction
 
@@ -100,3 +100,13 @@ If you see a bug, feel free to [post an issue](https://github.com/smartdevicelin
 
 ## Want to Help?
 If you want to help add more features, please [file a pull request](https://github.com/smartdevicelink/rpc_builder_app_ios/compare). Please see the [contribution guidelines](https://github.com/smartdevicelink/rpc_builder_app_ios/blob/master/CONTRIBUTING.md) before proceeding.
+
+## Contributors
+#### Alex Muller - [Github](https://github.com/asm09fsu)
+Lead Developer and Designer, UI/UX Development, Architecture Design
+
+#### Casey Feldman - [Github](https://github.com/ligerxx) | [Dribbble](https://dribbble.com/ligerxx) | [Web](http://www.caseyfeldman.me)
+Lead Visual Design, UI/UX Development
+
+#### Timur Pulathaneli - [Github](https://github.com/tpulatha)
+Architecture Design, UI/UX Development
