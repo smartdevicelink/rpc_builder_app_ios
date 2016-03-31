@@ -46,6 +46,21 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 @implementation RBStreamingModuleViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.streamingManager) {
+        NSKeyValueObservingOptions observations = (NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew);
+        [self.streamingManager addObserver:self
+                                forKeyPath:RBVideoStreamingConnectedKeyPath
+                                   options:observations
+                                   context:&RBVideoStreamingConnectedContext];
+        [self.streamingManager addObserver:self
+                                forKeyPath:RBAudioStreamingConnectedKeyPath
+                                   options:observations
+                                   context:&RBAudioStreamingConnectedContext];
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [self.streamingManager removeObserver:self
                                forKeyPath:RBVideoStreamingConnectedKeyPath];
@@ -84,15 +99,6 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 - (void)setProxy:(SDLProxy *)proxy {
     [super setProxy:proxy];
     self.streamingManager = proxy.streamingMediaManager;
-    NSKeyValueObservingOptions observations = (NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew);
-    [self.streamingManager addObserver:self
-                            forKeyPath:RBVideoStreamingConnectedKeyPath
-                               options:observations
-                               context:&RBVideoStreamingConnectedContext];
-    [self.streamingManager addObserver:self
-                            forKeyPath:RBAudioStreamingConnectedKeyPath
-                               options:observations
-                               context:&RBAudioStreamingConnectedContext];
 }
 
 #pragma mark - Actions
