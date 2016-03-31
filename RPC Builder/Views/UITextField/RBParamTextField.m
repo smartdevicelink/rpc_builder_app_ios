@@ -24,6 +24,8 @@
         return @([self.text integerValue]);
     } else if ([self.paramType isEqualToString:RBTypeLongKey]) {
         return @([self.text longLongValue]);
+    } else if ([self.paramType isEqualToString:RBTypeFloatKey]) {
+        return @([self.text floatValue]);
     } else {
         return nil;
     }
@@ -43,9 +45,11 @@
     
     if ([self.paramType isEqualToString:RBTypeStringKey]) {
         self.keyboardType = UIKeyboardTypeAlphabet;
-    } else if ([self.paramType isEqualToString:RBTypeIntegerKey]
-               || [self.paramType isEqualToString:RBTypeLongKey]) {
+    } else if ([self.paramType isEqualToString:RBTypeIntegerKey]) {
         self.keyboardType = UIKeyboardTypeNumberPad;
+    } else if ([self.paramType isEqualToString:RBTypeLongKey]
+               || [self.paramType isEqualToString:RBTypeFloatKey]) {
+        self.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     }
     
     if (parameter.defaultValue) {
