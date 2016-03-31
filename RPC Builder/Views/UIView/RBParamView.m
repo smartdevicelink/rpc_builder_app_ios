@@ -52,6 +52,7 @@
         } else {
             if ([param.type isEqualToString:RBTypeStringKey]
                 || [param.type isEqualToString:RBTypeIntegerKey]
+                || [param.type isEqualToString:RBTypeFloatKey]
                 || [param.type isEqualToString:RBTypeLongKey]) {
                 RBParamTextField* textField = [[RBParamTextField alloc] initWithParam:param
                                                                        referenceFrame:nameLabel.frame];

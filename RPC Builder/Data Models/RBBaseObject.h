@@ -10,6 +10,7 @@ extern NSString* const RBTypeKey;
 extern NSString* const RBTypeStringKey;
 extern NSString* const RBTypeIntegerKey;
 extern NSString* const RBTypeLongKey;
+extern NSString* const RBTypeFloatKey;
 extern NSString* const RBTypeBooleanKey;
 extern NSString* const RBTypeBooleanTrueValue;
 extern NSString* const RBTypeBooleanFalseValue;
