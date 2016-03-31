@@ -46,6 +46,14 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 @implementation RBStreamingModuleViewController
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.streamingManager removeObserver:self
+                               forKeyPath:RBVideoStreamingConnectedKeyPath];
+    [self.streamingManager removeObserver:self
+                               forKeyPath:RBAudioStreamingConnectedKeyPath];
+    [super viewWillDisappear:animated];
+}
+
 #pragma mark - Overrides
 + (NSString*)moduleTitle {
     return @"Streaming";
@@ -109,11 +117,13 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     if (self.streamingManager.videoSessionConnected) {
         [self.streamingManager stopVideoSession];
     } else {
+        __weak typeof(self) weakSelf = self;
         [self.streamingManager startVideoSessionWithStartBlock:^(BOOL success, NSError * _Nullable error) {
             if (success) {
                 NSLog(@"success!");
             } else {
-                NSLog(@"error! %@", error);
+                typeof(weakSelf) strongSelf = weakSelf;
+                [strongSelf sdl_handleError:error];
             }
         }];
     }
@@ -123,11 +133,13 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     if (self.streamingManager.audioSessionConnected) {
         [self.streamingManager stopAudioSession];
     } else {
+        __weak typeof(self) weakSelf = self;
         [self.streamingManager startAudioStreamingWithStartBlock:^(BOOL success, NSError * _Nullable error) {
             if (success) {
                 NSLog(@"success!");
             } else {
-                NSLog(@"error! %@", error);
+                typeof(weakSelf) strongSelf = weakSelf;
+                [strongSelf sdl_handleError:error];
             }
         }];
     }
@@ -199,15 +211,71 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     }
 }
 
+- (void)sdl_updateLabel:(UILabel*)label forConnectedState:(BOOL)connected {
+    label.text = connected ? @"Connected" : @"Disconnected";
+}
+
+- (void)sdl_handleError:(NSError*)error {
+    NSString* errorString = @"Unknown Error Occurred";
+    NSString* systemErrorCode = error.userInfo[@"OSStatus"];
+    if ([error.domain isEqualToString:SDLErrorDomainStreamingMediaAudio]) {
+        switch (error.code) {
+            case SDLStreamingAudioErrorHeadUnitNACK:
+                errorString = @"Audio Streaming did not receive acknowledgement from Core.";
+                break;
+            default:
+                break;
+        }
+    } else if ([error.domain isEqualToString:SDLErrorDomainStreamingMediaVideo]) {
+        switch (error.code) {
+            case SDLStreamingVideoErrorHeadUnitNACK:
+                errorString = @"Video Streaming did not receive acknowledgement from Core.";
+                break;
+            case SDLSTreamingVideoErrorInvalidOperatingSystemVersion:
+                errorString = @"Video Streaming can only be run on iOS 8+ devices.";
+                break;
+            case SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure:
+                errorString = @"Could not create Video Streaming compression session.";
+                break;
+            case SDLStreamingVideoErrorConfigurationAllocationFailure:
+                errorString = @"Could not allocate Video Streaming configuration.";
+                break;
+            case SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure:
+                errorString = @"Could not set property for Video Streaming configuration.";
+                break;
+            default:
+                break;
+        }
+    }
+    
+    if (systemErrorCode) {
+        errorString = [NSString stringWithFormat:@"%@ %@", errorString, systemErrorCode];
+    }
+    
+    UIAlertController* alertController = [UIAlertController simpleErrorAlertWithMessage:errorString];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:alertController
+                           animated:YES
+                         completion:nil];
+    });
+}
+
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if (context == RBAudioStreamingConnectedContext) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.audioStreamingStatusLabel.text = self.isAudioSessionConnected ? @"Connected" : @"Disconnected";
+            [self sdl_updateLabel:self.audioStreamingStatusLabel
+                forConnectedState:self.isAudioSessionConnected];
+            self.audioStreamingTypeSegmentedControl.enabled = !self.isAudioSessionConnected;
+            [self sdl_updateView:self.audioStreamingFileContainer
+                withEnabledState:!self.isAudioSessionConnected];
+            
         });
     } else if (context == RBVideoStreamingConnectedContext) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.videoStreamingStatusLabel.text = self.isVideoSessionConnected ? @"Connected" : @"Disconnected";
+            [self sdl_updateLabel:self.videoStreamingStatusLabel
+                forConnectedState:self.isVideoSessionConnected];
             self.videoStreamingTypeSegmentedControl.enabled = !self.isVideoSessionConnected;
             [self sdl_updateView:self.videoStreamingFileContainer
                 withEnabledState:!self.isVideoSessionConnected];
