@@ -11,6 +11,10 @@
     return [self alertWithTitle:title message:message action:[UIAlertAction simpleOkAction]];
 }
 
++ (instancetype)simpleErrorAlertWithMessage:(NSString*)message {
+    return [self simpleAlertWithTitle:@"Error" message:message];
+}
+
 + (instancetype)alertWithTitle:(NSString*)title message:(NSString*)message action:(UIAlertAction*)action {
     UIAlertController* alertController = [self alertControllerWithTitle:title
                                                                 message:message

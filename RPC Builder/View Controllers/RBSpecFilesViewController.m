@@ -117,8 +117,7 @@
 
 #pragma mark RBSpecFile
 - (void)specFile:(RBSpecFile *)file fetchUrlDidFinishWithError:(NSError *)error {
-    UIAlertController* alertController = [UIAlertController simpleAlertWithTitle:@"Error"
-                                                                         message:error.localizedDescription];
+    UIAlertController* alertController = [UIAlertController simpleErrorAlertWithMessage:error.localizedDescription];
     dispatch_async(dispatch_get_main_queue(), ^{
         self.navigationItem.leftBarButtonItem.enabled = YES;
         self.navigationItem.rightBarButtonItem.enabled = YES;
