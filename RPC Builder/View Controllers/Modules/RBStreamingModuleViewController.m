@@ -12,12 +12,15 @@
 
 #import "SDLGlobals.h"
 
+#import "NSData+Chunks.h"
 #import <AVFoundation/AVFoundation.h>
 
 static NSInteger const RBLayoutConstraintPriorityHide = 500;
 static NSInteger const RBLayoutConstraintPriorityShow = 501;
 
 static CGFloat const RBAnimationDuration = 0.3f;
+
+static NSInteger const RBBufferSizeOffset = 13;
 
 typedef NS_ENUM(NSUInteger, RBStreamingType) {
     RBStreamingTypeDevice,
@@ -30,7 +33,7 @@ static void* RBVideoStreamingConnectedContext = &RBVideoStreamingConnectedContex
 static NSString* const RBAudioStreamingConnectedKeyPath = @"audioSessionConnected";
 static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContext;
 
-@interface RBStreamingModuleViewController () <RBFilePickerDelegate>
+@interface RBStreamingModuleViewController () <RBFilePickerDelegate, AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property (nonatomic, weak) SDLStreamingMediaManager* streamingManager;
 @property (nonatomic, readonly) BOOL isVideoSessionConnected;
@@ -38,14 +41,22 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 @property (nonatomic, weak) UILabel* currentFileNameLabel;
 
+@property (nonatomic, readonly) NSUInteger streamingBufferChunkSize;
+
 // Audio Streaming
 @property (nonatomic, weak) IBOutlet UISegmentedControl* audioStreamingTypeSegmentedControl;
 
 @property (nonatomic, weak) IBOutlet UIView* audioStreamingFileContainer;
+@property (nonatomic, weak) IBOutlet UILabel* audioStreamingFileNameLabel;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* visibleAudioStreamingFileConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* hiddenAudioStreamingFileConstraint;
 
 @property (nonatomic, weak) IBOutlet UILabel* audioStreamingStatusLabel;
+
+// Audio File Streaming
+@property (nonatomic, strong) dispatch_queue_t audioStreamQueue;
+@property (nonatomic, strong) NSData* audioStreamingData;
+@property (nonatomic) BOOL endAudioStreaming;
 
 // Video Streaming
 @property (nonatomic, weak) IBOutlet UISegmentedControl* videoStreamingTypeSegmentedControl;
@@ -62,6 +73,9 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 @property (nonatomic, strong) dispatch_queue_t videoStreamingQueue;
 @property (nonatomic, strong) NSData* videoStreamingData;
 @property (nonatomic) BOOL endVideoStreaming;
+
+// Video Camera Streaming
+@property (nonatomic, strong) AVCaptureSession* captureSession;
 
 @end
 
@@ -96,7 +110,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 + (NSString*)moduleDescription {
-    return @"Allows for testing of audio and video streaming. If streaming a file, only certain file types are currently supported. For closest to production functionality, please stream from Camera.";
+    return @"Allows for testing of audio and video streaming. If streaming a file, only certain file types are currently supported. For closest to production functionality, please stream from Microphone/Camera.";
 }
 
 + (NSString*)moduleImageName {
@@ -114,6 +128,10 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 - (BOOL)isVideoSessionConnected {
     return self.streamingManager.videoSessionConnected;
+}
+
+- (NSUInteger)streamingBufferChunkSize {
+    return [[SDLGlobals globals] maxMTUSize] - RBBufferSizeOffset;
 }
 
 #pragma mark - Setters
@@ -163,20 +181,60 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 - (IBAction)audioStreamingAction:(id)sender {
     if (self.streamingManager.audioSessionConnected) {
-        [self.streamingManager stopAudioSession];
+        [self sdl_endAudioStreaming];
     } else {
+        if (self.audioStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeFile
+            && !self.audioStreamingData) {
+            [self sdl_handleEmptyStreamingDataError];
+            return;
+        }
         __weak typeof(self) weakSelf = self;
         [self.streamingManager startAudioStreamingWithStartBlock:^(BOOL success, NSError * _Nullable error) {
+            typeof(weakSelf) strongSelf = weakSelf;
             if (!success) {
-                typeof(weakSelf) strongSelf = weakSelf;
                 [strongSelf sdl_handleError:error];
+            } else {
+                [strongSelf sdl_beginAudioStreaming];
             }
         }];
     }
 }
 
+- (IBAction)selectAudioStreamingFileAction:(id)sender {
+    self.currentFileNameLabel = self.audioStreamingFileNameLabel;
+    [self sdl_presentFilePickerViewController];
+}
+
 - (IBAction)selectVideoStreamingFileAction:(id)sender {
     self.currentFileNameLabel = self.videoStreamingFileNameLabel;
+    [self sdl_presentFilePickerViewController];
+}
+
+#pragma mark - Delegates
+#pragma mark RBFilePickerViewController
+- (void)filePicker:(RBFilePickerViewController *)picker didSelectFileNamed:(NSString *)fileName withData:(NSData *)data {
+    self.currentFileNameLabel.text = fileName;
+    if (self.currentFileNameLabel == self.videoStreamingFileNameLabel) {
+        self.videoStreamingData = data;
+    } else {
+        self.audioStreamingData = data;
+    }
+    [picker dismissViewControllerAnimated:YES completion:^{
+        self.currentFileNameLabel = nil;
+    }];
+}
+
+#pragma mark AVCaptureVideoDataOutputSampleBuffer
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+
+    if (self.isVideoSessionConnected) {
+        [self.streamingManager sendVideoData:pixelBuffer];
+    }
+}
+
+#pragma mark - Helpers
+- (void)sdl_presentFilePickerViewController {
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
                                                          bundle:nil];
     RBFilePickerViewController* filePickerViewController = [storyboard instantiateViewControllerWithIdentifier:@"RBFilePickerViewController"];
@@ -187,20 +245,6 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
                      completion:nil];
 }
 
-#pragma mark - Delegates
-- (void)filePicker:(RBFilePickerViewController *)picker didSelectFileNamed:(NSString *)fileName withData:(NSData *)data {
-    self.currentFileNameLabel.text = fileName;
-    if (self.currentFileNameLabel == self.videoStreamingFileNameLabel) {
-        self.videoStreamingData = data;
-    } else {
-
-    }
-    [picker dismissViewControllerAnimated:YES completion:^{
-        self.currentFileNameLabel = nil;
-    }];
-}
-
-#pragma mark - Helpers
 - (void)sdl_showViewsWithAlphaAnimations:(void (^)(void))animations {
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         [UIView animateKeyframesWithDuration:RBAnimationDuration delay:0.0 options:UIViewKeyframeAnimationOptionLayoutSubviews animations:^{
@@ -271,7 +315,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 - (void)sdl_handleError:(NSError*)error {
-    NSString* errorString = @"Unknown Error Occurred";
+    NSString* errorString = error.localizedDescription;
     NSString* systemErrorCode = error.userInfo[@"OSStatus"];
     if ([error.domain isEqualToString:SDLErrorDomainStreamingMediaAudio]) {
         switch (error.code) {
@@ -315,62 +359,145 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
                          completion:nil];
     });
 }
-        
+
 - (void)sdl_beginVideoStreaming {
     if (self.videoStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeDevice) {
         
-    } else {
-        if (self.videoStreamingData) {
-            NSUInteger bufferSize = [[SDLGlobals globals] maxMTUSize];
+        self.captureSession = [[AVCaptureSession alloc] init];
+        [self.captureSession beginConfiguration];
+        
+        self.captureSession.sessionPreset = AVCaptureSessionPreset640x480;
+        
+        AVCaptureDevice * videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
 
-            self.videoStreamingQueue = dispatch_queue_create("com.smartdevicelink.videostreaming",
-                                                        DISPATCH_QUEUE_SERIAL);
-            
-            dispatch_async(self.videoStreamingQueue, ^{
-                while (!self.endVideoStreaming) {
-                    NSUInteger currentIndex = 0;
-
-                    NSUInteger totalDataLength = self.videoStreamingData.length;
-                    
-                    while (currentIndex < totalDataLength) {
-                        NSUInteger dataLength = 0;
-                        if (currentIndex + bufferSize < totalDataLength) {
-                            dataLength = bufferSize;
-                        } else {
-                            dataLength = totalDataLength - currentIndex;
-                        }
-                        
-                        NSRange dataRange = NSMakeRange(currentIndex, dataLength);
-                        NSData* videoStreamChunk = [self.videoStreamingData subdataWithRange:dataRange];
-                        
-                        // We send raw data because there are so many possible types of files,
-                        // it's easier for us to just send raw data, and let Core try to
-                        // reassemble it. SDLStreamingMediaManager actually takes
-                        // CVImageBufferRefs and converts them to NSData and sends them off
-                        // using SDLProtocol's sendRawData:withServiceType:.
-                        [self.proxy.protocol sendRawData:videoStreamChunk
-                                         withServiceType:SDLServiceType_Video];
-                        
-                        currentIndex += dataLength;
-                        
-                        [NSThread sleepForTimeInterval:0.25];
-                    }
+        AVCaptureVideoDataOutput * dataOutput = [[AVCaptureVideoDataOutput alloc] init];
+        dataOutput.alwaysDiscardsLateVideoFrames = YES;
+        
+        // see if we need this
+        dataOutput.videoSettings = @{
+                                     (id)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)
+                                     };
+        
+        // can we move this somewhere else?
+        [dataOutput setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
+        
+        [self.captureSession addOutput:dataOutput];
+        
+        CMTime minFrameRate = CMTimeMake(1, 1);
+        CMTime maxFrameRate = CMTimeMake(1, 30);
+        if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_7_0) {
+            BOOL invalidFrameRate = NO;
+            NSString* errorTitle = nil;
+            NSString* errorMessage = nil;
+            for (AVFrameRateRange* frameRateRange in [[videoDevice activeFormat] videoSupportedFrameRateRanges]) {
+                if (frameRateRange.minFrameRate > minFrameRate.timescale) {
+                    errorTitle = @"Min Frame Rate Error";
+                    errorMessage = [NSString stringWithFormat:@"Min frame rate of %d is invalid. It must be greater than or equal to %.1f.", minFrameRate.timescale, frameRateRange.minFrameRate];
+                    invalidFrameRate = YES;
                 }
-                
-                self.endVideoStreaming = NO;
-            });
+                if (frameRateRange.maxFrameRate < maxFrameRate.timescale) {
+                    errorTitle = @"Max Frame Rate Error";
+                    errorMessage = [NSString stringWithFormat:@"Max frame rate of %d is invalid. It must be less than or equal to %.1f.", maxFrameRate.timescale, frameRateRange.maxFrameRate];
+                    invalidFrameRate = YES;
+                }
+                if (invalidFrameRate) {
+                    UIAlertController* alertController = [UIAlertController simpleAlertWithTitle:errorTitle
+                                                                                         message:errorMessage];
+                    [self presentViewController:alertController
+                                       animated:YES
+                                     completion:nil];
+                    [self.captureSession commitConfiguration];
+                    return;
+                }
+            }
+            [videoDevice lockForConfiguration:nil];
+            [videoDevice setActiveVideoMinFrameDuration:maxFrameRate];
+            [videoDevice setActiveVideoMaxFrameDuration:minFrameRate];
+            [videoDevice unlockForConfiguration];
+        } else {
+            AVCaptureConnection* connection = [dataOutput connectionWithMediaType:AVMediaTypeVideo];
+            if (connection.isVideoMinFrameDurationSupported) {
+                connection.videoMinFrameDuration = maxFrameRate;
+            }
+            if (connection.isVideoMaxFrameDurationSupported) {
+                connection.videoMaxFrameDuration = minFrameRate;
+            }
+            if ([self.captureSession canAddConnection:connection]) {
+                [self.captureSession addConnection:connection];
+            }
         }
+        
+        NSError *error;
+        AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
+        if(error) {
+            [self sdl_handleError:error];
+        }
+        
+        [self.captureSession addInput:input];
+        
+        [self.captureSession commitConfiguration];
+        
+        [self.captureSession startRunning];
+    } else {
+        self.videoStreamingQueue = dispatch_queue_create("com.smartdevicelink.videostreaming",
+                                                         DISPATCH_QUEUE_SERIAL);
+
+        NSArray* videoChunks = [self.videoStreamingData dataChunksOfSize:self.streamingBufferChunkSize];
+        
+        dispatch_async(self.videoStreamingQueue, ^{
+            while (!self.endVideoStreaming) {
+                for (NSData* chunk in videoChunks) {
+                    // We send raw data because there are so many possible types of files,
+                    // it's easier for us to just send raw data, and let Core try to
+                    // reassemble it. SDLStreamingMediaManager actually takes
+                    // CVImageBufferRefs and converts them to NSData and sends them off
+                    // using SDLProtocol's sendRawData:withServiceType:.
+                    [self.proxy.protocol sendRawData:chunk
+                                     withServiceType:SDLServiceType_Video];
+                    
+                    [NSThread sleepForTimeInterval:0.25];
+                }
+            }
+            
+            self.endVideoStreaming = NO;
+        });
     }
 }
 
 - (void)sdl_endVideoStreaming {
     [self.streamingManager stopVideoSession];
+    if (self.captureSession.isRunning) {
+        [self.captureSession stopRunning];
+    }
     self.endVideoStreaming = YES;
     self.videoStreamingQueue = nil;
 }
 
 - (void)sdl_beginAudioStreaming {
-    
+    if (self.audioStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeDevice) {
+        
+    } else {
+        self.audioStreamQueue = dispatch_queue_create("com.smartdevicelink.audiostreaming",
+                                                         DISPATCH_QUEUE_SERIAL);
+        
+        NSArray* audioChunks = [self.audioStreamingData dataChunksOfSize:self.streamingBufferChunkSize];
+        
+        dispatch_async(self.audioStreamQueue, ^{
+            while (!self.endAudioStreaming) {
+                for (NSData* chunk in audioChunks) {
+                    [self.streamingManager sendAudioData:chunk];
+                    
+                    [NSThread sleepForTimeInterval:0.25];
+                }
+            }
+            
+            self.endAudioStreaming = NO;
+        });
+    }
+}
+
+- (void)sdl_endAudioStreaming {
+    [self.streamingManager stopAudioSession];
 }
 
 - (void)sdl_handleEmptyStreamingDataError {

@@ -18,6 +18,7 @@
 		DA8F6D021C8CB2FF00417741 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA8F6CAF1C8CB2FF00417741 /* Main.storyboard */; };
 		DA8F6D031C8CB2FF00417741 /* Mobile_API.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA8F6CB11C8CB2FF00417741 /* Mobile_API.xml */; };
 		DA8F6D061C8CB2FF00417741 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8F6CB51C8CB2FF00417741 /* main.m */; };
+		DA991EE31CAE3ED60002DA10 /* NSData+Chunks.m in Sources */ = {isa = PBXBuildFile; fileRef = DA991EE21CAE3ED60002DA10 /* NSData+Chunks.m */; };
 		DAB28CBA1C947FBD00E44F28 /* RBSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB28CB91C947FBD00E44F28 /* RBSettingsManager.m */; };
 		DAE0337B1C8F9D1B00B64BB8 /* RBBaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0332A1C8F9D1B00B64BB8 /* RBBaseObject.m */; };
 		DAE0337C1C8F9D1B00B64BB8 /* RBElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0332C1C8F9D1B00B64BB8 /* RBElement.m */; };
@@ -97,6 +98,8 @@
 		DA8F6CB11C8CB2FF00417741 /* Mobile_API.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Mobile_API.xml; sourceTree = "<group>"; };
 		DA8F6CB41C8CB2FF00417741 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA8F6CB51C8CB2FF00417741 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DA991EE11CAE3ED60002DA10 /* NSData+Chunks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Chunks.h"; sourceTree = "<group>"; };
+		DA991EE21CAE3ED60002DA10 /* NSData+Chunks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Chunks.m"; sourceTree = "<group>"; };
 		DAB28CB81C947FBD00E44F28 /* RBSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBSettingsManager.h; sourceTree = "<group>"; };
 		DAB28CB91C947FBD00E44F28 /* RBSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBSettingsManager.m; sourceTree = "<group>"; };
 		DAE033291C8F9D1B00B64BB8 /* RBBaseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBBaseObject.h; sourceTree = "<group>"; };
@@ -304,6 +307,8 @@
 				DAE033471C8F9D1B00B64BB8 /* UIAlertController+Minimal.m */,
 				DAE033481C8F9D1B00B64BB8 /* UIView+Util.h */,
 				DAE033491C8F9D1B00B64BB8 /* UIView+Util.m */,
+				DA991EE11CAE3ED60002DA10 /* NSData+Chunks.h */,
+				DA991EE21CAE3ED60002DA10 /* NSData+Chunks.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -590,6 +595,7 @@
 				DA75A3301CAB524900E563B4 /* RBModuleTableViewCell.m in Sources */,
 				DAE0338A1C8F9D1B00B64BB8 /* RBDeviceInformation.m in Sources */,
 				DAEDFC231C97BC84001C3ADB /* RBBaseTableViewCell.m in Sources */,
+				DA991EE31CAE3ED60002DA10 /* NSData+Chunks.m in Sources */,
 				DAE033961C8F9D1B00B64BB8 /* RBSpecFilesViewController.m in Sources */,
 				DAE033981C8F9D1B00B64BB8 /* RBNameLabel.m in Sources */,
 				DAE033821C8F9D1B00B64BB8 /* RBStruct.m in Sources */,

@@ -56,7 +56,7 @@
                                             <view clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P0i-xK-tHJ">
                                                 <rect key="frame" x="8" y="47" width="584" height="58"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N0h-D3-qsU">
+                                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N0h-D3-qsU">
                                                         <rect key="frame" x="0.0" y="28" width="584" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select File" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Cl-8t-4IV">
@@ -118,6 +118,9 @@
                                                         <exclude reference="CJK-mT-JxT"/>
                                                     </mask>
                                                 </variation>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="2wJ-mI-bmy" appends="YES" id="JJs-9Q-Wsw"/>
+                                                </connections>
                                             </view>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="0tr-i1-b8o">
                                                 <rect key="frame" x="8" y="77" width="584" height="29"/>
@@ -183,7 +186,7 @@
                                             <view alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="999" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="2rT-bi-tv3">
                                                 <rect key="frame" x="8" y="257" width="584" height="58"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X0y-Fc-XZ6">
+                                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X0y-Fc-XZ6">
                                                         <rect key="frame" x="0.0" y="28" width="584" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select File" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hk8-86-Z1u">
@@ -397,6 +400,7 @@
                     <size key="freeformSize" width="600" height="568"/>
                     <connections>
                         <outlet property="audioStreamingFileContainer" destination="P0i-xK-tHJ" id="q3U-sR-e1M"/>
+                        <outlet property="audioStreamingFileNameLabel" destination="6Cl-8t-4IV" id="PUg-wa-qsZ"/>
                         <outlet property="audioStreamingStatusLabel" destination="4DT-7t-0Bf" id="Uz2-rz-Obq"/>
                         <outlet property="audioStreamingTypeSegmentedControl" destination="0tr-i1-b8o" id="Whj-o4-Krs"/>
                         <outlet property="hiddenAudioStreamingFileConstraint" destination="qce-jQ-P0H" id="2Mx-9u-6aG"/>
@@ -414,6 +418,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sAb-qy-30v" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="qqs-Yj-30i"/>
+                <tapGestureRecognizer id="2wJ-mI-bmy">
+                    <connections>
+                        <action selector="selectAudioStreamingFileAction:" destination="Gmn-Ky-Qx2" id="64t-bS-mLq"/>
+                    </connections>
+                </tapGestureRecognizer>
                 <tapGestureRecognizer id="qAD-68-eeu">
                     <connections>
                         <action selector="selectVideoStreamingFileAction:" destination="Gmn-Ky-Qx2" id="K3T-Pp-r74"/>
