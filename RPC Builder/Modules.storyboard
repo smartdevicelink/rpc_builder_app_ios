@@ -242,6 +242,9 @@
                                                         <exclude reference="umM-vL-1iz"/>
                                                     </mask>
                                                 </variation>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="qAD-68-eeu" appends="YES" id="vrb-zG-fdv"/>
+                                                </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cD9-Yj-VuA">
                                                 <rect key="frame" x="8" y="257" width="584" height="124"/>
@@ -403,6 +406,7 @@
                         <outlet property="videoStreamingCameraContainer" destination="cD9-Yj-VuA" id="Gv4-AB-UeJ"/>
                         <outlet property="videoStreamingFileConstraint" destination="k1z-EP-Bjt" id="7K1-Tv-7Pz"/>
                         <outlet property="videoStreamingFileContainer" destination="2rT-bi-tv3" id="Ljr-T4-kjA"/>
+                        <outlet property="videoStreamingFileNameLabel" destination="hk8-86-Z1u" id="GP6-WU-GdY"/>
                         <outlet property="videoStreamingStatusLabel" destination="7Xs-UM-zq4" id="PEW-Kw-BJ9"/>
                         <outlet property="videoStreamingTypeSegmentedControl" destination="tAS-gm-Db9" id="0Mg-mA-W71"/>
                         <outlet property="visibleAudioStreamingFileConstraint" destination="KpW-dw-tD2" id="KVm-6n-jBb"/>
@@ -410,6 +414,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sAb-qy-30v" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="qqs-Yj-30i"/>
+                <tapGestureRecognizer id="qAD-68-eeu">
+                    <connections>
+                        <action selector="selectVideoStreamingFileAction:" destination="Gmn-Ky-Qx2" id="K3T-Pp-r74"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="114" y="865"/>
         </scene>

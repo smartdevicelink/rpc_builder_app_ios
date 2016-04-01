@@ -8,10 +8,21 @@
 
 #import "RBStreamingModuleViewController.h"
 
+#import "RBFilePickerViewController.h"
+
+#import "SDLGlobals.h"
+
+#import <AVFoundation/AVFoundation.h>
+
 static NSInteger const RBLayoutConstraintPriorityHide = 500;
 static NSInteger const RBLayoutConstraintPriorityShow = 501;
 
 static CGFloat const RBAnimationDuration = 0.3f;
+
+typedef NS_ENUM(NSUInteger, RBStreamingType) {
+    RBStreamingTypeDevice,
+    RBStreamingTypeFile
+};
 
 static NSString* const RBVideoStreamingConnectedKeyPath = @"videoSessionConnected";
 static void* RBVideoStreamingConnectedContext = &RBVideoStreamingConnectedContext;
@@ -19,12 +30,15 @@ static void* RBVideoStreamingConnectedContext = &RBVideoStreamingConnectedContex
 static NSString* const RBAudioStreamingConnectedKeyPath = @"audioSessionConnected";
 static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContext;
 
-@interface RBStreamingModuleViewController ()
+@interface RBStreamingModuleViewController () <RBFilePickerDelegate>
 
 @property (nonatomic, weak) SDLStreamingMediaManager* streamingManager;
 @property (nonatomic, readonly) BOOL isVideoSessionConnected;
 @property (nonatomic, readonly) BOOL isAudioSessionConnected;
 
+@property (nonatomic, weak) UILabel* currentFileNameLabel;
+
+// Audio Streaming
 @property (nonatomic, weak) IBOutlet UISegmentedControl* audioStreamingTypeSegmentedControl;
 
 @property (nonatomic, weak) IBOutlet UIView* audioStreamingFileContainer;
@@ -33,14 +47,21 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 @property (nonatomic, weak) IBOutlet UILabel* audioStreamingStatusLabel;
 
+// Video Streaming
 @property (nonatomic, weak) IBOutlet UISegmentedControl* videoStreamingTypeSegmentedControl;
 
 @property (nonatomic, weak) IBOutlet UIView* videoStreamingCameraContainer;
 @property (nonatomic, weak) IBOutlet UIView* videoStreamingFileContainer;
+@property (nonatomic, weak) IBOutlet UILabel* videoStreamingFileNameLabel;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* videoStreamingCameraConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* videoStreamingFileConstraint;
 
 @property (nonatomic, weak) IBOutlet UILabel* videoStreamingStatusLabel;
+
+// Video File Streaming
+@property (nonatomic, strong) dispatch_queue_t videoStreamQueue;
+@property (nonatomic, strong) NSData* videoStreamingData;
+@property (nonatomic) BOOL endVideoStreaming;
 
 @end
 
@@ -75,7 +96,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 + (NSString*)moduleDescription {
-    return @"Allows for testing of audio and video streaming. Audio streaming will stream from the microphone, and video streaming will occur from the camera.";
+    return @"Allows for testing of audio and video streaming. If streaming a file, only certain file types are currently supported. For closest to production functionality, please stream from Camera.";
 }
 
 + (NSString*)moduleImageName {
@@ -105,13 +126,13 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 - (IBAction)segmentedControlIndexDidChange:(id)sender {
     [self.view endEditing:YES];
     if (sender == self.audioStreamingTypeSegmentedControl) {
-        if (self.audioStreamingTypeSegmentedControl.selectedSegmentIndex == 0) {
+        if (self.audioStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeDevice) {
             [self sdl_hideAudioStreamingFileContainer];
         } else {
             [self sdl_showAudioStreamingFileContainer];
         }
     } else if (sender == self.videoStreamingTypeSegmentedControl) {
-        if (self.videoStreamingTypeSegmentedControl.selectedSegmentIndex == 0) {
+        if (self.videoStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeDevice) {
             [self sdl_showVideoStreamingCameraContainer];
         } else {
             [self sdl_showVideoStreamingFileContainer];
@@ -121,15 +142,16 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 - (IBAction)videoStreamingAction:(id)sender {
     if (self.streamingManager.videoSessionConnected) {
+        [self sdl_endVideoStreaming];
         [self.streamingManager stopVideoSession];
     } else {
         __weak typeof(self) weakSelf = self;
         [self.streamingManager startVideoSessionWithStartBlock:^(BOOL success, NSError * _Nullable error) {
-            if (success) {
-                NSLog(@"success!");
-            } else {
-                typeof(weakSelf) strongSelf = weakSelf;
+            typeof(weakSelf) strongSelf = weakSelf;
+            if (!success) {
                 [strongSelf sdl_handleError:error];
+            } else {
+                [strongSelf sdl_beginVideoStreaming];
             }
         }];
     }
@@ -141,14 +163,37 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     } else {
         __weak typeof(self) weakSelf = self;
         [self.streamingManager startAudioStreamingWithStartBlock:^(BOOL success, NSError * _Nullable error) {
-            if (success) {
-                NSLog(@"success!");
-            } else {
+            if (!success) {
                 typeof(weakSelf) strongSelf = weakSelf;
                 [strongSelf sdl_handleError:error];
             }
         }];
     }
+}
+
+- (IBAction)selectVideoStreamingFileAction:(id)sender {
+    self.currentFileNameLabel = self.videoStreamingFileNameLabel;
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
+                                                         bundle:nil];
+    RBFilePickerViewController* filePickerViewController = [storyboard instantiateViewControllerWithIdentifier:@"RBFilePickerViewController"];
+    filePickerViewController.delegate = self;
+    UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:filePickerViewController];
+    [self presentViewController:navigationController
+                       animated:YES
+                     completion:nil];
+}
+
+#pragma mark - Delegates
+- (void)filePicker:(RBFilePickerViewController *)picker didSelectFileNamed:(NSString *)fileName withData:(NSData *)data {
+    self.currentFileNameLabel.text = fileName;
+    if (self.currentFileNameLabel == self.videoStreamingFileNameLabel) {
+        self.videoStreamingData = data;
+    } else {
+
+    }
+    [picker dismissViewControllerAnimated:YES completion:^{
+        self.currentFileNameLabel = nil;
+    }];
 }
 
 #pragma mark - Helpers
@@ -265,6 +310,66 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
                            animated:YES
                          completion:nil];
     });
+}
+
+static AVPlayerItemVideoOutput* videoOutput;
+static dispatch_queue_t videoStreamingQueue;
+        
+- (void)sdl_beginVideoStreaming {
+    if (self.videoStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeDevice) {
+        
+    } else {
+        if (self.videoStreamingData) {
+            NSUInteger bufferSize = [[SDLGlobals globals] maxMTUSize];
+
+            videoStreamingQueue = dispatch_queue_create("com.smartdevicelink.videostreaming",
+                                                        DISPATCH_QUEUE_SERIAL);
+            
+            dispatch_async(videoStreamingQueue, ^{
+                while (!self.endVideoStreaming) {
+                    NSUInteger currentIndex = 0;
+
+                    NSUInteger totalDataLength = self.videoStreamingData.length;
+                    
+                    while (currentIndex < totalDataLength) {
+                        NSUInteger dataLength = 0;
+                        if (currentIndex + bufferSize < totalDataLength) {
+                            dataLength = bufferSize;
+                        } else {
+                            dataLength = totalDataLength - currentIndex;
+                        }
+                        
+                        NSRange dataRange = NSMakeRange(currentIndex, dataLength);
+                        NSData* videoStreamChunk = [self.videoStreamingData subdataWithRange:dataRange];
+                        
+                        // We send raw data because there are so many possible types of files,
+                        // it's easier for us to just send raw data, and let Core try to
+                        // reassemble it. SDLStreamingMediaManager actually takes
+                        // CVImageBufferRefs and converts them to NSData and sends them off
+                        // using SDLProtocol's sendRawData:withServiceType:.
+                        [self.proxy.protocol sendRawData:videoStreamChunk
+                                         withServiceType:SDLServiceType_Video];
+                        
+                        currentIndex += dataLength;
+                        
+                        [NSThread sleepForTimeInterval:0.25];
+                    }
+                }
+                
+                self.endVideoStreaming = NO;
+            });
+        }
+    }
+}
+
+- (void)sdl_endVideoStreaming {
+    self.endVideoStreaming = YES;
+    
+    videoStreamingQueue = nil;
+}
+
+- (void)sdl_beginAudioStreaming {
+    
 }
 
 #pragma mark - KVO
