@@ -59,7 +59,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 @property (nonatomic, weak) IBOutlet UILabel* videoStreamingStatusLabel;
 
 // Video File Streaming
-@property (nonatomic, strong) dispatch_queue_t videoStreamQueue;
+@property (nonatomic, strong) dispatch_queue_t videoStreamingQueue;
 @property (nonatomic, strong) NSData* videoStreamingData;
 @property (nonatomic) BOOL endVideoStreaming;
 
@@ -319,10 +319,10 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
         if (self.videoStreamingData) {
             NSUInteger bufferSize = [[SDLGlobals globals] maxMTUSize];
 
-            videoStreamingQueue = dispatch_queue_create("com.smartdevicelink.videostreaming",
+            self.videoStreamingQueue = dispatch_queue_create("com.smartdevicelink.videostreaming",
                                                         DISPATCH_QUEUE_SERIAL);
             
-            dispatch_async(videoStreamingQueue, ^{
+            dispatch_async(self.videoStreamingQueue, ^{
                 while (!self.endVideoStreaming) {
                     NSUInteger currentIndex = 0;
 
@@ -362,7 +362,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 - (void)sdl_endVideoStreaming {
     self.endVideoStreaming = YES;
     
-    videoStreamingQueue = nil;
+    self.videoStreamingQueue = nil;
 }
 
 - (void)sdl_beginAudioStreaming {
