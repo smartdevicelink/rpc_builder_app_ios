@@ -311,9 +311,6 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
                          completion:nil];
     });
 }
-
-static AVPlayerItemVideoOutput* videoOutput;
-static dispatch_queue_t videoStreamingQueue;
         
 - (void)sdl_beginVideoStreaming {
     if (self.videoStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeDevice) {
