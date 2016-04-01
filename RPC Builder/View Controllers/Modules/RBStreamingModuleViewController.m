@@ -143,8 +143,12 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 - (IBAction)videoStreamingAction:(id)sender {
     if (self.streamingManager.videoSessionConnected) {
         [self sdl_endVideoStreaming];
-        [self.streamingManager stopVideoSession];
     } else {
+        if (self.videoStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeFile
+            && !self.videoStreamingData) {
+            [self sdl_handleEmptyStreamingDataError];
+            return;
+        }
         __weak typeof(self) weakSelf = self;
         [self.streamingManager startVideoSessionWithStartBlock:^(BOOL success, NSError * _Nullable error) {
             typeof(weakSelf) strongSelf = weakSelf;
@@ -360,13 +364,20 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 - (void)sdl_endVideoStreaming {
+    [self.streamingManager stopVideoSession];
     self.endVideoStreaming = YES;
-    
     self.videoStreamingQueue = nil;
 }
 
 - (void)sdl_beginAudioStreaming {
     
+}
+
+- (void)sdl_handleEmptyStreamingDataError {
+    UIAlertController* alertController = [UIAlertController simpleErrorAlertWithMessage:@"Cannot start stream. Streaming data is empty."];
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 #pragma mark - KVO
