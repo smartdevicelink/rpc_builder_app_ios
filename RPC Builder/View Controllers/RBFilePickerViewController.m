@@ -67,9 +67,9 @@
 #pragma mark - Delegates
 #pragma mark UITableView
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([_delegate respondsToSelector:@selector(filePicker:didSelectFileWithData:)]) {
+    if ([_delegate respondsToSelector:@selector(filePicker:didSelectFileNamed:withData:)]) {
         NSFileWrapper* fileWrapper = _localFiles[indexPath.row];
-        [_delegate filePicker:self didSelectFileWithData:fileWrapper.regularFileContents];
+        [_delegate filePicker:self didSelectFileNamed:fileWrapper.preferredFilename withData:fileWrapper.regularFileContents];
     }
 }
 
