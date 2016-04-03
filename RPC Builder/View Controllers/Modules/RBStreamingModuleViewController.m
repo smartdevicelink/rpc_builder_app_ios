@@ -44,12 +44,8 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 @property (nonatomic, readonly) NSUInteger streamingBufferChunkSize;
 
 // Audio Streaming
-@property (nonatomic, weak) IBOutlet UISegmentedControl* audioStreamingTypeSegmentedControl;
-
 @property (nonatomic, weak) IBOutlet UIView* audioStreamingFileContainer;
 @property (nonatomic, weak) IBOutlet UILabel* audioStreamingFileNameLabel;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint* visibleAudioStreamingFileConstraint;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint* hiddenAudioStreamingFileConstraint;
 
 @property (nonatomic, weak) IBOutlet UILabel* audioStreamingStatusLabel;
 @property (nonatomic, weak) IBOutlet UIButton* audioStreamingButton;
@@ -145,13 +141,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 #pragma mark - Actions
 - (IBAction)segmentedControlIndexDidChange:(id)sender {
     [self.view endEditing:YES];
-    if (sender == self.audioStreamingTypeSegmentedControl) {
-        if (self.audioStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeDevice) {
-            [self sdl_hideAudioStreamingFileContainer];
-        } else {
-            [self sdl_showAudioStreamingFileContainer];
-        }
-    } else if (sender == self.videoStreamingTypeSegmentedControl) {
+    if (sender == self.videoStreamingTypeSegmentedControl) {
         if (self.videoStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeDevice) {
             [self sdl_showVideoStreamingCameraContainer];
         } else {
@@ -185,8 +175,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     if (self.streamingManager.audioSessionConnected) {
         [self sdl_endAudioStreaming];
     } else {
-        if (self.audioStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeFile
-            && !self.audioStreamingData) {
+        if (!self.audioStreamingData) {
             [self sdl_handleEmptyStreamingDataError];
             return;
         }
@@ -263,28 +252,6 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
             }
         }];
     }
-}
-
-- (void)sdl_hideAudioStreamingFileContainer {
-    _visibleAudioStreamingFileConstraint.priority = RBLayoutConstraintPriorityHide;
-    _hiddenAudioStreamingFileConstraint.priority = RBLayoutConstraintPriorityShow;
-    // The convenience method above doesn't look great for hiding but not replacing.
-    [UIView animateKeyframesWithDuration:RBAnimationDuration delay:0.0 options:UIViewKeyframeAnimationOptionLayoutSubviews animations:^{
-        [UIView addKeyframeWithRelativeStartTime:1/2.0 relativeDuration:1/2.0 animations:^{
-            [self.view layoutIfNeeded];
-        }];
-        [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:1/2.0 animations:^{
-            _audioStreamingFileContainer.alpha = 0.0f;
-        }];
-    } completion:nil];
-}
-
-- (void)sdl_showAudioStreamingFileContainer {
-    _visibleAudioStreamingFileConstraint.priority = RBLayoutConstraintPriorityShow;
-    _hiddenAudioStreamingFileConstraint.priority = RBLayoutConstraintPriorityHide;
-    [self sdl_showViewsWithAlphaAnimations:^{
-        _audioStreamingFileContainer.alpha = 1.0f;
-    }];
 }
 
 - (void)sdl_showVideoStreamingCameraContainer {
@@ -491,26 +458,22 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 - (void)sdl_beginAudioStreaming {
-    if (self.audioStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeDevice) {
-        
-    } else {
-        self.audioStreamQueue = dispatch_queue_create("com.smartdevicelink.audiostreaming",
-                                                         DISPATCH_QUEUE_SERIAL);
-        
-        NSArray* audioChunks = [self.audioStreamingData dataChunksOfSize:self.streamingBufferChunkSize];
-        
-        dispatch_async(self.audioStreamQueue, ^{
-            while (!self.endAudioStreaming) {
-                for (NSData* chunk in audioChunks) {
-                    [self.streamingManager sendAudioData:chunk];
-                    
-                    [NSThread sleepForTimeInterval:0.25];
-                }
+    self.audioStreamQueue = dispatch_queue_create("com.smartdevicelink.audiostreaming",
+                                                     DISPATCH_QUEUE_SERIAL);
+    
+    NSArray* audioChunks = [self.audioStreamingData dataChunksOfSize:self.streamingBufferChunkSize];
+    
+    dispatch_async(self.audioStreamQueue, ^{
+        while (!self.endAudioStreaming) {
+            for (NSData* chunk in audioChunks) {
+                [self.streamingManager sendAudioData:chunk];
+                
+                [NSThread sleepForTimeInterval:0.25];
             }
-            
-            self.endAudioStreaming = NO;
-        });
-    }
+        }
+        
+        self.endAudioStreaming = NO;
+    });
 }
 
 - (void)sdl_endAudioStreaming {
@@ -530,7 +493,6 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
         dispatch_async(dispatch_get_main_queue(), ^{
             [self sdl_updateLabel:self.audioStreamingStatusLabel
                 forConnectedState:self.isAudioSessionConnected];
-            self.audioStreamingTypeSegmentedControl.enabled = !self.isAudioSessionConnected;
             [self sdl_updateView:self.audioStreamingFileContainer
                 withEnabledState:!self.isAudioSessionConnected];
             [self sdl_updateButton:self.audioStreamingButton

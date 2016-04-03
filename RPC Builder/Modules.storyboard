@@ -47,13 +47,7 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Streaming Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7x0-rN-TVK">
-                                                <rect key="frame" x="8" y="49" width="584" height="20"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <view clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P0i-xK-tHJ">
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P0i-xK-tHJ">
                                                 <rect key="frame" x="8" y="47" width="584" height="58"/>
                                                 <subviews>
                                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N0h-D3-qsU">
@@ -122,17 +116,6 @@
                                                     <outletCollection property="gestureRecognizers" destination="2wJ-mI-bmy" appends="YES" id="JJs-9Q-Wsw"/>
                                                 </connections>
                                             </view>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="0tr-i1-b8o">
-                                                <rect key="frame" x="8" y="77" width="584" height="29"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <segments>
-                                                    <segment title="Microphone"/>
-                                                    <segment title="File"/>
-                                                </segments>
-                                                <connections>
-                                                    <action selector="segmentedControlIndexDidChange:" destination="Gmn-Ky-Qx2" eventType="valueChanged" id="0xL-0K-INZ"/>
-                                                </connections>
-                                            </segmentedControl>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yo1-Re-6oX">
                                                 <rect key="frame" x="8" y="113" width="584" height="21"/>
                                                 <subviews>
@@ -327,7 +310,7 @@
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-91-BtA">
                                                 <rect key="frame" x="8" y="418" width="584" height="30"/>
-                                                <state key="normal" title="Start Streaming"/>
+                                                <state key="normal" title="Start Video Streaming"/>
                                                 <connections>
                                                     <action selector="videoStreamingAction:" destination="Gmn-Ky-Qx2" eventType="touchUpInside" id="Z19-Mo-OCS"/>
                                                 </connections>
@@ -335,44 +318,39 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="0tr-i1-b8o" secondAttribute="trailing" constant="8" id="0as-R1-9Io"/>
                                             <constraint firstAttribute="trailing" secondItem="cD9-Yj-VuA" secondAttribute="trailing" constant="8" id="26A-FO-YXj"/>
                                             <constraint firstAttribute="trailing" secondItem="wHO-bA-kwU" secondAttribute="trailing" constant="8" id="4Xy-8O-5o0"/>
                                             <constraint firstItem="yo1-Re-6oX" firstAttribute="top" secondItem="P0i-xK-tHJ" secondAttribute="bottom" constant="8" id="4fA-Vr-3dv"/>
                                             <constraint firstItem="fwP-MY-Z9a" firstAttribute="top" secondItem="cD9-Yj-VuA" secondAttribute="bottom" priority="501" constant="8" id="4oK-9S-b0N"/>
                                             <constraint firstItem="Tig-91-BtA" firstAttribute="top" secondItem="fwP-MY-Z9a" secondAttribute="bottom" constant="8" id="7FN-vK-Tla"/>
-                                            <constraint firstItem="0tr-i1-b8o" firstAttribute="top" secondItem="7x0-rN-TVK" secondAttribute="bottom" constant="8" id="7ON-69-CzF"/>
                                             <constraint firstItem="2rT-bi-tv3" firstAttribute="top" secondItem="tAS-gm-Db9" secondAttribute="bottom" constant="8" id="8Ku-C5-YVR"/>
                                             <constraint firstItem="wHO-bA-kwU" firstAttribute="top" secondItem="coi-vu-l8Y" secondAttribute="top" constant="8" id="B3v-aC-rhn"/>
                                             <constraint firstItem="Np8-Ft-3xe" firstAttribute="top" secondItem="yo1-Re-6oX" secondAttribute="bottom" constant="8" id="CAQ-WL-OuJ"/>
                                             <constraint firstItem="tAS-gm-Db9" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="Dmi-cQ-uFD"/>
                                             <constraint firstItem="Np8-Ft-3xe" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="EwH-iH-RMY"/>
-                                            <constraint firstItem="7x0-rN-TVK" firstAttribute="top" secondItem="wHO-bA-kwU" secondAttribute="bottom" constant="8" id="F2j-mC-Jfl"/>
                                             <constraint firstItem="P0i-xK-tHJ" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="H8n-pT-4TL"/>
                                             <constraint firstItem="Eju-AH-7OK" firstAttribute="top" secondItem="Np8-Ft-3xe" secondAttribute="bottom" constant="8" id="HTF-nQ-VPq"/>
+                                            <constraint firstItem="P0i-xK-tHJ" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="Idd-Jp-px7"/>
                                             <constraint firstItem="cD9-Yj-VuA" firstAttribute="top" secondItem="tAS-gm-Db9" secondAttribute="bottom" constant="8" id="K2V-NQ-sUw"/>
                                             <constraint firstItem="Tig-91-BtA" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="K7A-H9-VEy"/>
                                             <constraint firstItem="2rT-bi-tv3" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="KWY-BJ-tka"/>
-                                            <constraint firstItem="P0i-xK-tHJ" firstAttribute="top" secondItem="0tr-i1-b8o" secondAttribute="bottom" priority="500" constant="8" id="KpW-dw-tD2"/>
                                             <constraint firstAttribute="trailing" secondItem="fwP-MY-Z9a" secondAttribute="trailing" constant="8" id="L3g-rx-ay8"/>
                                             <constraint firstAttribute="trailing" secondItem="Np8-Ft-3xe" secondAttribute="trailing" constant="8" id="NrX-ig-z3g"/>
                                             <constraint firstItem="Eju-AH-7OK" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="QLm-2P-04S"/>
-                                            <constraint firstItem="0tr-i1-b8o" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="Tud-1m-pGV"/>
                                             <constraint firstItem="cD9-Yj-VuA" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="U0h-9g-0h0"/>
-                                            <constraint firstItem="7x0-rN-TVK" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="UwS-56-QSP"/>
                                             <constraint firstAttribute="trailing" secondItem="yo1-Re-6oX" secondAttribute="trailing" constant="8" id="Vbn-Cb-wC0"/>
                                             <constraint firstAttribute="trailing" secondItem="Eju-AH-7OK" secondAttribute="trailing" constant="8" id="Zih-qz-onZ"/>
                                             <constraint firstItem="wHO-bA-kwU" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="bdf-ib-Aq2"/>
                                             <constraint firstItem="yo1-Re-6oX" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="c1M-bE-Tvi"/>
+                                            <constraint firstItem="P0i-xK-tHJ" firstAttribute="top" secondItem="wHO-bA-kwU" secondAttribute="bottom" constant="6" id="cdH-Yf-zfF"/>
                                             <constraint firstItem="fwP-MY-Z9a" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="flX-xl-UjO"/>
                                             <constraint firstAttribute="trailing" secondItem="P0i-xK-tHJ" secondAttribute="trailing" constant="8" id="jS2-a0-qrN"/>
                                             <constraint firstItem="fwP-MY-Z9a" firstAttribute="top" secondItem="2rT-bi-tv3" secondAttribute="bottom" priority="500" constant="8" id="k1z-EP-Bjt"/>
                                             <constraint firstAttribute="trailing" secondItem="Tig-91-BtA" secondAttribute="trailing" constant="8" id="kP5-o0-GyH"/>
                                             <constraint firstAttribute="bottom" secondItem="Tig-91-BtA" secondAttribute="bottom" constant="8" id="kPo-2d-6lr"/>
                                             <constraint firstItem="tAS-gm-Db9" firstAttribute="top" secondItem="Eju-AH-7OK" secondAttribute="bottom" constant="8" id="qR6-eN-7KP"/>
-                                            <constraint firstItem="yo1-Re-6oX" firstAttribute="top" secondItem="0tr-i1-b8o" secondAttribute="bottom" priority="501" constant="8" id="qce-jQ-P0H"/>
                                             <constraint firstAttribute="trailing" secondItem="2rT-bi-tv3" secondAttribute="trailing" constant="8" id="ryB-Q2-xYh"/>
-                                            <constraint firstAttribute="trailing" secondItem="7x0-rN-TVK" secondAttribute="trailing" constant="8" id="sTt-mm-VG6"/>
+                                            <constraint firstAttribute="trailing" secondItem="P0i-xK-tHJ" secondAttribute="trailing" constant="8" id="ueB-tu-Vv8"/>
                                             <constraint firstAttribute="trailing" secondItem="tAS-gm-Db9" secondAttribute="trailing" constant="8" id="xSy-jO-SSi"/>
                                         </constraints>
                                     </view>
@@ -403,8 +381,6 @@
                         <outlet property="audioStreamingFileContainer" destination="P0i-xK-tHJ" id="q3U-sR-e1M"/>
                         <outlet property="audioStreamingFileNameLabel" destination="6Cl-8t-4IV" id="PUg-wa-qsZ"/>
                         <outlet property="audioStreamingStatusLabel" destination="4DT-7t-0Bf" id="Uz2-rz-Obq"/>
-                        <outlet property="audioStreamingTypeSegmentedControl" destination="0tr-i1-b8o" id="Whj-o4-Krs"/>
-                        <outlet property="hiddenAudioStreamingFileConstraint" destination="qce-jQ-P0H" id="2Mx-9u-6aG"/>
                         <outlet property="scrollView" destination="wOU-uN-cXZ" id="bmo-Go-XrI"/>
                         <outlet property="scrollViewBottomConstraint" destination="9XP-Ek-IAW" id="vow-Ns-cPM"/>
                         <outlet property="videoStreamingButton" destination="Tig-91-BtA" id="sym-fP-sk0"/>
@@ -415,7 +391,6 @@
                         <outlet property="videoStreamingFileNameLabel" destination="hk8-86-Z1u" id="GP6-WU-GdY"/>
                         <outlet property="videoStreamingStatusLabel" destination="7Xs-UM-zq4" id="PEW-Kw-BJ9"/>
                         <outlet property="videoStreamingTypeSegmentedControl" destination="tAS-gm-Db9" id="0Mg-mA-W71"/>
-                        <outlet property="visibleAudioStreamingFileConstraint" destination="KpW-dw-tD2" id="KVm-6n-jBb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sAb-qy-30v" userLabel="First Responder" sceneMemberID="firstResponder"/>
