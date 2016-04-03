@@ -162,7 +162,7 @@
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Np8-Ft-3xe">
                                                 <rect key="frame" x="8" y="142" width="584" height="30"/>
-                                                <state key="normal" title="Start Audio Streaming"/>
+                                                <state key="normal" title="Start Streaming"/>
                                                 <connections>
                                                     <action selector="audioStreamingAction:" destination="Gmn-Ky-Qx2" eventType="touchUpInside" id="Mhv-mE-CAT"/>
                                                 </connections>
@@ -327,7 +327,7 @@
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-91-BtA">
                                                 <rect key="frame" x="8" y="418" width="584" height="30"/>
-                                                <state key="normal" title="Start Video Streaming"/>
+                                                <state key="normal" title="Start Streaming"/>
                                                 <connections>
                                                     <action selector="videoStreamingAction:" destination="Gmn-Ky-Qx2" eventType="touchUpInside" id="Z19-Mo-OCS"/>
                                                 </connections>
@@ -399,6 +399,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="568"/>
                     <connections>
+                        <outlet property="audioStreamingButton" destination="Np8-Ft-3xe" id="6ZV-Aa-NO6"/>
                         <outlet property="audioStreamingFileContainer" destination="P0i-xK-tHJ" id="q3U-sR-e1M"/>
                         <outlet property="audioStreamingFileNameLabel" destination="6Cl-8t-4IV" id="PUg-wa-qsZ"/>
                         <outlet property="audioStreamingStatusLabel" destination="4DT-7t-0Bf" id="Uz2-rz-Obq"/>
@@ -406,6 +407,7 @@
                         <outlet property="hiddenAudioStreamingFileConstraint" destination="qce-jQ-P0H" id="2Mx-9u-6aG"/>
                         <outlet property="scrollView" destination="wOU-uN-cXZ" id="bmo-Go-XrI"/>
                         <outlet property="scrollViewBottomConstraint" destination="9XP-Ek-IAW" id="vow-Ns-cPM"/>
+                        <outlet property="videoStreamingButton" destination="Tig-91-BtA" id="sym-fP-sk0"/>
                         <outlet property="videoStreamingCameraConstraint" destination="4oK-9S-b0N" id="egt-0u-3i2"/>
                         <outlet property="videoStreamingCameraContainer" destination="cD9-Yj-VuA" id="Gv4-AB-UeJ"/>
                         <outlet property="videoStreamingFileConstraint" destination="k1z-EP-Bjt" id="7K1-Tv-7Pz"/>

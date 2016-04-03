@@ -52,6 +52,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* hiddenAudioStreamingFileConstraint;
 
 @property (nonatomic, weak) IBOutlet UILabel* audioStreamingStatusLabel;
+@property (nonatomic, weak) IBOutlet UIButton* audioStreamingButton;
 
 // Audio File Streaming
 @property (nonatomic, strong) dispatch_queue_t audioStreamQueue;
@@ -68,6 +69,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* videoStreamingFileConstraint;
 
 @property (nonatomic, weak) IBOutlet UILabel* videoStreamingStatusLabel;
+@property (nonatomic, weak) IBOutlet UIButton* videoStreamingButton;
 
 // Video File Streaming
 @property (nonatomic, strong) dispatch_queue_t videoStreamingQueue;
@@ -314,6 +316,12 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     label.text = connected ? @"Connected" : @"Disconnected";
 }
 
+- (void)sdl_updateButton:(UIButton*)button forConnectedState:(BOOL)connected {
+    button.enabled = YES;
+    [button setTitle:connected ? @"Stop Streaming" : @"Start Streaming"
+            forState:UIControlStateNormal];
+}
+
 - (void)sdl_handleError:(NSError*)error {
     NSString* errorString = error.localizedDescription;
     NSString* systemErrorCode = error.userInfo[@"OSStatus"];
@@ -381,7 +389,9 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
         // can we move this somewhere else?
         [dataOutput setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
         
-        [self.captureSession addOutput:dataOutput];
+        if ([self.captureSession canAddOutput:dataOutput]) {
+            [self.captureSession addOutput:dataOutput];
+        }
         
         CMTime minFrameRate = CMTimeMake(1, 1);
         CMTime maxFrameRate = CMTimeMake(1, 30);
@@ -429,11 +439,13 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
         
         NSError *error;
         AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
-        if(error) {
+        if (error) {
             [self sdl_handleError:error];
         }
         
-        [self.captureSession addInput:input];
+        if ([self.captureSession canAddInput:input]) {
+            [self.captureSession addInput:input];
+        }
         
         [self.captureSession commitConfiguration];
         
@@ -465,6 +477,11 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 - (void)sdl_endVideoStreaming {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.videoStreamingStatusLabel.text = @"Disconnecting…";
+        self.videoStreamingButton.enabled = NO;
+    });
+    
     [self.streamingManager stopVideoSession];
     if (self.captureSession.isRunning) {
         [self.captureSession stopRunning];
@@ -516,7 +533,8 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
             self.audioStreamingTypeSegmentedControl.enabled = !self.isAudioSessionConnected;
             [self sdl_updateView:self.audioStreamingFileContainer
                 withEnabledState:!self.isAudioSessionConnected];
-            
+            [self sdl_updateButton:self.audioStreamingButton
+                 forConnectedState:self.isAudioSessionConnected];
         });
     } else if (context == RBVideoStreamingConnectedContext) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -527,6 +545,8 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
                 withEnabledState:!self.isVideoSessionConnected];
             [self sdl_updateView:self.videoStreamingCameraContainer
                 withEnabledState:!self.isVideoSessionConnected];
+            [self sdl_updateButton:self.videoStreamingButton
+                 forConnectedState:self.isVideoSessionConnected];
         });
     }
 }
