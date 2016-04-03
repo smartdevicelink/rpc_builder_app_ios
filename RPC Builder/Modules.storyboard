@@ -310,7 +310,7 @@
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-91-BtA">
                                                 <rect key="frame" x="8" y="418" width="584" height="30"/>
-                                                <state key="normal" title="Start Video Streaming"/>
+                                                <state key="normal" title="Start Streaming"/>
                                                 <connections>
                                                     <action selector="videoStreamingAction:" destination="Gmn-Ky-Qx2" eventType="touchUpInside" id="Z19-Mo-OCS"/>
                                                 </connections>
