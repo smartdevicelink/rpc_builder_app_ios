@@ -88,7 +88,7 @@ There are a few requirements for building Modules.
 4. Be added to the `Modules.storyboard` storyboard in order to correctly load.
   - When designing your view controller, be sure to use 8px for the vertical and horizontal displacement between views so we have a consistent experience.
 
-5. Must not interact with any other Module.
+5. Not interact with any other Module.
 
 6. Be added to `RBModuleViewController`'s class function `moduleClassNames`. The new Module should added to this list as their Module name falls alphabetically with all other Modules. For an example of how to add this see below:
 
