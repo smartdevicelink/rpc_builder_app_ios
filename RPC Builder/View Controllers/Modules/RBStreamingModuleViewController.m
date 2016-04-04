@@ -59,6 +59,9 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 @property (nonatomic, weak) IBOutlet UISegmentedControl* videoStreamingTypeSegmentedControl;
 
 @property (nonatomic, weak) IBOutlet UIView* videoStreamingCameraContainer;
+@property (nonatomic, weak) IBOutlet UITextField* videoStreamingMinFrameRateTextField;
+@property (nonatomic, weak) IBOutlet UITextField* videoStreamingMaxFrameRateTextField;
+
 @property (nonatomic, weak) IBOutlet UIView* videoStreamingFileContainer;
 @property (nonatomic, weak) IBOutlet UILabel* videoStreamingFileNameLabel;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* videoStreamingCameraConstraint;
@@ -100,6 +103,12 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     [self.streamingManager removeObserver:self
                                forKeyPath:RBAudioStreamingConnectedKeyPath];
     [super viewWillDisappear:animated];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.videoStreamingMinFrameRateTextField.text = [NSString stringWithFormat:@"%.02f", self.settingsManager.videoStreamingMinimumFrameRate];
+    self.videoStreamingMaxFrameRateTextField.text = [NSString stringWithFormat:@"%.02f", self.settingsManager.videoStreamingMaximumFrameRate];
 }
 
 #pragma mark - Overrides
@@ -159,6 +168,10 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
             [self sdl_handleEmptyStreamingDataError];
             return;
         }
+        if (!self.SDLManager.isConnected) {
+            [self sdl_handleProxyNotConnectedError];
+            return;
+        }
         __weak typeof(self) weakSelf = self;
         [self.streamingManager startVideoSessionWithStartBlock:^(BOOL success, NSError * _Nullable error) {
             typeof(weakSelf) strongSelf = weakSelf;
@@ -177,6 +190,10 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     } else {
         if (!self.audioStreamingData) {
             [self sdl_handleEmptyStreamingDataError];
+            return;
+        }
+        if (!self.SDLManager.isConnected) {
+            [self sdl_handleProxyNotConnectedError];
             return;
         }
         __weak typeof(self) weakSelf = self;
@@ -326,13 +343,15 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
         errorString = [NSString stringWithFormat:@"%@ %@", errorString, systemErrorCode];
     }
     
-    UIAlertController* alertController = [UIAlertController simpleErrorAlertWithMessage:errorString];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self presentViewController:alertController
-                           animated:YES
-                         completion:nil];
-    });
+//    UIAlertController* alertController = [UIAlertController simpleErrorAlertWithMessage:errorString];
+//    
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [self presentViewController:alertController
+//                           animated:YES
+//                         completion:nil];
+//    });
+    [self sdl_presentErrorWithTitle:nil
+                            message:errorString];
 }
 
 - (void)sdl_beginVideoStreaming {
@@ -360,8 +379,8 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
             [self.captureSession addOutput:dataOutput];
         }
         
-        CMTime minFrameRate = CMTimeMake(1, 1);
-        CMTime maxFrameRate = CMTimeMake(1, 30);
+        CMTime minFrameRate = CMTimeMake(1, self.settingsManager.videoStreamingMinimumFrameRate);
+        CMTime maxFrameRate = CMTimeMake(1, self.settingsManager.videoStreamingMaximumFrameRate);
         if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_7_0) {
             BOOL invalidFrameRate = NO;
             NSString* errorTitle = nil;
@@ -378,11 +397,13 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
                     invalidFrameRate = YES;
                 }
                 if (invalidFrameRate) {
-                    UIAlertController* alertController = [UIAlertController simpleAlertWithTitle:errorTitle
-                                                                                         message:errorMessage];
-                    [self presentViewController:alertController
-                                       animated:YES
-                                     completion:nil];
+//                    UIAlertController* alertController = [UIAlertController simpleAlertWithTitle:errorTitle
+//                                                                                         message:errorMessage];
+//                    [self presentViewController:alertController
+//                                       animated:YES
+//                                     completion:nil];
+                    [self sdl_presentErrorWithTitle:errorTitle
+                                            message:errorMessage];
                     [self.captureSession commitConfiguration];
                     return;
                 }
@@ -481,10 +502,27 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 - (void)sdl_handleEmptyStreamingDataError {
-    UIAlertController* alertController = [UIAlertController simpleErrorAlertWithMessage:@"Cannot start stream. Streaming data is empty."];
-    [self presentViewController:alertController
-                       animated:YES
-                     completion:nil];
+    [self sdl_presentErrorWithTitle:nil
+                            message:@"Cannot start stream. Streaming data is empty."];
+}
+
+- (void)sdl_handleProxyNotConnectedError {
+    [self sdl_presentErrorWithTitle:nil
+                            message:@"Cannot start streaming. Not connected to Core."];
+}
+
+- (void)sdl_presentErrorWithTitle:(NSString*)title message:(NSString*)message {
+    UIAlertController* alertController = nil;
+    if (title.length) {
+        alertController = [UIAlertController simpleAlertWithTitle:title message:message];
+    } else {
+        alertController = [UIAlertController simpleErrorAlertWithMessage:message];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:alertController
+                           animated:YES
+                         completion:nil];
+    });
 }
 
 #pragma mark - KVO

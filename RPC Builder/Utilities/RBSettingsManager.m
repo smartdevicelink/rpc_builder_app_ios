@@ -6,6 +6,8 @@
 #import "RBSettingsManager.h"
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+
 #import "RBParser.h"
 
 #import "UIAlertController+Minimal.h"
@@ -54,6 +56,14 @@ NSString* const RBProtocolStringKey = @"protocolString";
 NSString* const RBProtocolStringDefault = @"default";
 
 NSString* const RBRegisterAppInterfaceKey = @"registerAppInterface";
+
+NSString* const RBAudioStreamingBufferSizeKey = @"audioStreamingBufferSize";
+NSString* const RBVideoStreamingBufferSizeKey = @"videoStreamingBufferSize";
+NSUInteger const RBStreamingBufferSizeDefault = 131071;
+
+NSString* const RBVideoStreamingMinFrameRateKey = @"videoStreamingMinFrameRate";
+
+NSString* const RBVideoStreamingMaxFrameRateKey = @"videoStreamingMaxFrameRate";
 
 #ifndef SETTER_HELPERS
 #define STRING_SETTER(variableName, key)                   \
@@ -326,6 +336,22 @@ NSString* const RBRegisterAppInterfaceKey = @"registerAppInterface";
     }
 }
 
+- (void)setAudioStreamingBufferSize:(NSUInteger)audioStreamingBufferSize {
+    NUMBER_SETTER(audioStreamingBufferSize, RBAudioStreamingBufferSizeKey);
+}
+
+- (void)setVideoStreamingBufferSize:(NSUInteger)videoStreamingBufferSize {
+    NUMBER_SETTER(videoStreamingBufferSize, RBVideoStreamingBufferSizeKey);
+}
+
+- (void)setVideoStreamingMinimumFrameRate:(CGFloat)videoStreamingMinimumFrameRate {
+    NUMBER_SETTER(videoStreamingMinimumFrameRate, RBVideoStreamingMinFrameRateKey);
+}
+
+- (void)setVideoStreamingMaximumFrameRate:(CGFloat)videoStreamingMaximumFrameRate {
+    NUMBER_SETTER(videoStreamingMaximumFrameRate, RBVideoStreamingMaxFrameRateKey);
+}
+
 #pragma mark - Private
 #pragma mark Getters
 - (NSUserDefaults*)userDefaults {
@@ -420,6 +446,40 @@ NSString* const RBRegisterAppInterfaceKey = @"registerAppInterface";
     
     _registerAppInterfaceDictionary = [self sdl_dictionaryForKey:RBRegisterAppInterfaceKey
                                              withDefaultValue:raiDictionary];
+    
+    // Steaming
+    _audioStreamingBufferSize = [[self sdl_numberForKey:RBAudioStreamingBufferSizeKey
+                                       withDefaultValue:@(RBStreamingBufferSizeDefault)] unsignedIntegerValue];
+    _videoStreamingBufferSize = [[self sdl_numberForKey:RBVideoStreamingBufferSizeKey
+                                       withDefaultValue:@(RBStreamingBufferSizeDefault)] unsignedIntegerValue];
+    
+    _videoStreamingMinimumFrameRate = [[self sdl_numberForKey:RBVideoStreamingMinFrameRateKey
+                                             withDefaultValue:@(0)] floatValue];
+    _videoStreamingMaximumFrameRate = [[self sdl_numberForKey:RBVideoStreamingMaxFrameRateKey
+                                             withDefaultValue:@(0)] floatValue];
+    if (!_videoStreamingMinimumFrameRate
+        || !_videoStreamingMaximumFrameRate) {
+        CGFloat minFrameRate = 0;
+        CGFloat maxFrameRate = 0;
+        if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_7_0) {
+            AVCaptureDevice* videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+            for (AVFrameRateRange* frameRateRange in [[videoDevice activeFormat] videoSupportedFrameRateRanges]) {
+                if (minFrameRate == 0) {
+                    minFrameRate = frameRateRange.minFrameRate;
+                } else {
+                    minFrameRate = MIN(minFrameRate, frameRateRange.minFrameRate);
+                }
+                maxFrameRate = MAX(maxFrameRate, frameRateRange.maxFrameRate);
+            }
+        } else {
+            // Should only be for pre iPhone 6
+            minFrameRate = 1;
+            maxFrameRate = 30;
+        }
+        
+        self.videoStreamingMinimumFrameRate = minFrameRate;
+        self.videoStreamingMaximumFrameRate = maxFrameRate;
+    }
     
     [self sdl_synchronize];
 }

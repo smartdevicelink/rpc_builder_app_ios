@@ -39,7 +39,7 @@
                                 <rect key="frame" x="0.0" y="64" width="600" height="455"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="coi-vu-l8Y">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="456"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="458"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio Streaming" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wHO-bA-kwU">
                                                 <rect key="frame" x="8" y="8" width="584" height="33"/>
@@ -48,7 +48,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P0i-xK-tHJ">
-                                                <rect key="frame" x="8" y="47" width="584" height="58"/>
+                                                <rect key="frame" x="8" y="49" width="584" height="58"/>
                                                 <subviews>
                                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N0h-D3-qsU">
                                                         <rect key="frame" x="0.0" y="28" width="584" height="30"/>
@@ -117,7 +117,7 @@
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yo1-Re-6oX">
-                                                <rect key="frame" x="8" y="113" width="584" height="21"/>
+                                                <rect key="frame" x="8" y="115" width="584" height="21"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HtN-zj-8qH">
                                                         <rect key="frame" x="0.0" y="0.0" width="470" height="21"/>
@@ -144,20 +144,20 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Np8-Ft-3xe">
-                                                <rect key="frame" x="8" y="142" width="584" height="30"/>
+                                                <rect key="frame" x="8" y="144" width="584" height="30"/>
                                                 <state key="normal" title="Start Streaming"/>
                                                 <connections>
                                                     <action selector="audioStreamingAction:" destination="Gmn-Ky-Qx2" eventType="touchUpInside" id="Mhv-mE-CAT"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Streaming" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eju-AH-7OK">
-                                                <rect key="frame" x="8" y="180" width="584" height="33"/>
+                                                <rect key="frame" x="8" y="182" width="584" height="33"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="tAS-gm-Db9">
-                                                <rect key="frame" x="8" y="221" width="584" height="29"/>
+                                                <rect key="frame" x="8" y="223" width="584" height="29"/>
                                                 <segments>
                                                     <segment title="Camera"/>
                                                     <segment title="File"/>
@@ -167,7 +167,7 @@
                                                 </connections>
                                             </segmentedControl>
                                             <view alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="999" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="2rT-bi-tv3">
-                                                <rect key="frame" x="8" y="257" width="584" height="58"/>
+                                                <rect key="frame" x="8" y="259" width="584" height="58"/>
                                                 <subviews>
                                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X0y-Fc-XZ6">
                                                         <rect key="frame" x="0.0" y="28" width="584" height="30"/>
@@ -233,7 +233,7 @@
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cD9-Yj-VuA">
-                                                <rect key="frame" x="8" y="257" width="584" height="124"/>
+                                                <rect key="frame" x="8" y="259" width="584" height="124"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minimum Frame Rate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QA4-lE-Vsm">
                                                         <rect key="frame" x="0.0" y="0.0" width="584" height="20"/>
@@ -241,7 +241,7 @@
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pCY-Nv-Xh5">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pCY-Nv-Xh5">
                                                         <rect key="frame" x="0.0" y="28" width="584" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
@@ -255,7 +255,7 @@
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7jp-dV-q3e">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7jp-dV-q3e">
                                                         <rect key="frame" x="0.0" y="94" width="584" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
@@ -282,7 +282,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwP-MY-Z9a">
-                                                <rect key="frame" x="8" y="389" width="584" height="21"/>
+                                                <rect key="frame" x="8" y="391" width="584" height="21"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o3T-Cm-8rl">
                                                         <rect key="frame" x="0.0" y="0.0" width="470" height="21"/>
@@ -309,7 +309,7 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-91-BtA">
-                                                <rect key="frame" x="8" y="418" width="584" height="30"/>
+                                                <rect key="frame" x="8" y="420" width="584" height="30"/>
                                                 <state key="normal" title="Start Streaming"/>
                                                 <connections>
                                                     <action selector="videoStreamingAction:" destination="Gmn-Ky-Qx2" eventType="touchUpInside" id="Z19-Mo-OCS"/>
@@ -328,7 +328,6 @@
                                             <constraint firstItem="Np8-Ft-3xe" firstAttribute="top" secondItem="yo1-Re-6oX" secondAttribute="bottom" constant="8" id="CAQ-WL-OuJ"/>
                                             <constraint firstItem="tAS-gm-Db9" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="Dmi-cQ-uFD"/>
                                             <constraint firstItem="Np8-Ft-3xe" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="EwH-iH-RMY"/>
-                                            <constraint firstItem="P0i-xK-tHJ" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="H8n-pT-4TL"/>
                                             <constraint firstItem="Eju-AH-7OK" firstAttribute="top" secondItem="Np8-Ft-3xe" secondAttribute="bottom" constant="8" id="HTF-nQ-VPq"/>
                                             <constraint firstItem="P0i-xK-tHJ" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="Idd-Jp-px7"/>
                                             <constraint firstItem="cD9-Yj-VuA" firstAttribute="top" secondItem="tAS-gm-Db9" secondAttribute="bottom" constant="8" id="K2V-NQ-sUw"/>
@@ -342,7 +341,7 @@
                                             <constraint firstAttribute="trailing" secondItem="Eju-AH-7OK" secondAttribute="trailing" constant="8" id="Zih-qz-onZ"/>
                                             <constraint firstItem="wHO-bA-kwU" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="bdf-ib-Aq2"/>
                                             <constraint firstItem="yo1-Re-6oX" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="c1M-bE-Tvi"/>
-                                            <constraint firstItem="P0i-xK-tHJ" firstAttribute="top" secondItem="wHO-bA-kwU" secondAttribute="bottom" constant="6" id="cdH-Yf-zfF"/>
+                                            <constraint firstItem="P0i-xK-tHJ" firstAttribute="top" secondItem="wHO-bA-kwU" secondAttribute="bottom" constant="8" id="cdH-Yf-zfF"/>
                                             <constraint firstItem="fwP-MY-Z9a" firstAttribute="leading" secondItem="coi-vu-l8Y" secondAttribute="leading" constant="8" id="flX-xl-UjO"/>
                                             <constraint firstAttribute="trailing" secondItem="P0i-xK-tHJ" secondAttribute="trailing" constant="8" id="jS2-a0-qrN"/>
                                             <constraint firstItem="fwP-MY-Z9a" firstAttribute="top" secondItem="2rT-bi-tv3" secondAttribute="bottom" priority="500" constant="8" id="k1z-EP-Bjt"/>
@@ -350,7 +349,6 @@
                                             <constraint firstAttribute="bottom" secondItem="Tig-91-BtA" secondAttribute="bottom" constant="8" id="kPo-2d-6lr"/>
                                             <constraint firstItem="tAS-gm-Db9" firstAttribute="top" secondItem="Eju-AH-7OK" secondAttribute="bottom" constant="8" id="qR6-eN-7KP"/>
                                             <constraint firstAttribute="trailing" secondItem="2rT-bi-tv3" secondAttribute="trailing" constant="8" id="ryB-Q2-xYh"/>
-                                            <constraint firstAttribute="trailing" secondItem="P0i-xK-tHJ" secondAttribute="trailing" constant="8" id="ueB-tu-Vv8"/>
                                             <constraint firstAttribute="trailing" secondItem="tAS-gm-Db9" secondAttribute="trailing" constant="8" id="xSy-jO-SSi"/>
                                         </constraints>
                                     </view>
@@ -389,6 +387,8 @@
                         <outlet property="videoStreamingFileConstraint" destination="k1z-EP-Bjt" id="7K1-Tv-7Pz"/>
                         <outlet property="videoStreamingFileContainer" destination="2rT-bi-tv3" id="Ljr-T4-kjA"/>
                         <outlet property="videoStreamingFileNameLabel" destination="hk8-86-Z1u" id="GP6-WU-GdY"/>
+                        <outlet property="videoStreamingMaxFrameRateTextField" destination="7jp-dV-q3e" id="Idr-VE-I3d"/>
+                        <outlet property="videoStreamingMinFrameRateTextField" destination="pCY-Nv-Xh5" id="dNp-9S-puW"/>
                         <outlet property="videoStreamingStatusLabel" destination="7Xs-UM-zq4" id="PEW-Kw-BJ9"/>
                         <outlet property="videoStreamingTypeSegmentedControl" destination="tAS-gm-Db9" id="0Mg-mA-W71"/>
                     </connections>

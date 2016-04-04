@@ -9,6 +9,8 @@
 #import "RBScrollViewController.h"
 #import "UIAlertController+Minimal.h"
 #import "SmartDeviceLink.h"
+#import "RBSettingsManager.h"
+#import "SDLManager.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:(v) options:NSNumericSearch] != NSOrderedAscending)
 
@@ -54,5 +56,15 @@
  *  Proxy given by SDLManager. Logic relating to proxy should be contained with module.
  */
 @property (nonatomic, weak) SDLProxy* proxy;
+
+/*
+ *  Local reference to SDLManager's singleton.
+ */
+@property (nonatomic, readonly) SDLManager* SDLManager;
+
+/*
+ *  Local reference to RBSettingsManager's singleton.
+ */
+@property (nonatomic, readonly) RBSettingsManager* settingsManager;
 
 @end
