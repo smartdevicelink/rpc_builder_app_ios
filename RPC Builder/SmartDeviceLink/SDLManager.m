@@ -79,10 +79,6 @@ static NSString* const SDLRequestKey = @"request";
     return @(++_correlationID);
 }
 
-- (BOOL)isConnected {
-    return [[_proxy valueForKey:@"_isConnected"] boolValue];
-}
-
 #pragma mark - Delegates
 #pragma mark SDLProxyListener
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification { }
@@ -90,11 +86,13 @@ static NSString* const SDLRequestKey = @"request";
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification { }
 
 - (void)onProxyClosed {
+    _connected = NO;
     [self sdl_stopProxy];
     [self connectWithConfiguration:_configuration];
 }
 
 - (void)onProxyOpened {
+    _connected = YES;
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     if (self.registerAppDictionary) {
         [self sendRequestDictionary:self.registerAppDictionary

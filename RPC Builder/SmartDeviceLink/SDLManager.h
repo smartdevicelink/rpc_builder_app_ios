@@ -15,7 +15,7 @@ extern NSString* const SDLManagerRegisterAppInterfaceResponseNotification;
 
 @property (nonatomic, readonly) SDLProxy* proxy;
 
-@property (nonatomic, readonly) BOOL isConnected;
+@property (nonatomic, readonly, getter=isConnected) BOOL connected;
 
 @property (nonatomic, strong) NSDictionary* registerAppDictionary;
 
