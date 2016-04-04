@@ -156,7 +156,7 @@ static NSString* const SDLRequestKey = @"request";
     [self didChangeValueForKey:@"isConnected"];
     
     if (![[SDLManager sharedManager] isConnected]) {
-        [self presentSettings];
+        [self presentSettingsViewController];
     }
 }
 
