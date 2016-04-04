@@ -434,10 +434,15 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
                     // reassemble it. SDLStreamingMediaManager actually takes
                     // CVImageBufferRefs and converts them to NSData and sends them off
                     // using SDLProtocol's sendRawData:withServiceType:.
-                    [self.proxy.protocol sendRawData:chunk
-                                     withServiceType:SDLServiceType_Video];
-                    
-                    [NSThread sleepForTimeInterval:0.25];
+                    if (self.isVideoSessionConnected) {
+                        [self.proxy.protocol sendRawData:chunk
+                                         withServiceType:SDLServiceType_Video];
+                        
+                        [NSThread sleepForTimeInterval:0.25];
+                    } else {
+                        self.endVideoStreaming = YES;
+                        break;
+                    }
                 }
             }
             
@@ -468,9 +473,14 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     dispatch_async(self.audioStreamQueue, ^{
         while (!self.endAudioStreaming) {
             for (NSData* chunk in audioChunks) {
-                [self.streamingManager sendAudioData:chunk];
-                
-                [NSThread sleepForTimeInterval:0.25];
+                if (self.isAudioSessionConnected) {
+                    [self.streamingManager sendAudioData:chunk];
+                    
+                    [NSThread sleepForTimeInterval:0.25];
+                } else {
+                    self.endAudioStreaming = YES;
+                    break;
+                }
             }
         }
         
