@@ -86,6 +86,10 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     [super viewWillAppear:animated];
     if (self.streamingManager) {
         NSKeyValueObservingOptions observations = (NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew);
+        [self.SDLManager addObserver:self
+                     forKeyPath:SDLManagerConnectedKeyPath
+                        options:observations
+                        context:&SDLManagerConnectedContext];
         [self.streamingManager addObserver:self
                                 forKeyPath:RBVideoStreamingConnectedKeyPath
                                    options:observations
@@ -98,6 +102,8 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [self.SDLManager removeObserver:self
+                    forKeyPath:SDLManagerConnectedKeyPath];
     [self.streamingManager removeObserver:self
                                forKeyPath:RBVideoStreamingConnectedKeyPath];
     [self.streamingManager removeObserver:self
@@ -120,7 +126,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 + (NSString*)moduleDescription {
-    return @"Allows for testing of audio and video streaming. If streaming a file, only certain file types are currently supported. For closest to production functionality, please stream from Microphone/Camera.";
+    return @"Allows for testing of audio and video streaming. For streaming video files, make sure the file is h.264 encoded.";
 }
 
 + (NSString*)moduleImageName {
@@ -133,11 +139,11 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 #pragma mark - Getters
 - (BOOL)isAudioSessionConnected {
-    return self.streamingManager.audioSessionConnected;
+    return self.SDLManager.isConnected ? self.streamingManager.audioSessionConnected : NO;
 }
 
 - (BOOL)isVideoSessionConnected {
-    return self.streamingManager.videoSessionConnected;
+    return self.SDLManager.isConnected ? self.streamingManager.videoSessionConnected : NO;
 }
 
 - (NSNumberFormatter*)decimalNumberFormatter {
@@ -324,10 +330,36 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     }];
 }
 
-- (void)sdl_updateView:(UIView*)view withEnabledState:(BOOL)enabled {
-    view.userInteractionEnabled = enabled;
+- (void)sdl_updateAudioStreamingViews {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self sdl_updateLabel:self.audioStreamingStatusLabel
+            forConnectedState:self.isAudioSessionConnected];
+        [self sdl_updateView:self.audioStreamingFileContainer
+           forConnectedState:self.isAudioSessionConnected];
+        [self sdl_updateButton:self.audioStreamingButton
+             forConnectedState:self.isAudioSessionConnected];
+    });
+}
+
+- (void)sdl_updateVideoStreamingViews {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self sdl_updateLabel:self.videoStreamingStatusLabel
+            forConnectedState:self.isVideoSessionConnected];
+        self.videoStreamingTypeSegmentedControl.enabled = !self.isVideoSessionConnected;
+        [self sdl_updateView:self.videoStreamingFileContainer
+           forConnectedState:self.isVideoSessionConnected];
+        [self sdl_updateView:self.videoStreamingCameraContainer
+           forConnectedState:self.isVideoSessionConnected];
+        [self sdl_updateButton:self.videoStreamingButton
+             forConnectedState:self.isVideoSessionConnected];
+    });
+}
+
+
+- (void)sdl_updateView:(UIView*)view forConnectedState:(BOOL)connected {
+    view.userInteractionEnabled = !connected;
     if (view.alpha > 0.0) {
-        view.alpha = enabled ? 1.0 : 0.5;
+        view.alpha = connected ? 0.5 : 1.0;
     }
 }
 
@@ -469,27 +501,15 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if (context == RBAudioStreamingConnectedContext) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self sdl_updateLabel:self.audioStreamingStatusLabel
-                forConnectedState:self.isAudioSessionConnected];
-            [self sdl_updateView:self.audioStreamingFileContainer
-                withEnabledState:!self.isAudioSessionConnected];
-            [self sdl_updateButton:self.audioStreamingButton
-                 forConnectedState:self.isAudioSessionConnected];
-        });
+    if (context == SDLManagerConnectedContext) {
+        if (!self.SDLManager.isConnected) {
+            [self sdl_updateAudioStreamingViews];
+            [self sdl_updateVideoStreamingViews];
+        }
+    } else if (context == RBAudioStreamingConnectedContext) {
+        [self sdl_updateAudioStreamingViews];
     } else if (context == RBVideoStreamingConnectedContext) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self sdl_updateLabel:self.videoStreamingStatusLabel
-                forConnectedState:self.isVideoSessionConnected];
-            self.videoStreamingTypeSegmentedControl.enabled = !self.isVideoSessionConnected;
-            [self sdl_updateView:self.videoStreamingFileContainer
-                withEnabledState:!self.isVideoSessionConnected];
-            [self sdl_updateView:self.videoStreamingCameraContainer
-                withEnabledState:!self.isVideoSessionConnected];
-            [self sdl_updateButton:self.videoStreamingButton
-                 forConnectedState:self.isVideoSessionConnected];
-        });
+        [self sdl_updateVideoStreamingViews];
     }
 }
 
