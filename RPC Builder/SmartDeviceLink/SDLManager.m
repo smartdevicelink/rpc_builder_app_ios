@@ -6,7 +6,12 @@
 #import "SDLManager.h"
 #import "SmartDeviceLink.h"
 
+#import "RBSettingsViewController.h"
+
 NSString* const SDLManagerRegisterAppInterfaceResponseNotification = @"SDLManagerRegisterAppInterfaceResponseNotification";
+
+NSString* const SDLManagerConnectedKeyPath = @"isConnected";
+void* SDLManagerConnectedContext = &SDLManagerConnectedContext;
 
 static NSString* const AppIconFileName = @"SDLAppIcon";
 
@@ -82,6 +87,20 @@ static NSString* const SDLRequestKey = @"request";
     [self sdl_sendRequest:request];
 }
 
+- (void)presentSettingsViewController {
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
+                                                         bundle:nil];
+    RBSettingsViewController* settingsViewController = [storyboard instantiateViewControllerWithIdentifier:@"RBSettingsViewController"];
+    UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+    
+    // HAX: http://stackoverflow.com/questions/1922517/how-does-performselectorwithobjectafterdelay-work
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:navigationController
+                                                                                     animated:YES
+                                                                                   completion:nil];
+    });
+}
+
 #pragma mark Getters
 - (NSNumber*)nextCorrelationID {
     return @(++_correlationID);
@@ -94,13 +113,11 @@ static NSString* const SDLRequestKey = @"request";
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification { }
 
 - (void)onProxyClosed {
-    _connected = NO;
     [self sdl_stopProxy];
-    [self connectWithConfiguration:_configuration];
 }
 
 - (void)onProxyOpened {
-    _connected = YES;
+    [self sdl_updatedIsConnected:YES];
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     if (self.registerAppDictionary) {
         [self sendRequestDictionary:self.registerAppDictionary
@@ -127,9 +144,20 @@ static NSString* const SDLRequestKey = @"request";
 }
 
 - (void)sdl_stopProxy {
+    [self sdl_updatedIsConnected:NO];
     [UIApplication sharedApplication].idleTimerDisabled = NO;
     [_proxy dispose];
     _proxy = nil;
+}
+
+- (void)sdl_updatedIsConnected:(BOOL)connected {
+    [self willChangeValueForKey:@"isConnected"];
+    _connected = connected;
+    [self didChangeValueForKey:@"isConnected"];
+    
+    if (![[SDLManager sharedManager] isConnected]) {
+        [self presentSettings];
+    }
 }
 
 @end

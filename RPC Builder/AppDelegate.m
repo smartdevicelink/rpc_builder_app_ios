@@ -6,8 +6,6 @@
 #import "AppDelegate.h"
 #import "SDLManager.h"
 
-#import "RBSettingsViewController.h"
-
 @interface AppDelegate ()
 
 @end
@@ -17,6 +15,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *publicDocumentsDir = [paths objectAtIndex:0];
+    NSLog(@"%@", publicDocumentsDir);
     
     if ([self.window.rootViewController isKindOfClass:[UITabBarController class]]) {
         UITabBarController* tabBarController = (UITabBarController*)self.window.rootViewController;
@@ -33,17 +35,7 @@
     [self.window makeKeyAndVisible];
     
     if (![[SDLManager sharedManager] isConnected]) {
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
-                                                             bundle:nil];
-        RBSettingsViewController* settingsViewController = [storyboard instantiateViewControllerWithIdentifier:@"RBSettingsViewController"];
-        UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
-
-        // HAX: http://stackoverflow.com/questions/1922517/how-does-performselectorwithobjectafterdelay-work
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.window.rootViewController presentViewController:navigationController
-                                                         animated:YES
-                                                       completion:nil];
-        });
+        [[SDLManager sharedManager] presentSettings];
     }
     
     return YES;

@@ -9,6 +9,9 @@
 
 extern NSString* const SDLManagerRegisterAppInterfaceResponseNotification;
 
+extern NSString* const SDLManagerConnectedKeyPath;
+extern void* SDLManagerConnectedContext;
+
 @interface SDLManager : NSObject
 
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
@@ -21,5 +24,7 @@ extern NSString* const SDLManagerRegisterAppInterfaceResponseNotification;
 - (void)disconnect;
 
 - (void)sendRequestDictionary:(NSDictionary*)requestDictionary bulkData:(NSData*)bulkData;
+
+- (void)presentSettingsViewController;
 
 @end
