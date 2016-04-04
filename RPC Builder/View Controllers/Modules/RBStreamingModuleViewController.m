@@ -7,20 +7,16 @@
 //
 
 #import "RBStreamingModuleViewController.h"
-
 #import "RBFilePickerViewController.h"
 
-#import "SDLGlobals.h"
-
 #import "NSData+Chunks.h"
-#import <AVFoundation/AVFoundation.h>
+
+#import "RBCamera.h"
 
 static NSInteger const RBLayoutConstraintPriorityHide = 500;
 static NSInteger const RBLayoutConstraintPriorityShow = 501;
 
 static CGFloat const RBAnimationDuration = 0.3f;
-
-static NSInteger const RBBufferSizeOffset = 13;
 
 typedef NS_ENUM(NSUInteger, RBStreamingType) {
     RBStreamingTypeDevice,
@@ -33,7 +29,7 @@ static void* RBVideoStreamingConnectedContext = &RBVideoStreamingConnectedContex
 static NSString* const RBAudioStreamingConnectedKeyPath = @"audioSessionConnected";
 static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContext;
 
-@interface RBStreamingModuleViewController () <RBFilePickerDelegate, AVCaptureVideoDataOutputSampleBufferDelegate>
+@interface RBStreamingModuleViewController () <RBFilePickerDelegate, RBCameraDelegate, UITextFieldDelegate>
 
 @property (nonatomic, weak) SDLStreamingMediaManager* streamingManager;
 @property (nonatomic, readonly) BOOL isVideoSessionConnected;
@@ -41,11 +37,13 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 @property (nonatomic, weak) UILabel* currentFileNameLabel;
 
-@property (nonatomic, readonly) NSUInteger streamingBufferChunkSize;
+@property (nonatomic, readonly) NSNumberFormatter* unsignedIntegerNumberFormatter;
+@property (nonatomic, readonly) NSNumberFormatter* decimalNumberFormatter;
 
 // Audio Streaming
 @property (nonatomic, weak) IBOutlet UIView* audioStreamingFileContainer;
 @property (nonatomic, weak) IBOutlet UILabel* audioStreamingFileNameLabel;
+@property (nonatomic, weak) IBOutlet UITextField* audioStreamingBufferSizeTextField;
 
 @property (nonatomic, weak) IBOutlet UILabel* audioStreamingStatusLabel;
 @property (nonatomic, weak) IBOutlet UIButton* audioStreamingButton;
@@ -64,6 +62,8 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 @property (nonatomic, weak) IBOutlet UIView* videoStreamingFileContainer;
 @property (nonatomic, weak) IBOutlet UILabel* videoStreamingFileNameLabel;
+@property (nonatomic, weak) IBOutlet UITextField* videoStreamingBufferSizeTextField;
+
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* videoStreamingCameraConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint* videoStreamingFileConstraint;
 
@@ -76,7 +76,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 @property (nonatomic) BOOL endVideoStreaming;
 
 // Video Camera Streaming
-@property (nonatomic, strong) AVCaptureSession* captureSession;
+@property (nonatomic, strong) RBCamera* camera;
 
 @end
 
@@ -107,6 +107,9 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.audioStreamingBufferSizeTextField.text = [NSString stringWithFormat:@"%i", self.settingsManager.audioStreamingBufferSize];
+    self.videoStreamingBufferSizeTextField.text = [NSString stringWithFormat:@"%i", self.settingsManager.videoStreamingBufferSize];
+    
     self.videoStreamingMinFrameRateTextField.text = [NSString stringWithFormat:@"%.02f", self.settingsManager.videoStreamingMinimumFrameRate];
     self.videoStreamingMaxFrameRateTextField.text = [NSString stringWithFormat:@"%.02f", self.settingsManager.videoStreamingMaximumFrameRate];
 }
@@ -137,8 +140,21 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     return self.streamingManager.videoSessionConnected;
 }
 
-- (NSUInteger)streamingBufferChunkSize {
-    return [[SDLGlobals globals] maxMTUSize] - RBBufferSizeOffset;
+- (NSNumberFormatter*)decimalNumberFormatter {
+    static NSNumberFormatter* decimalNumberFormatter = nil;
+    if (!decimalNumberFormatter) {
+        decimalNumberFormatter = [[NSNumberFormatter alloc] init];
+        decimalNumberFormatter.numberStyle = kCFNumberFormatterDecimalStyle;
+    }
+    return decimalNumberFormatter;
+}
+
+- (NSNumberFormatter*)unsignedIntegerNumberFormatter {
+    static NSNumberFormatter* unsignedIntegerNumberFormatter = nil;
+    if (!unsignedIntegerNumberFormatter) {
+        unsignedIntegerNumberFormatter = [[NSNumberFormatter alloc] init];
+    }
+    return unsignedIntegerNumberFormatter;
 }
 
 #pragma mark - Setters
@@ -232,12 +248,31 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     }];
 }
 
-#pragma mark AVCaptureVideoDataOutputSampleBuffer
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+#pragma mark RBCamera
+- (void)camera:(RBCamera *)camera didReceiveError:(NSError *)error {
+    [self sdl_handleError:error];
+}
 
+- (void)camera:(RBCamera *)camera hasImageBufferAvailable:(CVImageBufferRef)imageBuffer {
     if (self.isVideoSessionConnected) {
-        [self.streamingManager sendVideoData:pixelBuffer];
+        [self.streamingManager sendVideoData:imageBuffer];
+    }
+}
+
+#pragma mark UITextField
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == self.audioStreamingBufferSizeTextField) {
+        NSNumber* number = [self.unsignedIntegerNumberFormatter numberFromString:self.audioStreamingBufferSizeTextField.text];
+        self.settingsManager.audioStreamingBufferSize = [number unsignedIntegerValue];
+    } else if (textField == self.videoStreamingBufferSizeTextField) {
+        NSNumber* number = [self.unsignedIntegerNumberFormatter numberFromString:self.videoStreamingBufferSizeTextField.text];
+        self.settingsManager.videoStreamingBufferSize = [number unsignedIntegerValue];
+    } else if (textField == self.videoStreamingMinFrameRateTextField) {
+        NSNumber* number = [self.decimalNumberFormatter numberFromString:self.videoStreamingMinFrameRateTextField.text];
+        self.settingsManager.videoStreamingMinimumFrameRate = [number floatValue];
+    } else if (textField == self.videoStreamingMaxFrameRateTextField) {
+        NSNumber* number = [self.decimalNumberFormatter numberFromString:self.videoStreamingMaxFrameRateTextField.text];
+        self.settingsManager.videoStreamingMaximumFrameRate = [number floatValue];
     }
 }
 
@@ -343,106 +378,21 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
         errorString = [NSString stringWithFormat:@"%@ %@", errorString, systemErrorCode];
     }
     
-//    UIAlertController* alertController = [UIAlertController simpleErrorAlertWithMessage:errorString];
-//    
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [self presentViewController:alertController
-//                           animated:YES
-//                         completion:nil];
-//    });
-    [self sdl_presentErrorWithTitle:nil
-                            message:errorString];
+    [self sdl_presentErrorWithMessage:errorString];
 }
 
 - (void)sdl_beginVideoStreaming {
     if (self.videoStreamingTypeSegmentedControl.selectedSegmentIndex == RBStreamingTypeDevice) {
-        
-        self.captureSession = [[AVCaptureSession alloc] init];
-        [self.captureSession beginConfiguration];
-        
-        self.captureSession.sessionPreset = AVCaptureSessionPreset640x480;
-        
-        AVCaptureDevice * videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-
-        AVCaptureVideoDataOutput * dataOutput = [[AVCaptureVideoDataOutput alloc] init];
-        dataOutput.alwaysDiscardsLateVideoFrames = YES;
-        
-        // see if we need this
-        dataOutput.videoSettings = @{
-                                     (id)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)
-                                     };
-        
-        // can we move this somewhere else?
-        [dataOutput setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
-        
-        if ([self.captureSession canAddOutput:dataOutput]) {
-            [self.captureSession addOutput:dataOutput];
+        if (!self.camera) {
+            self.camera = [[RBCamera alloc] initWithDelegate:self];
         }
         
-        CMTime minFrameRate = CMTimeMake(1, self.settingsManager.videoStreamingMinimumFrameRate);
-        CMTime maxFrameRate = CMTimeMake(1, self.settingsManager.videoStreamingMaximumFrameRate);
-        if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_7_0) {
-            BOOL invalidFrameRate = NO;
-            NSString* errorTitle = nil;
-            NSString* errorMessage = nil;
-            for (AVFrameRateRange* frameRateRange in [[videoDevice activeFormat] videoSupportedFrameRateRanges]) {
-                if (frameRateRange.minFrameRate > minFrameRate.timescale) {
-                    errorTitle = @"Min Frame Rate Error";
-                    errorMessage = [NSString stringWithFormat:@"Min frame rate of %d is invalid. It must be greater than or equal to %.1f.", minFrameRate.timescale, frameRateRange.minFrameRate];
-                    invalidFrameRate = YES;
-                }
-                if (frameRateRange.maxFrameRate < maxFrameRate.timescale) {
-                    errorTitle = @"Max Frame Rate Error";
-                    errorMessage = [NSString stringWithFormat:@"Max frame rate of %d is invalid. It must be less than or equal to %.1f.", maxFrameRate.timescale, frameRateRange.maxFrameRate];
-                    invalidFrameRate = YES;
-                }
-                if (invalidFrameRate) {
-//                    UIAlertController* alertController = [UIAlertController simpleAlertWithTitle:errorTitle
-//                                                                                         message:errorMessage];
-//                    [self presentViewController:alertController
-//                                       animated:YES
-//                                     completion:nil];
-                    [self sdl_presentErrorWithTitle:errorTitle
-                                            message:errorMessage];
-                    [self.captureSession commitConfiguration];
-                    return;
-                }
-            }
-            [videoDevice lockForConfiguration:nil];
-            [videoDevice setActiveVideoMinFrameDuration:maxFrameRate];
-            [videoDevice setActiveVideoMaxFrameDuration:minFrameRate];
-            [videoDevice unlockForConfiguration];
-        } else {
-            AVCaptureConnection* connection = [dataOutput connectionWithMediaType:AVMediaTypeVideo];
-            if (connection.isVideoMinFrameDurationSupported) {
-                connection.videoMinFrameDuration = maxFrameRate;
-            }
-            if (connection.isVideoMaxFrameDurationSupported) {
-                connection.videoMaxFrameDuration = minFrameRate;
-            }
-            if ([self.captureSession canAddConnection:connection]) {
-                [self.captureSession addConnection:connection];
-            }
-        }
-        
-        NSError *error;
-        AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
-        if (error) {
-            [self sdl_handleError:error];
-        }
-        
-        if ([self.captureSession canAddInput:input]) {
-            [self.captureSession addInput:input];
-        }
-        
-        [self.captureSession commitConfiguration];
-        
-        [self.captureSession startRunning];
+        [self.camera startCapture];
     } else {
         self.videoStreamingQueue = dispatch_queue_create("com.smartdevicelink.videostreaming",
                                                          DISPATCH_QUEUE_SERIAL);
 
-        NSArray* videoChunks = [self.videoStreamingData dataChunksOfSize:self.streamingBufferChunkSize];
+        NSArray* videoChunks = [self.videoStreamingData dataChunksOfSize:self.settingsManager.videoStreamingBufferSize];
         
         dispatch_async(self.videoStreamingQueue, ^{
             while (!self.endVideoStreaming) {
@@ -471,9 +421,8 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     });
     
     [self.streamingManager stopVideoSession];
-    if (self.captureSession.isRunning) {
-        [self.captureSession stopRunning];
-    }
+    [self.camera stopCapture];
+    
     self.endVideoStreaming = YES;
     self.videoStreamingQueue = nil;
 }
@@ -482,7 +431,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     self.audioStreamQueue = dispatch_queue_create("com.smartdevicelink.audiostreaming",
                                                      DISPATCH_QUEUE_SERIAL);
     
-    NSArray* audioChunks = [self.audioStreamingData dataChunksOfSize:self.streamingBufferChunkSize];
+    NSArray* audioChunks = [self.audioStreamingData dataChunksOfSize:self.settingsManager.audioStreamingBufferSize];
     
     dispatch_async(self.audioStreamQueue, ^{
         while (!self.endAudioStreaming) {
@@ -502,22 +451,15 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 - (void)sdl_handleEmptyStreamingDataError {
-    [self sdl_presentErrorWithTitle:nil
-                            message:@"Cannot start stream. Streaming data is empty."];
+    [self sdl_presentErrorWithMessage:@"Cannot start stream. Streaming data is empty."];
 }
 
 - (void)sdl_handleProxyNotConnectedError {
-    [self sdl_presentErrorWithTitle:nil
-                            message:@"Cannot start streaming. Not connected to Core."];
+    [self sdl_presentErrorWithMessage:@"Cannot start streaming. Not connected to Core."];
 }
 
-- (void)sdl_presentErrorWithTitle:(NSString*)title message:(NSString*)message {
-    UIAlertController* alertController = nil;
-    if (title.length) {
-        alertController = [UIAlertController simpleAlertWithTitle:title message:message];
-    } else {
-        alertController = [UIAlertController simpleErrorAlertWithMessage:message];
-    }
+- (void)sdl_presentErrorWithMessage:(NSString*)message {
+    UIAlertController* alertController = [UIAlertController simpleErrorAlertWithMessage:message];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self presentViewController:alertController
                            animated:YES
