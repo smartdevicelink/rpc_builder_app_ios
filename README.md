@@ -69,6 +69,41 @@ If more information about an argument is provided by the Mobile_API, you can tap
 
 <img src="/ReadmeFiles/MainField.png" width=200px>
 
+### Modules
+
+Modules are designed to allow for developers to create more advanced testing. This could be using a combination of multiple RPCs, or requires usage of some Proxy's capabilities not provided from the RPCs tab, because they are not provided in the Spec.
+
+#### Building New Modules
+There are a few requirements for building Modules.
+
+##### Modules Must:
+
+1. Be subclasses of `RBModuleViewController`, and all class functions labeled as **Required** must be overridden.
+  - These properties will allow other developers to easily understand what the Module will be testing, and will also include the iOS version required in order to use it.
+  - Any Module with an iOS version other than 6 as the requirement will be listed.
+  - Although other class functions such as `moduleImageName`/`moduleImage` are optional, it is encouraged to add these.
+
+2. Be added to `RBModuleViewController`'s class function `moduleClassNames`. The new Module should added to this list as their Module name falls alphabetically with all other Modules. For an example of how to add this see below:
+
+```
++ (NSArray*)moduleClassNames {
+    if (!moduleClassNames) {
+        moduleClassNames = @[
+                             [RBStreamingModuleViewController classString],  // Streaming
+                             [RBNewModuleViewController classString]  // Module Name
+                             ];
+    }
+    return moduleClassNames;
+}
+```
+
+3. Use the provided `SDLProxy`, `SDLManager`, and `RBSettingsManager` that are provided to subclasses of `RBModuleViewController`.
+
+4. Be added to the `Modules.storyboard` storyboard in order to correctly load.
+  - When designing your view controller, be sure to use 8px for the vertical and horizontal displacement between views so we have a consistent experience.
+
+5. Must not interact with any other Module.
+
 ### Console Log
 
 <img src="/ReadmeFiles/Console.png" width=200px>
