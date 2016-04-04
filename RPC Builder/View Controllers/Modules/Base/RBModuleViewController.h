@@ -19,11 +19,15 @@
 /*
  *  Name of the module. Will be shown in list of modules, as well as module's view 
  *  controller.
+ *
+ *  Required to be Overridden.
  */
 + (NSString*)moduleTitle;
 
 /*
  *  Description of the module. Will be shown in list of modules if provided.
+ *
+ *  Required to be Overridden.
  */
 + (NSString*)moduleDescription;
 

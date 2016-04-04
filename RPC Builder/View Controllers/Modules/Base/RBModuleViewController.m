@@ -47,7 +47,7 @@ static UIStoryboard* moduleStoryboard = nil;
 + (NSArray*)moduleClassNames {
     if (!moduleClassNames) {
         moduleClassNames = @[
-                             NSStringFromClass([RBStreamingModuleViewController class])
+                             [RBStreamingModuleViewController classString]
                              ];
     }
     return moduleClassNames;
@@ -55,6 +55,10 @@ static UIStoryboard* moduleStoryboard = nil;
 
 + (NSString*)minimumSupportedVersion {
     return @"6.0";
+}
+
++ (NSString*)classString {
+    return NSStringFromClass(self.class);
 }
 
 + (RBModuleViewController*)viewController {
