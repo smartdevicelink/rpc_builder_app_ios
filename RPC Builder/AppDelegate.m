@@ -35,7 +35,7 @@
     [self.window makeKeyAndVisible];
     
     if (![[SDLManager sharedManager] isConnected]) {
-        [[SDLManager sharedManager] presentSettings];
+        [[SDLManager sharedManager] presentSettingsViewController];
     }
     
     return YES;
