@@ -47,7 +47,7 @@ static UIStoryboard* moduleStoryboard = nil;
 + (NSArray*)moduleClassNames {
     if (!moduleClassNames) {
         moduleClassNames = @[
-                             [RBStreamingModuleViewController classString]
+                             [RBStreamingModuleViewController classString] // Streaming
                              ];
     }
     return moduleClassNames;
