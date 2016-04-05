@@ -7,6 +7,7 @@
 #import "SmartDeviceLink.h"
 
 #import "RBSettingsViewController.h"
+#import "RBAppRegistrationViewController.h"
 
 NSString* const SDLManagerRegisterAppInterfaceResponseNotification = @"SDLManagerRegisterAppInterfaceResponseNotification";
 
@@ -93,12 +94,16 @@ static NSString* const SDLRequestKey = @"request";
     RBSettingsViewController* settingsViewController = [storyboard instantiateViewControllerWithIdentifier:@"RBSettingsViewController"];
     UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
     
-    // HAX: http://stackoverflow.com/questions/1922517/how-does-performselectorwithobjectafterdelay-work
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:navigationController
-                                                                                     animated:YES
-                                                                                   completion:nil];
-    });
+    UIViewController* rootViewController = [self sdl_getTopMostViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+    
+    if (![rootViewController isKindOfClass:[RBAppRegistrationViewController class]]) {
+        // HAX: http://stackoverflow.com/questions/1922517/how-does-performselectorwithobjectafterdelay-work
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [rootViewController presentViewController:navigationController
+                                             animated:YES
+                                           completion:nil];
+        });
+    }
 }
 
 #pragma mark Getters
@@ -157,6 +162,16 @@ static NSString* const SDLRequestKey = @"request";
     
     if (![[SDLManager sharedManager] isConnected]) {
         [self presentSettingsViewController];
+    }
+}
+
+- (UIViewController*)sdl_getTopMostViewController:(UIViewController*)viewController {
+    if ([viewController presentedViewController]) {
+        return [self sdl_getTopMostViewController:[viewController presentedViewController]];
+    } else if ([viewController isKindOfClass:[UINavigationController class]]) {
+        return [[(UINavigationController*)viewController viewControllers] lastObject];
+    } else {
+        return viewController;
     }
 }
 
