@@ -359,7 +359,11 @@
         <scene sceneID="oDx-kb-MyQ">
             <objects>
                 <navigationController id="d1h-Ce-Ehp" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="RPCs" image="RPCs" selectedImage="RPCs_Selected" id="6vp-2g-B9d"/>
+                    <tabBarItem key="tabBarItem" title="RPCs" image="RPCs" id="6vp-2g-B9d">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="RPCs_Selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oqV-9T-Svq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -433,7 +437,11 @@
         <scene sceneID="pHx-h2-GSl">
             <objects>
                 <navigationController id="S2N-nj-0Id" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Modules" image="Modules" selectedImage="Modules_Selected" id="rtd-R7-1sj"/>
+                    <tabBarItem key="tabBarItem" title="Modules" image="Modules" id="rtd-R7-1sj">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Modules_Selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4yu-9b-Ojx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

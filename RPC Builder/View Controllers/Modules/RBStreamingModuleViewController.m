@@ -113,8 +113,8 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.audioStreamingBufferSizeTextField.text = [NSString stringWithFormat:@"%i", self.settingsManager.audioStreamingBufferSize];
-    self.videoStreamingBufferSizeTextField.text = [NSString stringWithFormat:@"%i", self.settingsManager.videoStreamingBufferSize];
+    self.audioStreamingBufferSizeTextField.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.settingsManager.audioStreamingBufferSize];
+    self.videoStreamingBufferSizeTextField.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.settingsManager.videoStreamingBufferSize];
     
     self.videoStreamingMinFrameRateTextField.text = [NSString stringWithFormat:@"%.02f", self.settingsManager.videoStreamingMinimumFrameRate];
     self.videoStreamingMaxFrameRateTextField.text = [NSString stringWithFormat:@"%.02f", self.settingsManager.videoStreamingMaximumFrameRate];
@@ -130,7 +130,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 + (NSString*)moduleImageName {
-    return nil;
+    return @"Streaming";
 }
 
 + (NSString*)minimumSupportedVersion {
