@@ -71,6 +71,8 @@ If more information about an argument is provided by the Mobile_API, you can tap
 
 ### Modules
 
+<img src="/ReadmeFiles/Modules.png" width=200px>
+
 Modules are designed to allow for developers to create more advanced testing. This could be using a combination of multiple RPCs, or requires usage of some Proxy's capabilities not provided from the RPCs tab, because they are not provided in the Spec.
 
 #### Building New Modules
