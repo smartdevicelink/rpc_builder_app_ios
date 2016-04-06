@@ -336,6 +336,25 @@
             </objects>
             <point key="canvasLocation" x="420" y="379"/>
         </scene>
+        <!--Modules-->
+        <scene sceneID="6eS-SE-aeT">
+            <objects>
+                <tableViewController storyboardIdentifier="RBModulesTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ixv-mG-JxI" customClass="RBModulesTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ORB-Ya-uFJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="Ixv-mG-JxI" id="UrQ-wK-efD"/>
+                            <outlet property="delegate" destination="Ixv-mG-JxI" id="ZAC-Oi-cSJ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Modules" id="2FG-SC-N99"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oTq-1B-jxm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="420" y="1115"/>
+        </scene>
         <!--RPCs-->
         <scene sceneID="oDx-kb-MyQ">
             <objects>
@@ -393,7 +412,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2lB-Df-B56" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="420" y="1096"/>
+            <point key="canvasLocation" x="420" y="2038"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="AH7-HZ-si5">
@@ -406,12 +425,34 @@
                     </tabBar>
                     <connections>
                         <segue destination="d1h-Ce-Ehp" kind="relationship" relationship="viewControllers" id="cFI-EK-HXY"/>
+                        <segue destination="S2N-nj-0Id" kind="relationship" relationship="viewControllers" id="Lmp-Sb-QEl"/>
                         <segue destination="los-6i-Ohm" kind="relationship" relationship="viewControllers" id="ZRg-F2-VMN"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UF6-NX-eOd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1178" y="784"/>
+        </scene>
+        <!--Modules-->
+        <scene sceneID="pHx-h2-GSl">
+            <objects>
+                <navigationController id="S2N-nj-0Id" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Modules" image="Modules" id="rtd-R7-1sj">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Modules_Selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4yu-9b-Ojx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Ixv-mG-JxI" kind="relationship" relationship="rootViewController" id="VQr-No-PGm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="19x-tb-5Wv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-400" y="1115"/>
         </scene>
         <!--Console-->
         <scene sceneID="Kh4-DC-gBj">
@@ -428,7 +469,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TFq-fo-QPU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-400" y="1096"/>
+            <point key="canvasLocation" x="-400" y="2038"/>
         </scene>
         <!--Local Storage-->
         <scene sceneID="tnZ-KM-vmx">
@@ -500,7 +541,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YWc-Jg-b8y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="420" y="1839"/>
+            <point key="canvasLocation" x="420" y="2781"/>
         </scene>
         <!--Array View Controller-->
         <scene sceneID="mml-Pf-7Zq">
@@ -575,6 +616,8 @@
     </scenes>
     <resources>
         <image name="Console" width="25" height="19"/>
+        <image name="Modules" width="25" height="25"/>
+        <image name="Modules_Selected" width="25" height="25"/>
         <image name="RPCs" width="25" height="25"/>
         <image name="RPCs_Selected" width="25" height="25"/>
         <image name="chevron" width="14" height="14"/>

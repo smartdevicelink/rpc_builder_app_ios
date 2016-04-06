@@ -5,7 +5,6 @@
 
 #import "RBFunctionsViewController.h"
 #import "RBFunctionViewController.h"
-#import "RBSettingsViewController.h"
 
 #import "UIAlertController+Minimal.h"
 
@@ -41,14 +40,6 @@
     
     [alertController addDestructiveActionWithTitle:@"Stop Proxy" handler:^(UIAlertAction *action) {
         [[SDLManager sharedManager] disconnect];
-        
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
-                                                             bundle:nil];
-        RBSettingsViewController* settingsViewController = [storyboard instantiateViewControllerWithIdentifier:@"RBSettingsViewController"];
-        UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
-        [self presentViewController:navigationController
-                           animated:YES
-                         completion:nil];
     }];
     
     [alertController addCancelAction];

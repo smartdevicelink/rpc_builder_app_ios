@@ -4,6 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #import "SDLConfiguration.h"
 #import "RBSpecFile.h"
@@ -53,5 +54,11 @@ typedef NS_ENUM(NSUInteger, RBSpecFileStatus) {
 @property (nonatomic, strong) SDLLanguage* vrLanguage;
 
 @property (nonatomic, readonly) NSArray* availableRPCs;
+
+// Streaming Module Settings
+@property (nonatomic) NSUInteger audioStreamingBufferSize;
+@property (nonatomic) NSUInteger videoStreamingBufferSize;
+@property (nonatomic) CGFloat videoStreamingMinimumFrameRate;
+@property (nonatomic) CGFloat videoStreamingMaximumFrameRate;
 
 @end

@@ -6,7 +6,13 @@
 #import "SDLManager.h"
 #import "SmartDeviceLink.h"
 
+#import "RBSettingsViewController.h"
+#import "RBAppRegistrationViewController.h"
+
 NSString* const SDLManagerRegisterAppInterfaceResponseNotification = @"SDLManagerRegisterAppInterfaceResponseNotification";
+
+NSString* const SDLManagerConnectedKeyPath = @"isConnected";
+void* SDLManagerConnectedContext = &SDLManagerConnectedContext;
 
 static NSString* const AppIconFileName = @"SDLAppIcon";
 
@@ -18,8 +24,6 @@ static NSString* const SDLRequestKey = @"request";
 
 @property (nonatomic) NSUInteger correlationID;
 @property (nonatomic, readonly) NSNumber* nextCorrelationID;
-
-@property (nonatomic, strong) SDLProxy* proxy;
 
 @end
 
@@ -33,12 +37,6 @@ static NSString* const SDLRequestKey = @"request";
     });
     
     return sharedManager;
-}
-
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
 }
 
 #pragma mark - Public
@@ -82,13 +80,27 @@ static NSString* const SDLRequestKey = @"request";
     [self sdl_sendRequest:request];
 }
 
+- (void)presentSettingsViewController {
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
+                                                         bundle:nil];
+    RBSettingsViewController* settingsViewController = [storyboard instantiateViewControllerWithIdentifier:@"RBSettingsViewController"];
+    UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+    
+    UIViewController* rootViewController = [self sdl_getTopMostViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+    
+    if (![rootViewController isKindOfClass:[RBAppRegistrationViewController class]]) {
+        // HAX: http://stackoverflow.com/questions/1922517/how-does-performselectorwithobjectafterdelay-work
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [rootViewController presentViewController:navigationController
+                                             animated:YES
+                                           completion:nil];
+        });
+    }
+}
+
 #pragma mark Getters
 - (NSNumber*)nextCorrelationID {
     return @(++_correlationID);
-}
-
-- (BOOL)isConnected {
-    return [[_proxy valueForKey:@"_isConnected"] boolValue];
 }
 
 #pragma mark - Delegates
@@ -99,10 +111,10 @@ static NSString* const SDLRequestKey = @"request";
 
 - (void)onProxyClosed {
     [self sdl_stopProxy];
-    [self connectWithConfiguration:_configuration];
 }
 
 - (void)onProxyOpened {
+    [self sdl_updatedIsConnected:YES];
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     if (self.registerAppDictionary) {
         [self sendRequestDictionary:self.registerAppDictionary
@@ -129,9 +141,30 @@ static NSString* const SDLRequestKey = @"request";
 }
 
 - (void)sdl_stopProxy {
+    [self sdl_updatedIsConnected:NO];
     [UIApplication sharedApplication].idleTimerDisabled = NO;
     [_proxy dispose];
     _proxy = nil;
+}
+
+- (void)sdl_updatedIsConnected:(BOOL)connected {
+    [self willChangeValueForKey:@"isConnected"];
+    _connected = connected;
+    [self didChangeValueForKey:@"isConnected"];
+    
+    if (![[SDLManager sharedManager] isConnected]) {
+        [self presentSettingsViewController];
+    }
+}
+
+- (UIViewController*)sdl_getTopMostViewController:(UIViewController*)viewController {
+    if ([viewController presentedViewController]) {
+        return [self sdl_getTopMostViewController:[viewController presentedViewController]];
+    } else if ([viewController isKindOfClass:[UINavigationController class]]) {
+        return [[(UINavigationController*)viewController viewControllers] lastObject];
+    } else {
+        return viewController;
+    }
 }
 
 @end

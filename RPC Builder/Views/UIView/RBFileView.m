@@ -85,7 +85,9 @@
 
 - (void)setFileData:(NSData *)fileData {
     _fileData = fileData;
-    _fileDescriptionLabel.text = [self.byteFormatter stringFromByteCount:_fileData.length];
+    if (!fileData) {
+        _fileDescriptionLabel.text = nil;
+    }
 }
 
 #pragma mark - Actions
@@ -172,8 +174,9 @@
 }
 
 #pragma mark - RSFilePickerViewController
-- (void)filePicker:(RBFilePickerViewController *)picker didSelectFileWithData:(NSData *)data {
+- (void)filePicker:(RBFilePickerViewController *)picker didSelectFileNamed:(NSString *)fileName withData:(NSData *)data {
     self.fileData = data;
+    self.fileDescriptionLabel.text = [NSString stringWithFormat:@"%@ - %@", fileName, [self.byteFormatter stringFromByteCount:_fileData.length]];
     _filePreviewImageView.image = nil;
     [picker dismissViewControllerAnimated:YES
                                completion:nil];

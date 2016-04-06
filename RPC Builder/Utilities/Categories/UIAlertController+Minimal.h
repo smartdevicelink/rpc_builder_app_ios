@@ -10,6 +10,8 @@
 
 + (instancetype)simpleAlertWithTitle:(NSString*)title message:(NSString*)message;
 
++ (instancetype)simpleErrorAlertWithMessage:(NSString*)message;
+
 + (instancetype)alertWithTitle:(NSString*)title message:(NSString*)message action:(UIAlertAction*)action;
 
 + (instancetype)actionSheetWithTitle:(NSString*)title message:(NSString*)message;

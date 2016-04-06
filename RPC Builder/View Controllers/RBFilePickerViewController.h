@@ -10,7 +10,7 @@
 @protocol RBFilePickerDelegate <NSObject>
 
 @optional
-- (void)filePicker:(RBFilePickerViewController*)picker didSelectFileWithData:(NSData*)data;
+- (void)filePicker:(RBFilePickerViewController*)picker didSelectFileNamed:(NSString*)fileName withData:(NSData*)data;
 
 @end
 
