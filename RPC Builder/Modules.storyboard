@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -471,6 +471,49 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="114" y="865"/>
+        </scene>
+        <!--Audio Pass Thru Module View Controller-->
+        <scene sceneID="CHH-Hc-kYE">
+            <objects>
+                <viewController storyboardIdentifier="RBAudioPassThruModuleViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9Ma-Dh-GRb" customClass="RBAudioPassThruModuleViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PoR-3v-Ut2"/>
+                        <viewControllerLayoutGuide type="bottom" id="9Gv-hU-xgs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="osM-RA-Ldl">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3l4-3g-3Co">
+                                <rect key="frame" x="20" y="72" width="560" height="30"/>
+                                <state key="normal" title="Edit PerformAudioPassThru RPC"/>
+                                <connections>
+                                    <action selector="editPerformAudioPassthroughAction:" destination="9Ma-Dh-GRb" eventType="touchUpInside" id="VqZ-UP-IWf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V2q-Wz-UhQ">
+                                <rect key="frame" x="20" y="110" width="560" height="30"/>
+                                <state key="normal" title="Send"/>
+                                <connections>
+                                    <action selector="sendPerformAudioPassthroughAction:" destination="9Ma-Dh-GRb" eventType="touchUpInside" id="pba-0W-3F6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3l4-3g-3Co" firstAttribute="top" secondItem="PoR-3v-Ut2" secondAttribute="bottom" constant="8" id="Fs4-9i-x6c"/>
+                            <constraint firstAttribute="trailing" secondItem="3l4-3g-3Co" secondAttribute="trailing" constant="20" id="KwO-pa-uVV"/>
+                            <constraint firstItem="3l4-3g-3Co" firstAttribute="leading" secondItem="osM-RA-Ldl" secondAttribute="leading" constant="20" id="L8C-Kk-d4C"/>
+                            <constraint firstItem="V2q-Wz-UhQ" firstAttribute="leading" secondItem="osM-RA-Ldl" secondAttribute="leading" constant="20" id="aik-3J-xWG"/>
+                            <constraint firstAttribute="trailing" secondItem="V2q-Wz-UhQ" secondAttribute="trailing" constant="20" id="eEo-6K-UFR"/>
+                            <constraint firstItem="V2q-Wz-UhQ" firstAttribute="top" secondItem="3l4-3g-3Co" secondAttribute="bottom" constant="8" id="pvp-AM-s1j"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ciU-lo-T2b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="740" y="815"/>
         </scene>
     </scenes>
     <resources>

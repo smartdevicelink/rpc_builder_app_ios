@@ -4,18 +4,15 @@
 //
 
 #import "RBFunctionsViewController.h"
-#import "RBFunctionViewController.h"
 
 #import "UIAlertController+Minimal.h"
-
-#import "RBFunction.h"
 
 #import "SDLManager.h"
 
 @interface RBFunctionsViewController ()
 
 // statically stores cached view controllers related to function names.
-@property (nonatomic, strong, readonly) NSMutableDictionary* functionStore;
+//@property (nonatomic, strong, readonly) NSMutableDictionary* functionStore;
 @property (strong) NSArray* RPCs;
 
 @end
@@ -87,14 +84,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     RBFunction* function = self.RPCs[indexPath.row];
 
-    [self.navigationController pushViewController:[self sdl_viewControllerForFunction:function]
+    [self.navigationController pushViewController:[self.class viewControllerForFunction:function]
                                          animated:YES];
 }
 
 
 #pragma mark - Private
 #pragma mark Getters
-- (NSMutableDictionary*)functionStore {
++ (NSMutableDictionary*)functionStore {
     static NSMutableDictionary* functionStore = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -104,7 +101,7 @@
 }
 
 #pragma mark Functions
-- (RBFunctionViewController*)sdl_viewControllerForFunction:(RBFunction*)function {
++ (RBFunctionViewController*)viewControllerForFunction:(RBFunction*)function {
     RBFunctionViewController* viewController = self.functionStore[function.name];
     if (!viewController) {
         viewController = [[RBFunctionViewController alloc] initWithNibName:@"RBBaseViewController"

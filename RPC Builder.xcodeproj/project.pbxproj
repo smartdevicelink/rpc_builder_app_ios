@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA6749B21CC57A9700A5591E /* RBAudioPassThruModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6749B11CC57A9700A5591E /* RBAudioPassThruModuleViewController.m */; };
 		DA75A32D1CAB50DA00E563B4 /* Modules.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA75A32C1CAB50DA00E563B4 /* Modules.storyboard */; };
 		DA75A3301CAB524900E563B4 /* RBModuleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA75A32F1CAB524900E563B4 /* RBModuleTableViewCell.m */; };
 		DA75A3331CAB6C8900E563B4 /* RBStreamingModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA75A3321CAB6C8900E563B4 /* RBStreamingModuleViewController.m */; };
@@ -82,6 +83,8 @@
 		99253F9DD499293B590C1297 /* Pods-RPC Builder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPC Builder.release.xcconfig"; path = "Pods/Target Support Files/Pods-RPC Builder/Pods-RPC Builder.release.xcconfig"; sourceTree = "<group>"; };
 		99B189C21B03EC45FA0CE6AE /* libPods-RPC Builder.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPC Builder.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA55B48D1C8CB519007DB8DD /* RPC Builder-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RPC Builder-Info.plist"; sourceTree = "<group>"; };
+		DA6749B01CC57A9700A5591E /* RBAudioPassThruModuleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBAudioPassThruModuleViewController.h; sourceTree = "<group>"; };
+		DA6749B11CC57A9700A5591E /* RBAudioPassThruModuleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBAudioPassThruModuleViewController.m; sourceTree = "<group>"; };
 		DA75A32C1CAB50DA00E563B4 /* Modules.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Modules.storyboard; sourceTree = "<group>"; };
 		DA75A32E1CAB524900E563B4 /* RBModuleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBModuleTableViewCell.h; sourceTree = "<group>"; };
 		DA75A32F1CAB524900E563B4 /* RBModuleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBModuleTableViewCell.m; sourceTree = "<group>"; };
@@ -215,6 +218,8 @@
 				DA75A3371CAB715200E563B4 /* Base */,
 				DA75A3311CAB6C8900E563B4 /* RBStreamingModuleViewController.h */,
 				DA75A3321CAB6C8900E563B4 /* RBStreamingModuleViewController.m */,
+				DA6749B01CC57A9700A5591E /* RBAudioPassThruModuleViewController.h */,
+				DA6749B11CC57A9700A5591E /* RBAudioPassThruModuleViewController.m */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -599,6 +604,7 @@
 				DA75A3361CAB713900E563B4 /* RBModulesTableViewController.m in Sources */,
 				DA75A3301CAB524900E563B4 /* RBModuleTableViewCell.m in Sources */,
 				DA991EE61CB1FD110002DA10 /* RBCamera.m in Sources */,
+				DA6749B21CC57A9700A5591E /* RBAudioPassThruModuleViewController.m in Sources */,
 				DAE0338A1C8F9D1B00B64BB8 /* RBDeviceInformation.m in Sources */,
 				DAEDFC231C97BC84001C3ADB /* RBBaseTableViewCell.m in Sources */,
 				DA991EE31CAE3ED60002DA10 /* NSData+Chunks.m in Sources */,
