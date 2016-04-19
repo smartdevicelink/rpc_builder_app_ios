@@ -72,12 +72,26 @@ static NSString* const SDLRequestKey = @"request";
     [self sdl_stopProxy];
 }
 
+- (SDLRPCRequest*)requestForDictionary:(NSDictionary *)requestDictionary withBulkData:(NSData *)bulkData {
+    return [self requestOfClass:[SDLRPCRequest class]
+                  forDictionary:requestDictionary
+                   withBulkData:bulkData];
+}
+
+- (id)requestOfClass:(Class)classType forDictionary:(NSDictionary*)requestDictionary withBulkData:(NSData*)bulkData {
+    NSMutableDictionary* mutableRequestDictionary = [@{SDLRequestKey : requestDictionary} mutableCopy];
+    if (![classType isSubclassOfClass:[SDLRPCRequest class]]) {
+        NSLog(@"Attempting to convert dictionary for %@ that is not a subclass of %@", NSStringFromClass(classType), NSStringFromClass(SDLRPCRequest.class));
+        return nil;
+    }
+    id request = [[classType alloc] initWithDictionary:mutableRequestDictionary];
+    [request setBulkData:bulkData];
+    return request;
+}
 
 - (void)sendRequestDictionary:(NSDictionary *)requestDictionary bulkData:(NSData *)bulkData {
-    NSMutableDictionary* mutableRequestDictionary = [@{SDLRequestKey : requestDictionary} mutableCopy];
-    SDLRPCRequest* request = [[SDLRPCRequest alloc] initWithDictionary:mutableRequestDictionary];
-    request.bulkData = bulkData;
-    [self sdl_sendRequest:request];
+    [self sdl_sendRequest:[self requestForDictionary:requestDictionary
+                                        withBulkData:bulkData]];
 }
 
 - (void)presentSettingsViewController {
