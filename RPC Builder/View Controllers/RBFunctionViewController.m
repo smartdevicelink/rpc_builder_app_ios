@@ -13,12 +13,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-        
-    UIBarButtonItem* sendBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
-                                                                          style:UIBarButtonItemStyleDone
-                                                                         target:self
-                                                                         action:@selector(sendAction:)];
-    self.navigationItem.rightBarButtonItem = sendBarButtonItem;
+    
+    if (!self.navigationItem.rightBarButtonItem) {
+        UIBarButtonItem* sendBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
+                                                                              style:UIBarButtonItemStyleDone
+                                                                             target:self
+                                                                             action:@selector(sendAction:)];
+        self.navigationItem.rightBarButtonItem = sendBarButtonItem;
+    }
 }
 
 #pragma mark - Overrides
