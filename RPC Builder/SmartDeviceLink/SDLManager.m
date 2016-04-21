@@ -90,8 +90,17 @@ static NSString* const SDLRequestKey = @"request";
 }
 
 - (void)sendRequestDictionary:(NSDictionary *)requestDictionary bulkData:(NSData *)bulkData {
-    [self sdl_sendRequest:[self requestForDictionary:requestDictionary
-                                        withBulkData:bulkData]];
+    [self sendRequest:[self requestForDictionary:requestDictionary
+                                    withBulkData:bulkData]];
+}
+
+- (NSNumber*)sendRequest:(SDLRPCRequest *)request {
+    if (!self.isConnected) {
+        return nil;
+    }
+    request.correlationID = self.nextCorrelationID;
+    [_proxy sendRPC:request];
+    return request.correlationID;
 }
 
 - (void)presentSettingsViewController {
@@ -145,15 +154,6 @@ static NSString* const SDLRequestKey = @"request";
 }
 
 #pragma mark - Private
-- (NSNumber*)sdl_sendRequest:(SDLRPCRequest*)request {
-    if (!self.isConnected) {
-        return nil;
-    }
-    request.correlationID = self.nextCorrelationID;
-    [_proxy sendRPC:request];
-    return request.correlationID;
-}
-
 - (void)sdl_stopProxy {
     [self sdl_updatedIsConnected:NO];
     [UIApplication sharedApplication].idleTimerDisabled = NO;

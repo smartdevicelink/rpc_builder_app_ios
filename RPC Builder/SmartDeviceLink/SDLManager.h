@@ -36,6 +36,8 @@ extern void* SDLManagerConnectedContext;
 
 - (void)sendRequestDictionary:(NSDictionary*)requestDictionary bulkData:(NSData*)bulkData;
 
+- (NSNumber*)sendRequest:(SDLRPCRequest*)request;
+
 - (void)presentSettingsViewController;
 
 @end
