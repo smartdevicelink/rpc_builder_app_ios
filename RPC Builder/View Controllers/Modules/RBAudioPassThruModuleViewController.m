@@ -43,7 +43,7 @@
 }
 
 + (NSString*)moduleImageName {
-    return nil;
+    return @"AudioPassThru";
 }
 
 #pragma mark - Actions
