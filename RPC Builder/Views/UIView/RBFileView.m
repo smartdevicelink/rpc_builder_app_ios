@@ -102,6 +102,7 @@
             UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
                                                                  bundle:nil];
             RBFilePickerViewController* filePickerViewController = [storyboard instantiateViewControllerWithIdentifier:@"RBFilePickerViewController"];
+            filePickerViewController.storageDirectoryPathString = @"BulkData/";
             filePickerViewController.delegate = strongSelf;
             UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:filePickerViewController];
             [strongSelf.delegate paramView:strongSelf

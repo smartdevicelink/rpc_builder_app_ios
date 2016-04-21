@@ -287,6 +287,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main"
                                                          bundle:nil];
     RBFilePickerViewController* filePickerViewController = [storyboard instantiateViewControllerWithIdentifier:@"RBFilePickerViewController"];
+    filePickerViewController.storageDirectoryPathString = @"BulkData/";
     filePickerViewController.delegate = self;
     UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:filePickerViewController];
     [self presentViewController:navigationController

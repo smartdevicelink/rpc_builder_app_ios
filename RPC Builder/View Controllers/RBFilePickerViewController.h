@@ -19,4 +19,11 @@
 
 @property (weak) id<RBFilePickerDelegate> delegate;
 
+@property (nonatomic, strong) NSString* storageDirectoryPathString;
+@property (nonatomic, strong, readonly) NSString* fullStoragePathString;
+
+- (void)loadFilesInStoragePath;
+
+- (BOOL)saveData:(NSData*)data withFileName:(NSString*)fileName;
+
 @end
