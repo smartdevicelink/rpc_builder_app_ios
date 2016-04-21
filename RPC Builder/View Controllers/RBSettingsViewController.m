@@ -82,6 +82,9 @@ typedef NS_ENUM(NSUInteger, RBURLStatus) {
 
 #pragma mark - Actions
 - (void)startAction:(id)sender {
+//    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//    return;
+    
     SDLConfiguration* configuration = nil;
     if ([_connectionTypeTextField.text isEqualToString:SDLConnectionTypeStringiAP]) {
         configuration = [SDLConfiguration defaultConfiguration];
