@@ -208,9 +208,13 @@ static NSString* const YesString = @"Yes";
                                                              forDictionary:self.audioPassThruViewController.requestDictionary
                                                               withBulkData:nil];
     self.samplingRateLabel.text = [self sdl_stringForValue:self.performAudioPassThru.samplingRate];
-    NSString* durationString = [self sdl_stringForValue:self.performAudioPassThru.maxDuration];
+    NSNumber* maxDuration = self.performAudioPassThru.maxDuration;
+    if ([maxDuration isKindOfClass:[NSNumber class]]) {
+        maxDuration = @(self.performAudioPassThru.maxDuration.floatValue / 1000.0f);
+    }
+    NSString* durationString = [self sdl_stringForValue:maxDuration];
     if (![durationString isEqualToString:NoValueString]) {
-        durationString = [NSString stringWithFormat:@"%@ ms", durationString];
+        durationString = [NSString stringWithFormat:@"%@ s", durationString];
     }
     self.recordingDurationLabel.text = durationString;
     self.bitsPerSampleLabel.text = [self sdl_stringForValue:self.performAudioPassThru.bitsPerSample];
