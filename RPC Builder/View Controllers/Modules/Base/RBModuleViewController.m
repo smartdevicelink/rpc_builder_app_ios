@@ -9,6 +9,7 @@
 #import "RBModuleViewController.h"
 
 #import "RBStreamingModuleViewController.h"
+#import "RBAudioPassThruModuleViewController.h"
 
 static NSMutableDictionary* moduleImages = nil;
 static NSArray* moduleClassNames = nil;
@@ -47,7 +48,8 @@ static UIStoryboard* moduleStoryboard = nil;
 + (NSArray*)moduleClassNames {
     if (!moduleClassNames) {
         moduleClassNames = @[
-                             [RBStreamingModuleViewController classString] // Streaming
+                             [RBStreamingModuleViewController classString], // Streaming
+                             [RBAudioPassThruModuleViewController classString]  // Audio Passthru
                              ];
     }
     return moduleClassNames;

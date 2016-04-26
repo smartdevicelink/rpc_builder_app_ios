@@ -1,4 +1,4 @@
-# RPC Builder v1.1.0
+# RPC Builder v1.2.0
 
 ## Introduction
 
@@ -105,6 +105,13 @@ There are a few requirements for building Modules.
     return moduleClassNames;
 }
 ```
+
+#### Current Modules:
+1. Streaming
+  - Allows for testing of video and audio streaming of camera / video files as well as audio files respectively.
+2. Audio Capture
+  - Allows for saving of audio data via AudioPassThru RPCs. Properties of this RPC can be modified to test the robustness of the RPC. This audio data may be retrieved via iTunes File Sharing.
+
 
 ### Console Log
 

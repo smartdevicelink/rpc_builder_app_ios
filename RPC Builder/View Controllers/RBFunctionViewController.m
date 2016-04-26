@@ -11,14 +11,15 @@
 
 @implementation RBFunctionViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-        
-    UIBarButtonItem* sendBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
-                                                                          style:UIBarButtonItemStyleDone
-                                                                         target:self
-                                                                         action:@selector(sendAction:)];
-    self.navigationItem.rightBarButtonItem = sendBarButtonItem;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (!self.navigationItem.rightBarButtonItem) {
+        UIBarButtonItem* sendBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
+                                                                              style:UIBarButtonItemStyleDone
+                                                                             target:self
+                                                                             action:@selector(sendAction:)];
+        self.navigationItem.rightBarButtonItem = sendBarButtonItem;
+    }
 }
 
 #pragma mark - Overrides

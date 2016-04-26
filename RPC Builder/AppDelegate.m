@@ -14,12 +14,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *publicDocumentsDir = [paths objectAtIndex:0];
-    NSLog(@"%@", publicDocumentsDir);
-    
+
     if ([self.window.rootViewController isKindOfClass:[UITabBarController class]]) {
         UITabBarController* tabBarController = (UITabBarController*)self.window.rootViewController;
         for (UIViewController* viewController in tabBarController.viewControllers) {

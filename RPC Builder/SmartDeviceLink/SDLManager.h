@@ -8,6 +8,7 @@
 #import "SDLConfiguration.h"
 
 @class SDLProxy;
+@class SDLRPCRequest;
 
 extern NSString* const SDLManagerRegisterAppInterfaceResponseNotification;
 
@@ -24,10 +25,18 @@ extern void* SDLManagerConnectedContext;
 
 + (instancetype)sharedManager;
 
+// Creates generic SDLRPCRequest for a given dictionary.
+- (SDLRPCRequest*)requestForDictionary:(NSDictionary*)requestDictionary withBulkData:(NSData*)bulkData;
+
+// Creates a specific SDLRPCRequest subtype for a given dictionary.
+- (id)requestOfClass:(Class)classType forDictionary:(NSDictionary*)requestDictionary withBulkData:(NSData*)bulkData;
+
 - (BOOL)connectWithConfiguration:(SDLConfiguration*)configuration;
 - (void)disconnect;
 
 - (void)sendRequestDictionary:(NSDictionary*)requestDictionary bulkData:(NSData*)bulkData;
+
+- (NSNumber*)sendRequest:(SDLRPCRequest*)request;
 
 - (void)presentSettingsViewController;
 
