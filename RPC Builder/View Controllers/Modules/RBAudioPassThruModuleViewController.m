@@ -13,8 +13,12 @@
 #import "RBParser.h"
 
 static NSString* const NoValueString = @"No Value";
+static NSString* const UnmutedString = @"UNMUTED";
+static NSString* const MutedString = @"MUTED";
+static NSString* const NoString = @"No";
+static NSString* const YesString = @"Yes";
 
-@interface RBAudioPassThruModuleViewController () <SDLProxyListener>
+@interface RBAudioPassThruModuleViewController () <SDLProxyListener, UINavigationControllerDelegate, UITabBarControllerDelegate>
 
 @property (nonatomic, weak) RBFunctionViewController* audioPassThruViewController;
 @property (nonatomic, strong) RBFilePickerViewController* filePickerViewController;
@@ -40,6 +44,8 @@ static NSString* const NoValueString = @"No Value";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.delegate = self;
+    
     RBFunction* performAudioPassThru = [[RBParser sharedParser] functionOfType:@"PerformAudioPassThru"];
     self.audioPassThruViewController = [RBFunctionsViewController viewControllerForFunction:performAudioPassThru];
     [self.audioPassThruViewController updateView];
@@ -49,24 +55,24 @@ static NSString* const NoValueString = @"No Value";
     self.filePickerViewController = [storyboard instantiateViewControllerWithIdentifier:@"RBFilePickerViewController"];
     self.filePickerViewController.storageDirectoryPathString = @"AudioFiles/";
     
-    UIBarButtonItem* performInteractionSaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save"
-                                                                                     style:UIBarButtonItemStyleDone
-                                                                                    target:self
-                                                                                    action:@selector(performInteractionSaveAction:)];
-    self.audioPassThruViewController.navigationItem.rightBarButtonItem = performInteractionSaveButton;
     [self sdl_updateViewsForParametersDictionary];
     
-    UIBarButtonItem* savedAudioFilesButton = [[UIBarButtonItem alloc] initWithTitle:@"Files"
-                                                                              style:UIBarButtonItemStyleDone
+    UIBarButtonItem* savedAudioFilesButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"audioFile"]
+                                                                              style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(presentAudioFilesAction:)];
     self.navigationItem.rightBarButtonItem = savedAudioFilesButton;
     self.savedAudioFilesButton = savedAudioFilesButton;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.tabBarController.delegate = self;
+}
+
 #pragma mark - Overrides
 + (NSString*)moduleTitle {
-    return @"Audio Pass Through";
+    return @"Audio Capture";
 }
 
 + (NSString*)moduleDescription {
@@ -93,13 +99,18 @@ static NSString* const NoValueString = @"No Value";
 
 #pragma mark - Actions
 - (IBAction)editPerformAudioPassThruAction:(id)sender {
+    UIBarButtonItem* performAudioPassThruSaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save"
+                                                                                       style:UIBarButtonItemStyleDone
+                                                                                      target:self
+                                                                                      action:@selector(performAudioPassThruSaveAction:)];
+    self.audioPassThruViewController.navigationItem.rightBarButtonItem = performAudioPassThruSaveButton;
     [self.navigationController pushViewController:self.audioPassThruViewController
                                          animated:YES];
 }
 
 - (IBAction)sendPerformAudioPassThruAction:(id)sender {
     if (!self.isValidParametersDictionary) {
-        UIAlertController* alertController = [UIAlertController simpleErrorAlertWithMessage:@"Please set properties for PerformAudioPassThru before attempting to send it."];
+        UIAlertController* alertController = [UIAlertController simpleErrorAlertWithMessage:@"Please edit properties before attempting to start Audio Capture."];
         [self presentViewController:alertController
                            animated:YES
                          completion:nil];
@@ -119,7 +130,7 @@ static NSString* const NoValueString = @"No Value";
     [[SDLManager sharedManager] sendRequest:endAudioPassThru];
 }
 
-- (void)performInteractionSaveAction:(id)sender {
+- (void)performAudioPassThruSaveAction:(id)sender {
     [self.audioPassThruViewController updateRequestsDictionaryFromSubviews];
     [self sdl_updateViewsForParametersDictionary];
     [self.navigationController popViewControllerAnimated:YES];
@@ -133,6 +144,7 @@ static NSString* const NoValueString = @"No Value";
 }
 
 #pragma mark - Delegates
+#pragma mark SDLProxyListener
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification { }
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification { }
 - (void)onProxyClosed { }
@@ -168,6 +180,28 @@ static NSString* const NoValueString = @"No Value";
     });
 }
 
+#pragma mark UINavigationController
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    // We reset this so that it does not conflict with any other usages of an
+    // RBFunctionViewController for PerformAudioPassThru
+    if (self.audioPassThruViewController && viewController != self.audioPassThruViewController) {
+        self.audioPassThruViewController.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
+#pragma mark UITabBar
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    // Workaround for when we are on PerformAudioPassThru view controller and change tabs.
+    // This could result in a weird state if the user was to navigation to
+    // PerformAudioPassThru from the RPCs tab.
+    if (viewController != self.navigationController
+        && self.navigationController.viewControllers.count != 1
+        && self.navigationController.viewControllers.lastObject != self) {
+        [self.navigationController popViewControllerAnimated:NO];
+        self.tabBarController.delegate = nil;
+    }
+}
+
 #pragma mark - Private
 - (void)sdl_updateViewsForParametersDictionary {
     self.performAudioPassThru = [[SDLManager sharedManager] requestOfClass:[SDLPerformAudioPassThru class]
@@ -182,9 +216,9 @@ static NSString* const NoValueString = @"No Value";
     self.bitsPerSampleLabel.text = [self sdl_stringForValue:self.performAudioPassThru.bitsPerSample];
     NSString* muteAudioString = [self sdl_stringForValue:self.performAudioPassThru.muteAudio];
     if ([muteAudioString isEqualToString:NoValueString]) {
-        muteAudioString = @"No";
+        muteAudioString = NoString;
     } else {
-        muteAudioString = [muteAudioString isEqualToString:@"0"] ? @"No" : @"Yes";
+        muteAudioString = [muteAudioString isEqualToString:@"0"] ? NoString : YesString;
     }
     self.muteAudioLabel.text = muteAudioString;
 }
@@ -210,9 +244,9 @@ static NSString* const NoValueString = @"No Value";
     NSString* bitsPerSample = [self sdl_stringForValue:self.performAudioPassThru.bitsPerSample];
     NSString* muteAudio = [self sdl_stringForValue:self.performAudioPassThru.muteAudio];
     if ([muteAudio isEqualToString:NoValueString]) {
-        muteAudio = @"UNMUTED";
+        muteAudio = UnmutedString;
     } else {
-        muteAudio = [muteAudio isEqualToString:@"0"] ? @"UNMUTED" : @"MUTED";
+        muteAudio = [muteAudio isEqualToString:@"0"] ? UnmutedString : MutedString;
     }
     NSString* timestamp = [NSString stringWithFormat:@"%.f", [[NSDate date] timeIntervalSince1970]];
 

@@ -11,9 +11,8 @@
 
 @implementation RBFunctionViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     if (!self.navigationItem.rightBarButtonItem) {
         UIBarButtonItem* sendBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send"
                                                                               style:UIBarButtonItemStyleDone
