@@ -22,3 +22,7 @@
 ## Enhancements
 * Added ability for developers to create modules to do more advanced testing of RPCs.
 * Added Streaming Module for testing audio and video streaming.
+
+# 1.2.0 Release Notes
+## Enhancements
+* Added Audio Capture Module for testing PerformAudioPassThru RPC.
