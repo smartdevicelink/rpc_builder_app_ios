@@ -41,13 +41,11 @@
 
 #pragma mark - Private
 - (NSDictionary*)sdl_parametersDictionaryFromSubviews {
-    NSMutableDictionary* parameters = [NSMutableDictionary dictionary];
+    NSMutableDictionary* parameters = [NSMutableDictionary dictionaryWithDictionary:self.parametersDictionary];
     for (UIView* view in self.scrollView.subviews) {
         if ([view isKindOfClass:[RBParamView class]]) {
             RBParamView* paramView = (RBParamView*)view;
-            if (paramView.value) {
-                parameters[paramView.param.name] = paramView.value;
-            }
+            [paramView addToDictionary:parameters];
         }
     }
     return [parameters copy];

@@ -106,6 +106,19 @@
                                     action:selector];
 }
 
+- (BOOL)addToDictionary:(NSMutableDictionary*)dictionary {
+    if (self.isEnabled) {
+        if (self.value) {
+            dictionary[self.param.name] = self.value;
+            return YES;
+        }
+    } else {
+        [dictionary removeObjectForKey:self.param.name];
+    }
+    return NO;
+}
+
+
 #pragma mark - Actions
 - (void)structAction:(id)selector {
     RBStructViewController* viewController = [[RBStructViewController alloc] initWithNibName:@"RBBaseViewController"

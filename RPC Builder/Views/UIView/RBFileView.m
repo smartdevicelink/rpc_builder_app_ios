@@ -83,6 +83,11 @@
     return self;
 }
 
+- (BOOL)addToDictionary:(NSMutableDictionary *)dictionary {
+    // No-op
+    return NO;
+}
+
 - (void)setFileData:(NSData *)fileData {
     _fileData = fileData;
     if (!fileData) {

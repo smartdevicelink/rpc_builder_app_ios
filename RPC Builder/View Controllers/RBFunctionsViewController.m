@@ -11,8 +11,6 @@
 
 @interface RBFunctionsViewController ()
 
-// statically stores cached view controllers related to function names.
-//@property (nonatomic, strong, readonly) NSMutableDictionary* functionStore;
 @property (strong) NSArray* RPCs;
 
 @end
