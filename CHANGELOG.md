@@ -26,3 +26,7 @@
 # 1.2.0 Release Notes
 ## Enhancements
 * Added Audio Capture Module for testing PerformAudioPassThru RPC.
+
+# 1.2.1 Release Notes
+## Bug Fixes
+* Fixed issue with nested arrays in structs in functions would not save correctly.
