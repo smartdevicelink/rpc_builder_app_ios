@@ -34,6 +34,8 @@
 
 - (UIImageView*)createChevronImageView;
 
+- (BOOL)addToDictionary:(NSMutableDictionary*)dictionary;
+
 @property (nonatomic, readonly) RBParam* param;
 @property (nonatomic, readonly) RBStruct* structObj;
 @property (nonatomic, readonly) RBEnum* enumObj;

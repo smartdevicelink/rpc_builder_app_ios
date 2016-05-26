@@ -55,13 +55,7 @@
             }
         } else if ([view isKindOfClass:[RBParamView class]]) {
             RBParamView* paramView = (RBParamView*)view;
-            if (paramView.isEnabled) {
-                if (paramView.value) {
-                    self.parametersDictionary[paramView.param.name] = paramView.value;
-                }
-            } else {
-                [self.parametersDictionary removeObjectForKey:paramView.param.name];
-            }
+            [paramView addToDictionary:self.parametersDictionary];
         }
     }
 }
