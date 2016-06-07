@@ -129,17 +129,18 @@ The logs are color coded to quickly identify the types sent.
 * Yellow
   * Used for notifications sent from Core.
 
-Tapping on items in the console will reveal the JSON associated with that item, if applicable.
-
-<img src="/ReadmeFiles/Console-RAI.png" width=200px>
-
-On RPC Responses, we do have a color coded value for easy reading when attempting to find successful/unsuccessful calls.
+On RPC Responses, there is a color coded value for easy reading when attempting to find successful/unsuccessful calls.
 * Green
   * Used for responses that come back with `SUCCESS`.
 * Yellow
   * Used for responses that come back with `ABORTED`, `TIMED_OUT` or `WARNINGS`.
 * Red
   * Used for responses that come back with any other result.
+
+Tapping on items in the console will reveal the JSON associated with that item, if applicable.
+
+<img src="/ReadmeFiles/Console-RAI.png" width=200px>
+
 
 ### A Special Note about Putfile
 Putfile is the RPC responsible for sending binary data from our mobile libraries to core. This application provides support for adding any type of file; either from the Camera roll (for images) or iTunes shared storage for any other files. Similar to adding custom RPC Spec files, any file located within the `BulkData` directory will be present in Local Storage and be usable for upload.
