@@ -31,9 +31,6 @@
         
     _messagesArray = [NSMutableArray arrayWithCapacity:100];
     
-    [_tableView registerClass:[RBLogInfoTableViewCell class]
-       forCellReuseIdentifier:[RBLogInfoTableViewCell cellIdentifier]];
-    
     [SDLDebugTool addConsole:self];
     
 }
@@ -78,6 +75,14 @@
 
 #pragma mark - Data Source
 #pragma mark UITableView
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewAutomaticDimension;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44.0f;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 0.01f;
 }

@@ -8,33 +8,33 @@
 
 @interface RBLogInfoTableViewCell ()
 
-@property (nonatomic, weak, readonly) UIView* notificationTypeView;
+@property (nonatomic, weak) IBOutlet UILabel* titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel* accessoryLabel;
+@property (nonatomic, weak) IBOutlet UIView* notificationTypeView;
 
 @end
 
 @implementation RBLogInfoTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier]) {
-        
-        self.textLabel.font = [UIFont boldSystemFontOfSize:self.textLabel.font.pointSize];
-        
-        CGRect notificationViewFrame = CGRectMake(0,
-                                                  0,
-                                                  10,
-                                                  CGRectGetHeight(self.contentView.bounds));
-        UIView* notificationTypeView = [[UIView alloc] initWithFrame:notificationViewFrame];
-        [self.contentView addSubview:notificationTypeView];
-        _notificationTypeView = notificationTypeView;
-    }
-    return self;
-}
-
 - (void)updateWithObject:(id)object {
     RBLogInfo* logInfo = (RBLogInfo*)object;
-    self.textLabel.text = logInfo.title;
-    self.detailTextLabel.text = logInfo.dateString;
-    self.notificationTypeView.backgroundColor = logInfo.color;
+    self.titleLabel.text = logInfo.title;
+    self.accessoryLabel.attributedText = [self sdl_attributedStringForDateString:logInfo.dateString
+                                                                 andResultString:logInfo.resultString
+                                                                       withColor:logInfo.resultColor];
+    self.notificationTypeView.backgroundColor = logInfo.typeColor;
+}
+
+- (NSAttributedString*)sdl_attributedStringForDateString:(NSString*)dateString andResultString:(NSString*)resultString withColor:(UIColor*)resultColor {
+    NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:dateString];
+    if (resultString.length) {
+        NSDictionary* attributes = @{NSForegroundColorAttributeName : resultColor,
+                                     NSFontAttributeName : [UIFont boldSystemFontOfSize:self.accessoryLabel.font.pointSize]};
+        NSMutableAttributedString* resultAttributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" - %@", resultString]];
+        [resultAttributedString addAttributes:attributes range:NSMakeRange(3, resultString.length)];
+        [attributedString appendAttributedString:resultAttributedString];
+    }
+    return attributedString;
 }
 
 @end
