@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, RBLogInfoType) {
+    RBLogInfoTypeSystem,
+    RBLogInfoTypeNotification,
+    RBLogInfoTypeRequest,
+    RBLogInfoTypeResponse
+};
+
 @interface RBLogInfo : NSObject
 
 + (instancetype)logInfoWithString:(NSString*)string;
@@ -18,6 +25,10 @@
 @property (nonatomic, readonly) NSString* dateString;
 @property (nonatomic, readonly) NSString* message;
 
-@property (nonatomic, readonly) UIColor* color;
+@property (nonatomic, readonly) RBLogInfoType type;
+@property (nonatomic, readonly) UIColor* typeColor;
+
+@property (nonatomic, readonly) NSString* resultString;
+@property (nonatomic, readonly) UIColor* resultColor;
 
 @end
