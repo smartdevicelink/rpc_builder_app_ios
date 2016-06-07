@@ -30,3 +30,7 @@
 # 1.2.1 Release Notes
 ## Bug Fixes
 * Fixed issue with nested arrays in structs in functions would not save correctly.
+
+# 1.2.2 Release Notes
+## Enhancements
+* Added color coded responses for easier reading in the Console.
