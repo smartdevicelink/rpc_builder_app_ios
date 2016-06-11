@@ -97,6 +97,10 @@ static UIStoryboard* moduleStoryboard = nil;
     return [SDLManager sharedManager];
 }
 
+- (SDLProxy*)proxy {
+    return self.SDLManager.proxy;
+}
+
 #pragma mark - Overrides
 - (CGFloat)scrollViewBottomOffset {
     return CGRectGetHeight(self.tabBarController.tabBar.bounds);
