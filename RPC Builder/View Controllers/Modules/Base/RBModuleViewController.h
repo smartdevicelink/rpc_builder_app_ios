@@ -59,7 +59,7 @@
 /*
  *  Proxy given by SDLManager. Logic relating to proxy should be contained with module.
  */
-@property (nonatomic, weak) SDLProxy* proxy;
+@property (nonatomic, readonly) SDLProxy* proxy;
 
 /*
  *  Local reference to SDLManager's singleton.
