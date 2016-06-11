@@ -31,9 +31,11 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 @interface RBStreamingModuleViewController () <RBFilePickerDelegate, RBCameraDelegate, UITextFieldDelegate>
 
-@property (nonatomic, weak) SDLStreamingMediaManager* streamingManager;
+@property (nonatomic, readonly) SDLStreamingMediaManager* streamingManager;
 @property (nonatomic, readonly) BOOL isVideoSessionConnected;
 @property (nonatomic, readonly) BOOL isAudioSessionConnected;
+
+@property (nonatomic, getter=isObservingStreaming) BOOL observingStreaming;
 
 @property (nonatomic, weak) UILabel* currentFileNameLabel;
 
@@ -90,24 +92,14 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
                      forKeyPath:SDLManagerConnectedKeyPath
                         options:observations
                         context:&SDLManagerConnectedContext];
-        [self.streamingManager addObserver:self
-                                forKeyPath:RBVideoStreamingConnectedKeyPath
-                                   options:observations
-                                   context:&RBVideoStreamingConnectedContext];
-        [self.streamingManager addObserver:self
-                                forKeyPath:RBAudioStreamingConnectedKeyPath
-                                   options:observations
-                                   context:&RBAudioStreamingConnectedContext];
     }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [self.SDLManager removeObserver:self
-                    forKeyPath:SDLManagerConnectedKeyPath];
-    [self.streamingManager removeObserver:self
-                               forKeyPath:RBVideoStreamingConnectedKeyPath];
-    [self.streamingManager removeObserver:self
-                               forKeyPath:RBAudioStreamingConnectedKeyPath];
+    if (self.streamingManager) {
+        [self.SDLManager removeObserver:self
+                             forKeyPath:SDLManagerConnectedKeyPath];
+    }
     [super viewWillDisappear:animated];
 }
 
@@ -138,6 +130,10 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 #pragma mark - Getters
+- (SDLStreamingMediaManager*)streamingManager {
+    return self.proxy.streamingMediaManager;
+}
+
 - (BOOL)isAudioSessionConnected {
     return self.SDLManager.isConnected ? self.streamingManager.audioSessionConnected : NO;
 }
@@ -161,12 +157,6 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
         unsignedIntegerNumberFormatter = [[NSNumberFormatter alloc] init];
     }
     return unsignedIntegerNumberFormatter;
-}
-
-#pragma mark - Setters
-- (void)setProxy:(SDLProxy *)proxy {
-    [super setProxy:proxy];
-    self.streamingManager = proxy.streamingMediaManager;
 }
 
 #pragma mark - Actions
@@ -510,12 +500,38 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     });
 }
 
+- (void)sdl_addStreamingObservers {
+    if (!self.isObservingStreaming) {
+        self.observingStreaming = YES;
+        NSKeyValueObservingOptions observations = (NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew);
+        [self.streamingManager addObserver:self
+                                forKeyPath:RBVideoStreamingConnectedKeyPath
+                                   options:observations
+                                   context:&RBVideoStreamingConnectedContext];
+        [self.streamingManager addObserver:self
+                                forKeyPath:RBAudioStreamingConnectedKeyPath
+                                   options:observations
+                                   context:&RBAudioStreamingConnectedContext];
+    }
+}
+
+- (void)sdl_removeStreamingObservers {
+    if (self.isObservingStreaming) {
+        self.observingStreaming = NO;
+        [self.streamingManager removeObserver:self
+                                   forKeyPath:RBVideoStreamingConnectedKeyPath];
+        [self.streamingManager removeObserver:self
+                                   forKeyPath:RBAudioStreamingConnectedKeyPath];
+    }
+}
+
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if (context == SDLManagerConnectedContext) {
         if (!self.SDLManager.isConnected) {
-            [self sdl_updateAudioStreamingViews];
-            [self sdl_updateVideoStreamingViews];
+            [self sdl_removeStreamingObservers];
+        } else {
+            [self sdl_addStreamingObservers];
         }
     } else if (context == RBAudioStreamingConnectedContext) {
         [self sdl_updateAudioStreamingViews];

@@ -50,7 +50,6 @@
 
     if ([moduleClass isSubclassOfClass:[RBModuleViewController class]]) {
         RBModuleViewController* viewController = [moduleClass viewController];
-        viewController.proxy = [[SDLManager sharedManager] proxy];
         [self.navigationController pushViewController:viewController
                                              animated:YES];
     }
