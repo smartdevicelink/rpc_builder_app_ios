@@ -209,7 +209,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
             return;
         }
         __weak typeof(self) weakSelf = self;
-        [self.streamingManager startAudioStreamingWithStartBlock:^(BOOL success, NSError * _Nullable error) {
+        [self.streamingManager startAudioSessionWithStartBlock:^(BOOL success, NSError * _Nullable error) {
             typeof(weakSelf) strongSelf = weakSelf;
             if (!success) {
                 [strongSelf sdl_handleError:error];
@@ -380,7 +380,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
             case SDLStreamingVideoErrorHeadUnitNACK:
                 errorString = @"Video Streaming did not receive acknowledgement from Core.";
                 break;
-            case SDLSTreamingVideoErrorInvalidOperatingSystemVersion:
+            case SDLStreamingVideoErrorInvalidOperatingSystemVersion:
                 errorString = @"Video Streaming can only be run on iOS 8+ devices.";
                 break;
             case SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure:
