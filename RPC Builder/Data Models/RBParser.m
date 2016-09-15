@@ -34,6 +34,8 @@ typedef void (^RBURLSuccessCompletionHandler)(void);
 
 @property (nonatomic, strong) NSMutableArray* requestsContainer;
 @property (nonatomic, strong) NSMutableArray* responsesContainer;
+@property (nonatomic, strong) NSMutableArray* functionsContainer;
+@property (nonatomic, strong) NSMutableArray* elementsContainer;
 
 @property (nonatomic, strong) NSString* currentTag;
 
@@ -117,6 +119,14 @@ typedef void (^RBURLSuccessCompletionHandler)(void);
     return [_requestsContainer copy];
 }
 
+- (NSArray*)functions {
+    return [_functionsContainer copy];
+}
+
+- (NSArray*)elements {
+    return [_elementsContainer copy];
+}
+
 #pragma mark - Delegates
 #pragma mark NSXMLParser
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
@@ -160,10 +170,13 @@ typedef void (^RBURLSuccessCompletionHandler)(void);
         } else if ([[lastObject messageType] isEqualToString:RBResponseKey]) {
             [_responsesContainer addObject:lastObject];
         }
+        [_functionsContainer addObject:lastObject];
     } else if ([elementName isEqualToString:RBStructKey]) {
         _structsDictionary[[lastObject name]] = lastObject;
+    } else if ([elementName isEqualToString:RBElementKey]) {
+        [_elementsContainer addObject:lastObject];
     }
-    
+
     [self sdl_addObject:lastObject
       toParentObject:[_tagsContainer lastObject]];
     
@@ -196,6 +209,8 @@ typedef void (^RBURLSuccessCompletionHandler)(void);
     
     _requestsContainer = [NSMutableArray array];
     _responsesContainer = [NSMutableArray array];
+    _functionsContainer = [NSMutableArray array];
+    _elementsContainer = [NSMutableArray array];
 }
 
 - (void)sdl_addObject:(id)object toParentObject:(id)parentObject {

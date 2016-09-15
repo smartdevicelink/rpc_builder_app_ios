@@ -24,6 +24,7 @@
 		DA991EE31CAE3ED60002DA10 /* NSData+Chunks.m in Sources */ = {isa = PBXBuildFile; fileRef = DA991EE21CAE3ED60002DA10 /* NSData+Chunks.m */; };
 		DA991EE61CB1FD110002DA10 /* RBCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = DA991EE51CB1FD110002DA10 /* RBCamera.m */; };
 		DAB28CBA1C947FBD00E44F28 /* RBSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB28CB91C947FBD00E44F28 /* RBSettingsManager.m */; };
+		DACEA94B1D8B4157000EC852 /* NSObject+Swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = DACEA94A1D8B4157000EC852 /* NSObject+Swizzle.m */; };
 		DAE0337B1C8F9D1B00B64BB8 /* RBBaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0332A1C8F9D1B00B64BB8 /* RBBaseObject.m */; };
 		DAE0337C1C8F9D1B00B64BB8 /* RBElement.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0332C1C8F9D1B00B64BB8 /* RBElement.m */; };
 		DAE0337D1C8F9D1B00B64BB8 /* RBEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0332E1C8F9D1B00B64BB8 /* RBEnum.m */; };
@@ -114,6 +115,8 @@
 		DA991EE51CB1FD110002DA10 /* RBCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBCamera.m; sourceTree = "<group>"; };
 		DAB28CB81C947FBD00E44F28 /* RBSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBSettingsManager.h; sourceTree = "<group>"; };
 		DAB28CB91C947FBD00E44F28 /* RBSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBSettingsManager.m; sourceTree = "<group>"; };
+		DACEA9491D8B4157000EC852 /* NSObject+Swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swizzle.h"; sourceTree = "<group>"; };
+		DACEA94A1D8B4157000EC852 /* NSObject+Swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swizzle.m"; sourceTree = "<group>"; };
 		DAE033291C8F9D1B00B64BB8 /* RBBaseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBBaseObject.h; sourceTree = "<group>"; };
 		DAE0332A1C8F9D1B00B64BB8 /* RBBaseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBBaseObject.m; sourceTree = "<group>"; };
 		DAE0332B1C8F9D1B00B64BB8 /* RBElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBElement.h; sourceTree = "<group>"; };
@@ -260,6 +263,15 @@
 			path = "RPC Builder";
 			sourceTree = "<group>";
 		};
+		DACEA9481D8B409C000EC852 /* Swizzle */ = {
+			isa = PBXGroup;
+			children = (
+				DACEA9491D8B4157000EC852 /* NSObject+Swizzle.h */,
+				DACEA94A1D8B4157000EC852 /* NSObject+Swizzle.m */,
+			);
+			name = Swizzle;
+			sourceTree = "<group>";
+		};
 		DAE033281C8F9D1B00B64BB8 /* Data Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +311,7 @@
 		DAE0333E1C8F9D1B00B64BB8 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				DACEA9481D8B409C000EC852 /* Swizzle */,
 				DAE0333F1C8F9D1B00B64BB8 /* Categories */,
 				DAE0334A1C8F9D1B00B64BB8 /* RBDeviceInformation.h */,
 				DAE0334B1C8F9D1B00B64BB8 /* RBDeviceInformation.m */,
@@ -645,6 +658,7 @@
 				DAE033831C8F9D1B00B64BB8 /* SDLConfiguration.m in Sources */,
 				DAE033801C8F9D1B00B64BB8 /* RBParser.m in Sources */,
 				DAE0337E1C8F9D1B00B64BB8 /* RBFunction.m in Sources */,
+				DACEA94B1D8B4157000EC852 /* NSObject+Swizzle.m in Sources */,
 				DAE033871C8F9D1B00B64BB8 /* UIAlertAction+Minimal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
