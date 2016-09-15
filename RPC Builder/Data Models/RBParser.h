@@ -38,6 +38,8 @@ extern NSString* const RBParserErrorStringURLNotFound;
 @property (weak) id<RBParserDelegate> delegate;
 
 @property (nonatomic, readonly) NSArray* RPCs;
+@property (nonatomic, readonly) NSArray* functions;
+@property (nonatomic, readonly) NSArray* elements;
 @property (nonatomic, readonly) NSError* error;
 
 @end

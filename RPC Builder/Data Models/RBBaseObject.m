@@ -10,6 +10,7 @@ NSString* const RBTypeKey = @"type";
 NSString* const RBTypeStringKey = @"String";
 NSString* const RBTypeIntegerKey = @"Integer";
 NSString* const RBTypeLongKey = @"Long";
+NSString* const RBTypeDoubleKey = @"Double";
 NSString* const RBTypeFloatKey = @"Float";
 NSString* const RBTypeBooleanKey = @"Boolean";
 NSString* const RBTypeBooleanTrueValue = @"true";
