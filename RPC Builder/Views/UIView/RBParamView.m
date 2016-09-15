@@ -53,7 +53,8 @@
             if ([param.type isEqualToString:RBTypeStringKey]
                 || [param.type isEqualToString:RBTypeIntegerKey]
                 || [param.type isEqualToString:RBTypeFloatKey]
-                || [param.type isEqualToString:RBTypeLongKey]) {
+                || [param.type isEqualToString:RBTypeLongKey]
+                || [param.type isEqualToString:RBTypeDoubleKey]) {
                 RBParamTextField* textField = [[RBParamTextField alloc] initWithParam:param
                                                                        referenceFrame:nameLabel.frame];
                 textField.delegate = self;
