@@ -111,7 +111,19 @@
     [_createParamTextField resignFirstResponder];
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = self.addBarButton;
-    [_mutableContents addObject:_createParamTextField.text];
+    id paramObject = nil;
+    if ([self.paramType isEqualToString:RBTypeStringKey]) {
+        paramObject = _createParamTextField.text;
+    } else if ([self.paramType isEqualToString:RBTypeIntegerKey]) {
+        paramObject = @([_createParamTextField.text intValue]);
+    } else if ([self.paramType isEqualToString:RBTypeLongKey]) {
+        paramObject = @([_createParamTextField.text longLongValue]);
+    } else if ([self.paramType isEqualToString:RBTypeFloatKey]) {
+        paramObject =  @([_createParamTextField.text floatValue]);
+    } else {
+        NSAssert(NO, @"ERROR!");
+    }
+    [_mutableContents addObject:paramObject];
     [_cellTitleArray addObject:_createParamTextField.text.length ? _createParamTextField.text : @"Empty String"];
     [_tableView reloadData];
     [UIView animateWithDuration:0.3 animations:^{
