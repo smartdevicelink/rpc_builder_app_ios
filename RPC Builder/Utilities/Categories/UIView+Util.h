@@ -15,4 +15,6 @@
 
 - (void)bottomAlignmentWithReferenceRect:(CGRect)referenceRect;
 
+- (void)copyParentConstraintsToView:(UIView*)view;
+
 @end

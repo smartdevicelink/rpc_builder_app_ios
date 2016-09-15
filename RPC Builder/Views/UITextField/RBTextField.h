@@ -9,4 +9,6 @@
 
 - (instancetype)initWithReferenceFrame:(CGRect)frame;
 
+- (id)copyAs:(Class)copyClass;
+
 @end
