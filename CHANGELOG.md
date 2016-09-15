@@ -34,3 +34,8 @@
 # 1.2.2 Release Notes
 ## Enhancements
 * Added color coded responses for easier reading in the Console.
+
+# 1.2.3 Release Notes
+## Bug Fixes
+* Fixed issue with not all types of array-based parameters working.
+* Fixed issue with not working with all property types.
