@@ -58,4 +58,41 @@
     self.frame = adjustedFrame;
 }
 
+- (void)copyParentConstraintsToView:(UIView*)view {
+    view.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSMutableArray* removeConstraints = [NSMutableArray array];
+    NSMutableArray* addConstraints = [NSMutableArray array];
+    
+    for (NSLayoutConstraint* constraint in self.superview.constraints) {
+        if (constraint.firstItem == self || constraint.secondItem == self) {
+            id firstItem = nil;
+            id secondItem = nil;
+            if (constraint.firstItem != nil) {
+                firstItem = (constraint.firstItem == self) ? view : constraint.firstItem;
+            }
+            if (constraint.secondItem != nil) {
+                secondItem = (constraint.secondItem == self) ? view : constraint.secondItem;
+            }
+            
+            NSLayoutConstraint* newConstraint = [NSLayoutConstraint constraintWithItem:firstItem
+                                                                             attribute:constraint.firstAttribute
+                                                                             relatedBy:constraint.relation
+                                                                                toItem:secondItem
+                                                                             attribute:constraint.secondAttribute
+                                                                            multiplier:constraint.multiplier
+                                                                              constant:constraint.constant];
+            newConstraint.priority = constraint.priority;
+            newConstraint.active = constraint.isActive;
+            
+            [addConstraints addObject:newConstraint];
+            [removeConstraints addObject:constraint];
+        }
+    }
+    
+    [self.superview removeConstraints:removeConstraints];
+    [self.superview addConstraints:addConstraints];
+    
+}
+
 @end

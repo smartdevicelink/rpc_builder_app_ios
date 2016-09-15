@@ -11,6 +11,9 @@
 #import "RBParser.h"
 
 #import "RBElementTextField.h"
+#import "RBParamTextField.h"
+
+#import "UIView+Util.h"
 
 @interface RBArrayViewController () <UITableViewDataSource, UITableViewDelegate, RBStructDelegate>
 
@@ -20,8 +23,8 @@
 
 @implementation RBArrayViewController {
     IBOutlet UITableView* _tableView;
-    IBOutlet RBElementTextField* _createParamTextField;
-
+    IBOutlet RBTextField* _textField;
+    
     NSMutableArray* _mutableContents;
     NSMutableArray* _cellTitleArray;
     
@@ -82,54 +85,65 @@
         self.navigationItem.rightBarButtonItem = saveBarButtonItem;
         self.navigationItem.rightBarButtonItem.enabled = NO;
         RBEnum* enumObj = [[RBParser sharedParser] enumOfType:self.paramType];
+        
+        // Rebuild to text field based on type of param.
+        RBTextField* newTextField = nil;
+        if (enumObj) {
+            RBElementTextField* elementTextField = [_textField copyAs:[RBElementTextField class]];
+            elementTextField.elements = enumObj.elements;
+            elementTextField.inputView = self.pickerView;
+            elementTextField.inputAccessoryView = self.doneToolbar;
+            self.navigationItem.rightBarButtonItem.enabled = elementTextField.text.length;
+        
+            newTextField = elementTextField;
+        } else {
+            RBParamTextField* paramTextField = [_textField copyAs:[RBParamTextField class]];
+            paramTextField.parameter = self.param;
+
+            newTextField = paramTextField;
+        }
+        
+        [self.view insertSubview:newTextField belowSubview:_textField];
+        [_textField copyParentConstraintsToView:newTextField];
+        [_textField removeFromSuperview];
+        _textField = newTextField;
+        
         [UIView animateWithDuration:0.3 animations:^{
             _tableView.alpha = 0.0f;
         } completion:^(BOOL finished) {
-            if (enumObj) {
-                _createParamTextField.elements = enumObj.elements;
-                _createParamTextField.inputView = self.pickerView;
-                _createParamTextField.inputAccessoryView = self.doneToolbar;
-                self.navigationItem.rightBarButtonItem.enabled = _createParamTextField.text.length;
-            }
-            [_createParamTextField becomeFirstResponder];
+            [_textField becomeFirstResponder];
         }];
     }
 }
 
 - (void)cancelAction:(id)selector {
-    [_createParamTextField resignFirstResponder];
+    [_textField resignFirstResponder];
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = self.addBarButton;
     [UIView animateWithDuration:0.3 animations:^{
         _tableView.alpha = 1.0f;
     } completion:^(BOOL finished) {
-        _createParamTextField.text = nil;
+        _textField.text = nil;
     }];
 }
 
 - (void)saveAction:(id)selector {
-    [_createParamTextField resignFirstResponder];
+    [_textField resignFirstResponder];
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = self.addBarButton;
-    id paramObject = nil;
-    if ([self.paramType isEqualToString:RBTypeStringKey]) {
-        paramObject = _createParamTextField.text;
-    } else if ([self.paramType isEqualToString:RBTypeIntegerKey]) {
-        paramObject = @([_createParamTextField.text intValue]);
-    } else if ([self.paramType isEqualToString:RBTypeLongKey]) {
-        paramObject = @([_createParamTextField.text longLongValue]);
-    } else if ([self.paramType isEqualToString:RBTypeFloatKey]) {
-        paramObject =  @([_createParamTextField.text floatValue]);
-    } else {
-        NSAssert(NO, @"ERROR!");
+
+    if ([_textField isKindOfClass:[RBParamTextField class]]) {
+        [_mutableContents addObject:[(RBParamTextField*)_textField value]];
+    } else if ([_textField isKindOfClass:[RBElementTextField class]]) {
+        [_mutableContents addObject:_textField.text];
     }
-    [_mutableContents addObject:paramObject];
-    [_cellTitleArray addObject:_createParamTextField.text.length ? _createParamTextField.text : @"Empty String"];
+    
+    [_cellTitleArray addObject:_textField.text.length ? _textField.text : @"Empty String"];
     [_tableView reloadData];
     [UIView animateWithDuration:0.3 animations:^{
         _tableView.alpha = 1.0f;
     } completion:^(BOOL finished) {
-        _createParamTextField.text = nil;
+        _textField.text = nil;
     }];
 }
 
