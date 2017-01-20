@@ -26,6 +26,10 @@
 	<string>11</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>We will use your camera for streaming video data to Core.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We will use your photo library for updating files to Core.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>external-accessory</string>
