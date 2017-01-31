@@ -18,6 +18,8 @@
                                                                                    action:@selector(saveAction:)];
     self.navigationItem.rightBarButtonItem = saveBarButton;
     
+    self.parametersDictionary = [NSMutableDictionary dictionary];
+        
     [self loadParameters:self.structObj.parameters];
 }
 
