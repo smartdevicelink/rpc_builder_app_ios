@@ -5,6 +5,7 @@
 
 #import "RBBaseViewController.h"
 #import "RBArrayViewController.h"
+#import "RBStructViewController.h"
 
 #import "RBDeviceInformation.h"
 
@@ -14,7 +15,7 @@
 #import "RBElementTextField.h"
 #import "RBFileView.h"
 
-@interface RBBaseViewController () <RBArrayViewControllerDelegate>
+@interface RBBaseViewController () <RBArrayViewControllerDelegate, RBStructDelegate>
 
 // Strictly used only for scrollView height calculation.
 @property (nonatomic, weak) IBOutlet UILabel* requiredLabel;
@@ -166,6 +167,12 @@
     _presentedParamView = nil;
 }
 
+#pragma mark RBStructViewController
+- (void)structViewController:(RBStructViewController *)viewController didCreateStruct:(NSDictionary *)structDictionary {
+    self.parametersDictionary[viewController.parameterName] = structDictionary;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark UITextField
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if ([textField isKindOfClass:[RBParamTextField class]]) {
@@ -185,6 +192,9 @@
         if ([viewController isKindOfClass:[RBArrayViewController class]]) {
             RBArrayViewController* arrayViewController = (RBArrayViewController*)viewController;
             arrayViewController.delegate = self;
+        } else if ([viewController isKindOfClass:[RBStructViewController class]]) {
+            RBStructViewController* structViewController = (RBStructViewController*)viewController;
+            structViewController.delegate = self;
         }
     }
 
