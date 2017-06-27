@@ -25,7 +25,7 @@ typedef NS_ENUM(NSUInteger, SDLAppType) {
     SDLAppTypeUnknown
 };
 
-@interface SDLConfiguration : NSObject
+@interface RBSDLConfiguration : NSObject
 
 /*
  *  Returns all available connection type's respective string values.

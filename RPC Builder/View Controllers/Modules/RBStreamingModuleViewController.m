@@ -88,7 +88,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
     [super viewWillAppear:animated];
     if (self.streamingManager) {
         NSKeyValueObservingOptions observations = (NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew);
-        [self.SDLManager addObserver:self
+        [self.manager addObserver:self
                      forKeyPath:SDLManagerConnectedKeyPath
                         options:observations
                         context:&SDLManagerConnectedContext];
@@ -97,7 +97,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 
 - (void)viewWillDisappear:(BOOL)animated {
     if (self.streamingManager) {
-        [self.SDLManager removeObserver:self
+        [self.manager removeObserver:self
                              forKeyPath:SDLManagerConnectedKeyPath];
     }
     [super viewWillDisappear:animated];
@@ -135,11 +135,11 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 }
 
 - (BOOL)isAudioSessionConnected {
-    return self.SDLManager.isConnected ? self.streamingManager.audioSessionConnected : NO;
+    return self.manager.isConnected ? self.streamingManager.audioSessionConnected : NO;
 }
 
 - (BOOL)isVideoSessionConnected {
-    return self.SDLManager.isConnected ? self.streamingManager.videoSessionConnected : NO;
+    return self.manager.isConnected ? self.streamingManager.videoSessionConnected : NO;
 }
 
 - (NSNumberFormatter*)decimalNumberFormatter {
@@ -180,7 +180,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
             [self sdl_handleEmptyStreamingDataError];
             return;
         }
-        if (!self.SDLManager.isConnected) {
+        if (!self.manager.isConnected) {
             [self sdl_handleProxyNotConnectedError];
             return;
         }
@@ -204,7 +204,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
             [self sdl_handleEmptyStreamingDataError];
             return;
         }
-        if (!self.SDLManager.isConnected) {
+        if (!self.manager.isConnected) {
             [self sdl_handleProxyNotConnectedError];
             return;
         }
@@ -528,7 +528,7 @@ static void* RBAudioStreamingConnectedContext = &RBAudioStreamingConnectedContex
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if (context == SDLManagerConnectedContext) {
-        if (!self.SDLManager.isConnected) {
+        if (!self.manager.isConnected) {
             [self sdl_removeStreamingObservers];
         } else {
             [self sdl_addStreamingObservers];

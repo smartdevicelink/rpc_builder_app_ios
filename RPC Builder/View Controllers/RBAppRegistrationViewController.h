@@ -5,10 +5,10 @@
 
 #import "RBFunctionViewController.h"
 
-#import "SDLConfiguration.h"
+#import "RBSDLConfiguration.h"
 
 @interface RBAppRegistrationViewController : RBFunctionViewController
 
-@property (nonatomic, strong) SDLConfiguration* sdlConfiguration;
+@property (nonatomic, strong) RBSDLConfiguration* sdlConfiguration;
 
 @end

@@ -125,8 +125,8 @@
     return [RBSettingsManager sharedManager];
 }
 
-- (SDLManager*)sdlManager {
-    return [SDLManager sharedManager];
+- (RBSDLManager*)sdlManager {
+    return [RBSDLManager sharedManager];
 }
 
 - (NSMutableDictionary*)requestDictionary {

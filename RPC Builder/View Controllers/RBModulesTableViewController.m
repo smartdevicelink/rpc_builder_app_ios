@@ -11,7 +11,7 @@
 #import "RBModuleTableViewCell.h"
 #import "UIAlertController+Minimal.h"
 
-#import "SDLManager.h"
+#import "RBSDLManager.h"
 
 @interface RBModulesTableViewController ()
 

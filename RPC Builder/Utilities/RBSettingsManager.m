@@ -122,9 +122,9 @@ NSString* const RBVideoStreamingMaxFrameRateKey = @"videoStreamingMaxFrameRate";
                                       object:nil];
         _languages = @[];
         
-        _connectionTypes = [SDLConfiguration connectionTypeStrings];
+        _connectionTypes = [RBSDLConfiguration connectionTypeStrings];
         
-        _appTypes = [SDLConfiguration appTypeStrings];
+        _appTypes = [RBSDLConfiguration appTypeStrings];
         
         _shouldSynchronize = NO;
         
@@ -396,7 +396,7 @@ NSString* const RBVideoStreamingMaxFrameRateKey = @"videoStreamingMaxFrameRate";
     
     // Protocol Settings
     _connectionTypeString = [self sdl_stringForKey:RBConnectionTypeKey
-                             withDefaultValue:[SDLConfiguration defaultConfiguration].connectionTypeString];
+                             withDefaultValue:[RBSDLConfiguration defaultConfiguration].connectionTypeString];
     _protocolString = [self sdl_stringForKey:RBProtocolStringKey
                          withDefaultValue:RBProtocolStringDefault];
     _ipAddress = [self sdl_stringForKey:RBTCPConnectionIPAddressKey

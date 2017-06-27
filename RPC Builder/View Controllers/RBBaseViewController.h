@@ -7,14 +7,14 @@
 #import "RBParamView.h"
 
 #import "RBSettingsManager.h"
-#import "SDLManager.h"
+#import "RBSDLManager.h"
 
 static const CGFloat kParamViewSpacing = 20.0f;
 
 @interface RBBaseViewController : RBScrollViewController <RBParamViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, readonly) RBSettingsManager* settingsManager;
-@property (nonatomic, readonly) SDLManager* sdlManager;
+@property (nonatomic, readonly) RBSDLManager* sdlManager;
 
 @property (nonatomic, readonly) UIPickerView* pickerView;
 @property (nonatomic, readonly) UIToolbar* doneToolbar;

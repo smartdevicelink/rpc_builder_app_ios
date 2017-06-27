@@ -5,7 +5,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "SDLConfiguration.h"
+#import "RBSDLConfiguration.h"
 
 @class SDLProxy;
 @class SDLRPCRequest;
@@ -15,7 +15,7 @@ extern NSString* const SDLManagerRegisterAppInterfaceResponseNotification;
 extern NSString* const SDLManagerConnectedKeyPath;
 extern void* SDLManagerConnectedContext;
 
-@interface SDLManager : NSObject
+@interface RBSDLManager : NSObject
 
 @property (nonatomic, readonly) SDLProxy* proxy;
 
@@ -31,7 +31,7 @@ extern void* SDLManagerConnectedContext;
 // Creates a specific SDLRPCRequest subtype for a given dictionary.
 - (id)requestOfClass:(Class)classType forDictionary:(NSDictionary*)requestDictionary withBulkData:(NSData*)bulkData;
 
-- (BOOL)connectWithConfiguration:(SDLConfiguration*)configuration;
+- (BOOL)connectWithConfiguration:(RBSDLConfiguration*)configuration;
 - (void)disconnect;
 
 - (void)sendRequestDictionary:(NSDictionary*)requestDictionary bulkData:(NSData*)bulkData;

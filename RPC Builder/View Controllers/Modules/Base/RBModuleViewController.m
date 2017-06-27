@@ -93,12 +93,12 @@ static UIStoryboard* moduleStoryboard = nil;
     return [RBSettingsManager sharedManager];
 }
 
-- (SDLManager*)SDLManager {
-    return [SDLManager sharedManager];
+- (RBSDLManager *)manager {
+    return [RBSDLManager sharedManager];
 }
 
 - (SDLProxy*)proxy {
-    return self.SDLManager.proxy;
+    return self.manager.proxy;
 }
 
 #pragma mark - Overrides

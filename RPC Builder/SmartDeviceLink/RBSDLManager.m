@@ -3,7 +3,7 @@
 //  RPC Builder
 //
 
-#import "SDLManager.h"
+#import "RBSDLManager.h"
 #import "SmartDeviceLink.h"
 
 #import "RBSettingsViewController.h"
@@ -18,29 +18,29 @@ static NSString* const AppIconFileName = @"SDLAppIcon";
 
 static NSString* const SDLRequestKey = @"request";
 
-@interface SDLManager () <SDLProxyListener>
+@interface RBSDLManager () <SDLProxyListener>
 
-@property (nonatomic, strong) SDLConfiguration* configuration;
+@property (nonatomic, strong) RBSDLConfiguration* configuration;
 
 @property (nonatomic) NSUInteger correlationID;
 @property (nonatomic, readonly) NSNumber* nextCorrelationID;
 
 @end
 
-@implementation SDLManager
+@implementation RBSDLManager
 
 + (instancetype)sharedManager {
-    static SDLManager* sharedManager = nil;
+    static RBSDLManager* sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedManager = [[SDLManager alloc] init];
+        sharedManager = [[RBSDLManager alloc] init];
     });
     
     return sharedManager;
 }
 
 #pragma mark - Public
-- (BOOL)connectWithConfiguration:(SDLConfiguration *)configuration {
+- (BOOL)connectWithConfiguration:(RBSDLConfiguration *)configuration {
     if (!configuration) {
         NSLog(@"No specified configuration. Cannot start proxy.");
         return NO;
@@ -166,7 +166,7 @@ static NSString* const SDLRequestKey = @"request";
     _connected = connected;
     [self didChangeValueForKey:@"isConnected"];
     
-    if (![[SDLManager sharedManager] isConnected]) {
+    if (![[RBSDLManager sharedManager] isConnected]) {
         [self presentSettingsViewController];
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74D2C48105D9158B9955A51C /* Pods_RPC_Builder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEF2202C13BDA259E7EF5F37 /* Pods_RPC_Builder.framework */; };
 		DA5804871D072FC20071200F /* NSString+Regex.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5804861D072FC20071200F /* NSString+Regex.m */; };
 		DA58048A1D0731940071200F /* UIColor+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5804891D0731940071200F /* UIColor+Util.m */; };
 		DA6749B21CC57A9700A5591E /* RBAudioPassThruModuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6749B11CC57A9700A5591E /* RBAudioPassThruModuleViewController.m */; };
@@ -33,8 +34,8 @@
 		DAE033801C8F9D1B00B64BB8 /* RBParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE033341C8F9D1B00B64BB8 /* RBParser.m */; };
 		DAE033811C8F9D1B00B64BB8 /* RBSpecFile.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE033361C8F9D1B00B64BB8 /* RBSpecFile.m */; };
 		DAE033821C8F9D1B00B64BB8 /* RBStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE033381C8F9D1B00B64BB8 /* RBStruct.m */; };
-		DAE033831C8F9D1B00B64BB8 /* SDLConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0333B1C8F9D1B00B64BB8 /* SDLConfiguration.m */; };
-		DAE033841C8F9D1B00B64BB8 /* SDLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0333D1C8F9D1B00B64BB8 /* SDLManager.m */; };
+		DAE033831C8F9D1B00B64BB8 /* RBSDLConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0333B1C8F9D1B00B64BB8 /* RBSDLConfiguration.m */; };
+		DAE033841C8F9D1B00B64BB8 /* RBSDLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE0333D1C8F9D1B00B64BB8 /* RBSDLManager.m */; };
 		DAE033851C8F9D1B00B64BB8 /* NSFileWrapper+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE033411C8F9D1B00B64BB8 /* NSFileWrapper+Extensions.m */; };
 		DAE033861C8F9D1B00B64BB8 /* NSLayoutConstraint+CopyWithZone.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE033431C8F9D1B00B64BB8 /* NSLayoutConstraint+CopyWithZone.m */; };
 		DAE033871C8F9D1B00B64BB8 /* UIAlertAction+Minimal.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE033451C8F9D1B00B64BB8 /* UIAlertAction+Minimal.m */; };
@@ -64,7 +65,6 @@
 		DAEDFC171C979269001C3ADB /* RBLogInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEDFC161C979269001C3ADB /* RBLogInfo.m */; };
 		DAEDFC201C97BC74001C3ADB /* RBLogInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEDFC1F1C97BC74001C3ADB /* RBLogInfoTableViewCell.m */; };
 		DAEDFC231C97BC84001C3ADB /* RBBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEDFC221C97BC84001C3ADB /* RBBaseTableViewCell.m */; };
-		FFDC25A4DFB3061D20304522 /* libPods-RPC Builder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B189C21B03EC45FA0CE6AE /* libPods-RPC Builder.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -81,10 +81,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		431F618F07AF7F7460C8AB5B /* Pods-RPC Spec App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPC Spec App.release.xcconfig"; path = "Pods/Target Support Files/Pods-RPC Spec App/Pods-RPC Spec App.release.xcconfig"; sourceTree = "<group>"; };
 		7C3ADF3960EB2ECB06299BC7 /* Pods-RPC Builder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPC Builder.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RPC Builder/Pods-RPC Builder.debug.xcconfig"; sourceTree = "<group>"; };
 		99253F9DD499293B590C1297 /* Pods-RPC Builder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPC Builder.release.xcconfig"; path = "Pods/Target Support Files/Pods-RPC Builder/Pods-RPC Builder.release.xcconfig"; sourceTree = "<group>"; };
-		99B189C21B03EC45FA0CE6AE /* libPods-RPC Builder.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RPC Builder.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA55B48D1C8CB519007DB8DD /* RPC Builder-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RPC Builder-Info.plist"; sourceTree = "<group>"; };
 		DA5804851D072FC20071200F /* NSString+Regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Regex.h"; sourceTree = "<group>"; };
 		DA5804861D072FC20071200F /* NSString+Regex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Regex.m"; sourceTree = "<group>"; };
@@ -133,10 +131,10 @@
 		DAE033361C8F9D1B00B64BB8 /* RBSpecFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBSpecFile.m; sourceTree = "<group>"; };
 		DAE033371C8F9D1B00B64BB8 /* RBStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBStruct.h; sourceTree = "<group>"; };
 		DAE033381C8F9D1B00B64BB8 /* RBStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBStruct.m; sourceTree = "<group>"; };
-		DAE0333A1C8F9D1B00B64BB8 /* SDLConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConfiguration.h; sourceTree = "<group>"; };
-		DAE0333B1C8F9D1B00B64BB8 /* SDLConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLConfiguration.m; sourceTree = "<group>"; };
-		DAE0333C1C8F9D1B00B64BB8 /* SDLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManager.h; sourceTree = "<group>"; };
-		DAE0333D1C8F9D1B00B64BB8 /* SDLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLManager.m; sourceTree = "<group>"; };
+		DAE0333A1C8F9D1B00B64BB8 /* RBSDLConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBSDLConfiguration.h; sourceTree = "<group>"; };
+		DAE0333B1C8F9D1B00B64BB8 /* RBSDLConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBSDLConfiguration.m; sourceTree = "<group>"; };
+		DAE0333C1C8F9D1B00B64BB8 /* RBSDLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBSDLManager.h; sourceTree = "<group>"; };
+		DAE0333D1C8F9D1B00B64BB8 /* RBSDLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBSDLManager.m; sourceTree = "<group>"; };
 		DAE033401C8F9D1B00B64BB8 /* NSFileWrapper+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileWrapper+Extensions.h"; sourceTree = "<group>"; };
 		DAE033411C8F9D1B00B64BB8 /* NSFileWrapper+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileWrapper+Extensions.m"; sourceTree = "<group>"; };
 		DAE033421C8F9D1B00B64BB8 /* NSLayoutConstraint+CopyWithZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+CopyWithZone.h"; sourceTree = "<group>"; };
@@ -195,7 +193,7 @@
 		DAEDFC211C97BC84001C3ADB /* RBBaseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBBaseTableViewCell.h; sourceTree = "<group>"; };
 		DAEDFC221C97BC84001C3ADB /* RBBaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBBaseTableViewCell.m; sourceTree = "<group>"; };
 		DAEE90A01C6325EC009BCF97 /* RPC Builder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RPC Builder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDFC8EC235536AD86F4AE5E9 /* Pods-RPC Spec App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPC Spec App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RPC Spec App/Pods-RPC Spec App.debug.xcconfig"; sourceTree = "<group>"; };
+		DEF2202C13BDA259E7EF5F37 /* Pods_RPC_Builder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RPC_Builder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,7 +201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFDC25A4DFB3061D20304522 /* libPods-RPC Builder.a in Frameworks */,
+				74D2C48105D9158B9955A51C /* Pods_RPC_Builder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,8 +211,6 @@
 		840293AC0094AA1863D879F5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FDFC8EC235536AD86F4AE5E9 /* Pods-RPC Spec App.debug.xcconfig */,
-				431F618F07AF7F7460C8AB5B /* Pods-RPC Spec App.release.xcconfig */,
 				7C3ADF3960EB2ECB06299BC7 /* Pods-RPC Builder.debug.xcconfig */,
 				99253F9DD499293B590C1297 /* Pods-RPC Builder.release.xcconfig */,
 			);
@@ -300,10 +296,10 @@
 		DAE033391C8F9D1B00B64BB8 /* SmartDeviceLink */ = {
 			isa = PBXGroup;
 			children = (
-				DAE0333A1C8F9D1B00B64BB8 /* SDLConfiguration.h */,
-				DAE0333B1C8F9D1B00B64BB8 /* SDLConfiguration.m */,
-				DAE0333C1C8F9D1B00B64BB8 /* SDLManager.h */,
-				DAE0333D1C8F9D1B00B64BB8 /* SDLManager.m */,
+				DAE0333A1C8F9D1B00B64BB8 /* RBSDLConfiguration.h */,
+				DAE0333B1C8F9D1B00B64BB8 /* RBSDLConfiguration.m */,
+				DAE0333C1C8F9D1B00B64BB8 /* RBSDLManager.h */,
+				DAE0333D1C8F9D1B00B64BB8 /* RBSDLManager.m */,
 			);
 			path = SmartDeviceLink;
 			sourceTree = "<group>";
@@ -469,8 +465,8 @@
 		F1A9A17A0F5693FF4430A0A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				99B189C21B03EC45FA0CE6AE /* libPods-RPC Builder.a */,
 				DA55B48D1C8CB519007DB8DD /* RPC Builder-Info.plist */,
+				DEF2202C13BDA259E7EF5F37 /* Pods_RPC_Builder.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -482,12 +478,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DAEE90B71C6325EC009BCF97 /* Build configuration list for PBXNativeTarget "RPC Builder" */;
 			buildPhases = (
-				E5FF6F10416B54C36D7016BB /* 📦 Check Pods Manifest.lock */,
+				E5FF6F10416B54C36D7016BB /* [CP] Check Pods Manifest.lock */,
 				DAEE909C1C6325EC009BCF97 /* Sources */,
 				DAEE909D1C6325EC009BCF97 /* Frameworks */,
 				DAEE909E1C6325EC009BCF97 /* Resources */,
-				843F13957752A08BD95E44BD /* 📦 Embed Pods Frameworks */,
-				D192AB11570EED2E03829620 /* 📦 Copy Pods Resources */,
+				843F13957752A08BD95E44BD /* [CP] Embed Pods Frameworks */,
+				D192AB11570EED2E03829620 /* [CP] Copy Pods Resources */,
 				DAD5C2A41C72E789009FDFEC /* Embed App Extensions */,
 			);
 			buildRules = (
@@ -506,11 +502,12 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = "";
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Ford Motor Company";
 				TargetAttributes = {
 					DAEE909F1C6325EC009BCF97 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = NCVC2MHU7M;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -557,49 +554,58 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		843F13957752A08BD95E44BD /* 📦 Embed Pods Frameworks */ = {
+		843F13957752A08BD95E44BD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-RPC Builder/Pods-RPC Builder-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SmartDeviceLink/SmartDeviceLink.framework",
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SmartDeviceLink.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RPC Builder/Pods-RPC Builder-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D192AB11570EED2E03829620 /* 📦 Copy Pods Resources */ = {
+		D192AB11570EED2E03829620 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-RPC Builder/Pods-RPC Builder-resources.sh",
+				"$PODS_CONFIGURATION_BUILD_DIR/SmartDeviceLink-iOS/SmartDeviceLink.bundle",
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RPC Builder/Pods-RPC Builder-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E5FF6F10416B54C36D7016BB /* 📦 Check Pods Manifest.lock */ = {
+		E5FF6F10416B54C36D7016BB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RPC Builder-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -646,7 +652,7 @@
 				DA8F6D061C8CB2FF00417741 /* main.m in Sources */,
 				DAEDFC171C979269001C3ADB /* RBLogInfo.m in Sources */,
 				DAE0339E1C8F9D1B00B64BB8 /* RBParamView.m in Sources */,
-				DAE033841C8F9D1B00B64BB8 /* SDLManager.m in Sources */,
+				DAE033841C8F9D1B00B64BB8 /* RBSDLManager.m in Sources */,
 				DAE033901C8F9D1B00B64BB8 /* RBFilePickerViewController.m in Sources */,
 				DA58048A1D0731940071200F /* UIColor+Util.m in Sources */,
 				DAE033811C8F9D1B00B64BB8 /* RBSpecFile.m in Sources */,
@@ -655,7 +661,7 @@
 				DAE033951C8F9D1B00B64BB8 /* RBSettingsViewController.m in Sources */,
 				DAE033891C8F9D1B00B64BB8 /* UIView+Util.m in Sources */,
 				DA8F6CFF1C8CB2FF00417741 /* AppDelegate.m in Sources */,
-				DAE033831C8F9D1B00B64BB8 /* SDLConfiguration.m in Sources */,
+				DAE033831C8F9D1B00B64BB8 /* RBSDLConfiguration.m in Sources */,
 				DAE033801C8F9D1B00B64BB8 /* RBParser.m in Sources */,
 				DAE0337E1C8F9D1B00B64BB8 /* RBFunction.m in Sources */,
 				DACEA94B1D8B4157000EC852 /* NSObject+Swizzle.m in Sources */,
@@ -698,8 +704,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -721,7 +729,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -742,8 +750,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -759,7 +769,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -775,6 +785,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "RPC Builder/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fmc.RPC-Builder";
@@ -792,6 +803,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = NCVC2MHU7M;
 				INFOPLIST_FILE = "RPC Builder/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fmc.RPC-Builder";

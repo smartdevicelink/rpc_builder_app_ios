@@ -3,7 +3,7 @@
 //  RPC Builder
 //
 
-#import "SDLConfiguration.h"
+#import "RBSDLConfiguration.h"
 
 NSString* const SDLConnectionTypeStringiAP = @"iAP";
 NSString* const SDLConnectionTypeStringTCP = @"TCP";
@@ -12,7 +12,7 @@ NSString* const SDLAppTypeStringMedia = @"Media";
 NSString* const SDLAppTypeStringNonMedia = @"Non-Media";
 NSString* const SDLAppTypeStringNavigation = @"Navigation";
 
-@implementation SDLConfiguration
+@implementation RBSDLConfiguration
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -25,11 +25,11 @@ NSString* const SDLAppTypeStringNavigation = @"Navigation";
 
 #pragma mark - Class Constructors
 + (instancetype)defaultConfiguration {
-    return [[SDLConfiguration alloc] init];
+    return [[RBSDLConfiguration alloc] init];
 }
 
 + (instancetype)tcpConfiguration:(NSString *)ipAddress port:(NSString *)port {
-    SDLConfiguration* config = [self defaultConfiguration];
+    RBSDLConfiguration* config = [self defaultConfiguration];
     config->_connectionType = SDLConnectionTypeTCP;
     config->_ipAddress = ipAddress;
     config->_port = port;

@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "SDLConfiguration.h"
+#import "RBSDLConfiguration.h"
 #import "RBSpecFile.h"
 
 extern NSString* const RBSettingsManagerSpecFileStatusDidChangeNotification;

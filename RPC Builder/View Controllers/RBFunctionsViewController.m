@@ -7,7 +7,7 @@
 
 #import "UIAlertController+Minimal.h"
 
-#import "SDLManager.h"
+#import "RBSDLManager.h"
 
 @interface RBFunctionsViewController ()
 
@@ -34,7 +34,7 @@
                                                                          message:nil];
     
     [alertController addDestructiveActionWithTitle:@"Stop Proxy" handler:^(UIAlertAction *action) {
-        [[SDLManager sharedManager] disconnect];
+        [[RBSDLManager sharedManager] disconnect];
     }];
     
     [alertController addCancelAction];

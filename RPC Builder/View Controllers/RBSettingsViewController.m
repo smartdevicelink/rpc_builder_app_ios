@@ -82,11 +82,11 @@ typedef NS_ENUM(NSUInteger, RBURLStatus) {
 
 #pragma mark - Actions
 - (void)startAction:(id)sender {
-    SDLConfiguration* configuration = nil;
+    RBSDLConfiguration* configuration = nil;
     if ([_connectionTypeTextField.text isEqualToString:SDLConnectionTypeStringiAP]) {
-        configuration = [SDLConfiguration defaultConfiguration];
+        configuration = [RBSDLConfiguration defaultConfiguration];
     } else if ([_connectionTypeTextField.text isEqualToString:SDLConnectionTypeStringTCP]) {
-        configuration = [SDLConfiguration tcpConfiguration:_ipAddressTextField.text
+        configuration = [RBSDLConfiguration tcpConfiguration:_ipAddressTextField.text
                                                       port:_portTextField.text];
     }
 

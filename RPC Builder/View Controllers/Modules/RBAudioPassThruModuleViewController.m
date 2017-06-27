@@ -121,13 +121,13 @@ static NSString* const YesString = @"Yes";
     }
     self.sendPerformAudioPassThruButton.enabled = NO;
     self.savedAudioFilesButton.enabled = NO;
-    [[SDLManager sharedManager] sendRequestDictionary:self.audioPassThruViewController.requestDictionary
+    [[RBSDLManager sharedManager] sendRequestDictionary:self.audioPassThruViewController.requestDictionary
                                              bulkData:nil];
 }
 
 - (IBAction)endPerformAudioPassThruAction:(id)sender {
     SDLEndAudioPassThru* endAudioPassThru = [[SDLEndAudioPassThru alloc] init];
-    [[SDLManager sharedManager] sendRequest:endAudioPassThru];
+    [[RBSDLManager sharedManager] sendRequest:endAudioPassThru];
 }
 
 - (void)performAudioPassThruSaveAction:(id)sender {
@@ -204,7 +204,7 @@ static NSString* const YesString = @"Yes";
 
 #pragma mark - Private
 - (void)sdl_updateViewsForParametersDictionary {
-    self.performAudioPassThru = [[SDLManager sharedManager] requestOfClass:[SDLPerformAudioPassThru class]
+    self.performAudioPassThru = [[RBSDLManager sharedManager] requestOfClass:[SDLPerformAudioPassThru class]
                                                              forDictionary:self.audioPassThruViewController.requestDictionary
                                                               withBulkData:nil];
     self.samplingRateLabel.text = [self sdl_stringForValue:self.performAudioPassThru.samplingRate];

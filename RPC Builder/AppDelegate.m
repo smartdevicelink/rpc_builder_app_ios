@@ -4,7 +4,7 @@
 //
 
 #import "AppDelegate.h"
-#import "SDLManager.h"
+#import "RBSDLManager.h"
 
 @interface AppDelegate ()
 
@@ -29,8 +29,8 @@
     
     [self.window makeKeyAndVisible];
     
-    if (![[SDLManager sharedManager] isConnected]) {
-        [[SDLManager sharedManager] presentSettingsViewController];
+    if (![[RBSDLManager sharedManager] isConnected]) {
+        [[RBSDLManager sharedManager] presentSettingsViewController];
     }
     
     return YES;
