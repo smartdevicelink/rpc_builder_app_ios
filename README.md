@@ -1,4 +1,4 @@
-# RPC Builder v1.2.3
+# RPC Builder
 
 ## Introduction
 
